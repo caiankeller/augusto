@@ -1,25 +1,50 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from "styled-components";
+import { Text, Divider } from "@nextui-org/react";
 
-function App() {
+import AddBook from "./components/AddBook";
+import Header from "./components/Header";
+import ListBooks from "./components/ListBooks";
+
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Box>
+        <Header />
+        <Augusto>
+          <Text h2 color="primary">
+            Wellcome to Augusto
+          </Text>
+          <AddBook style={{ alignSelf: "left" }} />
+          <Divider css={{ marginTop: "1rem", backgroundColor: "#161616" }} />
+          <Text h3 color="primary" css={{ marginTop: "1rem" }}>
+            Books
+          </Text>
+          <ListBooks />
+        </Augusto>
+      </Box>
+    </Container>
   );
 }
 
-export default App;
+const Container = styled.div`
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, white 21px, transparent 1%) center,
+    linear-gradient(white 21px, transparent 1%) center, #141414;
+  background-size: 22px 22px;
+  user-select: none;
+`;
+
+const Box = styled.div`
+  width: 100%;
+  max-width: 600px;
+  padding: 1rem;
+`;
+
+const Augusto = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+`;

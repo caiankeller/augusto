@@ -1,0 +1,47 @@
+CAIAN KELLER CARDOSO
+GitHub|Portfolio|Linkedin|caiankardoso@gmail.com| Tel.: +55 13 98127 4272| SP, Brazil
+FULLSTACK DEVELOPER
+WORK EXPERIENCE
+Okuyama | Full Stack developer (Remote |Freelanceproject)
+Website and android app for organisation of orders to delivery (intern use).
+February 2021 - May 2021 | São Paulo, SP
+● Concepted the system design, successfully supplying the needs of the store.
+● Strong two-way communication with workers to improve functionalities.
+● Developed a Node app using a real time library, Socket.io and PostgreSQL database.
+● Designed and coded a highly dynamic front-end page using jQuery and Bootstrap.
+● Built an Android application using React Native for quick access to the system.
+● Planned a schedule and good adherence to it.
+PERSONAL PROJECTS
+Vorwärts | Full Stack developer (Open source project)
+Trying to change the way public domain digitals books are handled nowadays with technology.
+September 2021 - Present | Author
+● Architecting a free API for download, fetch and publish of public domain books in Node.
+● Building a front-end page with React containing interactive documentation, dashboardfor
+contributions and library.
+● Overcoming challenges and constantly bringing new ideas and solutions.
+Oﬃcial site →|GitHub Repository
+Eighty Four | Full Stack developer
+A nosedive-inspired app (social media with rating system) with Spotify integration.
+August 2021 - December 2021 | Author
+● Developed a frontend app using the latest technologies, like MUI, Redux and RTK-Query.
+● Built an API in Node following best practices in mongoose, dotenv, JWT authentication
+ﬂow and bcrypt encryption.
+● Designing a ﬂuid, modern, responsive and easy interface.
+● Integrated the project with third party APIs, like the Spotify API to fetch, display and play
+songs.
+App →|GitHub Repository|API Documentation
+FastJobs | Full Stack developer (Final Project |VocationalSchool, Computer Science)
+Social entrepreneurship app (Online platform for ﬁnding nearby freelance workers).
+February 2018 - December 2018 | São Paulo, SP
+● Developed the CRUD web application in PHP (OOP), CSS framework Materialize and
+MySQL.
+● Keen attention to the user interface, code quality and adherence to the planned project.
+EDUCATION
+ETEC Heliópolis VocationalSchool, Computer Science | Fev. 2016 - Dec. 2018
+Final Projectreceivesmaximum scoreandentrepreneurs'interest.
+TECHNICAL SKILLS AND TOOLS
+● Python, Javascript (React, Node).
+● REST API, JSON and GraphQL (apollo).
+● Docker, Git and Npm/Yarn.
+● Problem-solving skills.
+● True passion.
