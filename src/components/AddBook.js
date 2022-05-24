@@ -26,19 +26,23 @@ export default function AddBook() {
   const file = useRef(null);
 
   const fileChecker = (e) => {
-    const extension = e.target.files[0].name.split(".").pop();
+    const file = e.target.files[0].name
+    const extension = file.split(".").pop();
+    const filename = file.slice(0, file.lastIndexOf('.'))
+
     if (extension !== "pdf") {
       alert("Only PDF files are allowed");
       return;
     }
 
     setFilesize(fileSize(e.target.files[0].size));
-    setFilename(e.target.files[0].name.split(".")[0]);
+    setFilename(filename);
   };
 
   const deleteFile = () => {
     setFilename(false);
     setFilesize(false);
+    setResponse({ status: "" })
     file.current.value = "";
     console.log(file.current.files);
   };
@@ -54,23 +58,27 @@ export default function AddBook() {
         },
         { headers: { "Content-Type": "multipart/form-data" } }
       )
-      .then(() => {
-        setResponse({ status: "success" });
+      .then((re) => {
+        setResponse({ status: "success", message: re.data.message });
       })
       .catch((er) => {
+
         setResponse({ status: "error", message: er.response.data.message });
       })
-      .then(() => setLoading(false));
+      .then((e) => {
+        setLoading(false)
+      }
+      );
   };
 
   return (
     <form
       method="post"
       encType="multipart/form-data"
-      onSubmit={(e) => sendFile(e)}
+      onSubmit={sendFile}
     >
       <Container>
-        <FileUploader ref={file} type="file" onChange={(e) => fileChecker(e)} />
+        <FileUploader ref={file} type="file" accept=".pdf" onChange={(e) => fileChecker(e)} />
         <Button
           color="primary"
           shadow
@@ -103,27 +111,33 @@ export default function AddBook() {
                   {filename}
                 </Text>
               </Row>
-              <Text b color="white">
-                {filesize}
-              </Text>
+              <Row justify="flex-end">
+                <Text b color="white">
+                  {filesize}
+                </Text>
+              </Row>
             </Row>
           </Card.Header>
           <Divider />
           <Card.Footer>
             <Row justify="flex-end">
+              {!loading &&
+                <>
+                  <Button
+                    color="error"
+                    auto
+                    size="sm"
+                    onPress={() => {
+                      deleteFile();
+                    }}
+                    iconRight={<FiTrash2 />}
+                  />
+                  <Spacer x="0.5" />
+                </>
+              }
               <Button
-                color="error"
-                auto
-                size="sm"
-                onPress={() => {
-                  deleteFile();
-                }}
-                iconRight={<FiTrash2 />}
-              />
-              <Spacer x="0.5" />
-              <Button
-                disabled={response.status === "error" ? true : loading}
-                color={response.status === "error" ? "error" : "primary"}
+                disabled={response.status.length > 0 ? true : loading}
+                color="primary"
                 auto
                 size="sm"
                 type="submit"
@@ -135,7 +149,8 @@ export default function AddBook() {
                   )
                 }
               >
-                {response.status === "error" && response.message}
+                {typeof response.status !== "undefined" && response.message}
+                {loading && "We are carrying your book"}
               </Button>
             </Row>
           </Card.Footer>

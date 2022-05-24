@@ -20,6 +20,10 @@ async def book_add():
     extension = file.filename[last_dot:]
     filename = file.filename[:last_dot]
 
+    dream = Imagine(
+        text=filename
+    )
+
     # verify is there is a book with the same name as filename and aborting if yes
     with open(f"{current_dir}/books.json") as f:
         books = json.load(f)
@@ -33,9 +37,12 @@ async def book_add():
     file.save(f"{current_dir}/raw/{filename}{extension}")
 
     # converting pdf to text
-    book = pdfplumber.open(f"{current_dir}/raw/{filename}{extension}")
-    pages = book.pages
-    title = book.metadata
+    try:
+        book = pdfplumber.open(f"{current_dir}/raw/{filename}{extension}")
+        pages = book.pages
+    except:
+        message = {"message": "There was a error while parsing PDF"}
+        return jsonify(message), 400
 
     text = ""
     for page in pages:
@@ -60,7 +67,8 @@ async def book_add():
         f.seek(0)
         json.dump(books, f, indent=4)
 
-    return "OK"
+    message = {"message": "Book uploaded"}
+    return jsonify(message), 200
 
 
 @app.route("/books", methods=["GET"])

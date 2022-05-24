@@ -13,7 +13,6 @@ export default function ListBooks() {
       await axios
         .get("http://localhost:5000/books")
         .then((data) => {
-          console.log(data);
           setBooks(data.data);
         })
         .catch((err) => console.log(err))
