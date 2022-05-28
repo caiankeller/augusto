@@ -1,6 +1,12 @@
 {
   "name": "augusto",
+  "description": "A book reader to language learners.",
   "version": "0.1.0",
+  "license": "MIT",
+  "author": {
+    "name": "woistkeller",
+    "email": "caiankardoso@gmail.com"
+  },
   "private": true,
   "dependencies": {
     "@nextui-org/react": "^1.0.0-beta.7",
@@ -18,7 +24,7 @@
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4"
   },
-  "main": "internals/electron/electron.js",
+  "main": "./electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
