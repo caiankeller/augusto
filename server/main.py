@@ -1,6 +1,7 @@
 import os
 import json
 import uuid
+from webbrowser import get
 import pdfplumber
 
 from langdetect import detect
@@ -15,12 +16,12 @@ async def book_add():
     current_dir = f"{os.getcwd()}"
     file = request.files["file"]
 
-    # getting filename and extension
+    #getting filename and extension
     last_dot = file.filename.rfind(".")
     extension = file.filename[last_dot:]
     filename = file.filename[:last_dot]
 
-    # verify is there is a book with the same name as filename and aborting if yes
+    #verify is there is a book with the same name as filename and aborting if yes
     with open(f"{current_dir}/books.json") as f:
         books = json.load(f)
     if len(books["data"]) > 0:
@@ -29,12 +30,11 @@ async def book_add():
                 message = {"message": "Book already exists"}
                 return jsonify(message), 400
 
-    # moving file to pdf books folder
+    #moving file to pdf books folder
     file.save(f"{current_dir}/pdf/{filename}{extension}")
 
     # converting pdf to text
     #TODO: introduce a away to slice the chapters
-
     try:
         book = pdfplumber.open(f"{current_dir}/pdf/{filename}{extension}")
         pages = book.pages
@@ -73,11 +73,26 @@ async def book_add():
 
 @app.route("/books", methods=["GET"])
 async def books_get():
-    current_dir = f"{os.getcwd()}"
-    with open(f"{current_dir}/books.json") as f:
-        books = json.load(f)
+    args = request.args
+    args.to_dict()
+    title = args.get("title")
 
-    return jsonify(books["data"])
+    if title is None:
+        current_dir = f"{os.getcwd()}"
+        with open(f"{current_dir}/books.json") as f:
+            books = json.load(f)
+        return jsonify(books["data"])
+    else:
+        with open(f"{os.getcwd()}/books.json") as f:
+            books = json.load(f)
+        for book in books["data"]:
+            if book["title"] == title:
+                return jsonify(book), 200
+        message = {"message": "Book not found"}
+        return jsonify(message), 404
+
+
+    
 
 
 if __name__ == '__main__':

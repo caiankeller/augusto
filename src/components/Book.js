@@ -2,6 +2,7 @@ import { Card, Text, Divider, Button, Row, Spacer } from "@nextui-org/react";
 import styled from "styled-components";
 import Flag from "react-world-flags";
 import { FiBook } from "react-icons/fi";
+import axios from "axios";
 
 export default function Book({ book }) {
   return (
@@ -33,8 +34,7 @@ export default function Book({ book }) {
                 height="16"
                 fallback={
                   <Text b color="white">
-                    {" "}
-                    {book.language}{" "}
+                    {book.language}
                   </Text>
                 }
               />
@@ -45,6 +45,7 @@ export default function Book({ book }) {
               color="primary"
               style={{ fontWeight: "bold" }}
               shadow
+              onPress={() => reader()}
               css={{ backgroundColor: "white", color: "$primary" }}
             >
               Read
