@@ -2,12 +2,11 @@ import { Card, Text, Divider, Button, Row, Spacer } from "@nextui-org/react";
 import styled from "styled-components";
 import Flag from "react-world-flags";
 import { FiBook } from "react-icons/fi";
-import axios from "axios";
 
 export default function Book({ book }) {
   return (
     <Container>
-      <Card color="primary" shadow>
+      <Card color="primary">
         <Card.Header>
           <FiBook />
           <Spacer x="0.5" />
@@ -17,10 +16,6 @@ export default function Book({ book }) {
         </Card.Header>
         <Divider />
         <Card.Body css={{ py: "0.5rem" }}>
-          <Text color="white">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Text>
         </Card.Body>
         <Card.Footer>
           <Row justify="flex-end" align="center">
@@ -44,8 +39,6 @@ export default function Book({ book }) {
               size="sm"
               color="primary"
               style={{ fontWeight: "bold" }}
-              shadow
-              onPress={() => reader()}
               css={{ backgroundColor: "white", color: "$primary" }}
             >
               Read

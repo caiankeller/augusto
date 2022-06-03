@@ -8,7 +8,7 @@ import {
   Divider,
 } from "@nextui-org/react";
 import fileSize from "filesize";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
 import {
   FiArrowRight,
   FiTrash2,
@@ -18,7 +18,11 @@ import {
 import styled from "styled-components";
 import axios from "axios";
 
+import { LibraryContext } from "../App";
+
 export default function AddBook() {
+  const { library, dispatch } = useContext(LibraryContext);
+
   const [filename, setFilename] = useState(false);
   const [filesize, setFilesize] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,9 +30,9 @@ export default function AddBook() {
   const file = useRef(null);
 
   const fileChecker = (e) => {
-    const file = e.target.files[0].name
+    const file = e.target.files[0].name;
     const extension = file.split(".").pop();
-    const filename = file.slice(0, file.lastIndexOf('.'))
+    const filename = file.slice(0, file.lastIndexOf("."));
 
     if (extension !== "pdf") {
       alert("Only PDF files are allowed");
@@ -42,9 +46,8 @@ export default function AddBook() {
   const deleteFile = () => {
     setFilename(false);
     setFilesize(false);
-    setResponse({ status: "" })
+    setResponse({ status: "" });
     file.current.value = "";
-    console.log(file.current.files);
   };
 
   const sendFile = (e) => {
@@ -59,29 +62,28 @@ export default function AddBook() {
         { headers: { "Content-Type": "multipart/form-data" } }
       )
       .then((re) => {
+        dispatch({ type: "ADD_BOOK", payload: re.data });
         setResponse({ status: "success", message: re.data.message });
       })
       .catch((er) => {
-
         setResponse({ status: "error", message: er.response.data.message });
       })
       .then((e) => {
-        setLoading(false)
-      }
-      );
+        setLoading(false);
+      });
   };
 
   return (
-    <form
-      method="post"
-      encType="multipart/form-data"
-      onSubmit={sendFile}
-    >
+    <form method="post" encType="multipart/form-data" onSubmit={sendFile}>
       <Container>
-        <FileUploader ref={file} type="file" accept=".pdf" onChange={(e) => fileChecker(e)} />
+        <FileUploader
+          ref={file}
+          type="file"
+          accept=".pdf"
+          onChange={(e) => fileChecker(e)}
+        />
         <Button
           color="primary"
-          shadow
           auto
           icon={<FiUploadCloud />}
           style={{ fontWeight: "bold" }}
@@ -121,7 +123,7 @@ export default function AddBook() {
           <Divider />
           <Card.Footer>
             <Row justify="flex-end">
-              {!loading &&
+              {!loading && (
                 <>
                   <Button
                     color="error"
@@ -134,7 +136,7 @@ export default function AddBook() {
                   />
                   <Spacer x="0.5" />
                 </>
-              }
+              )}
               <Button
                 disabled={response.status.length > 0 ? true : loading}
                 color="primary"
