@@ -1,7 +1,6 @@
 import os
 import json
 import uuid
-from webbrowser import get
 import pdfplumber
 
 from langdetect import detect
@@ -68,7 +67,7 @@ async def book_add():
         json.dump(books, f, indent=4)
 
     message = {"message": "Book uploaded"}
-    return jsonify(message), 200
+    return jsonify(to_save_book), 200
 
 
 @app.route("/books", methods=["GET"])
