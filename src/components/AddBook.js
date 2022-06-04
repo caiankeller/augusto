@@ -83,44 +83,27 @@ export default function AddBook() {
           onChange={(e) => fileChecker(e)}
         />
         <Button
-          color="primary"
+          color=""
+          size="sm"
           auto
-          icon={<FiUploadCloud />}
-          style={{ fontWeight: "bold" }}
+          iconRight={<FiUploadCloud />}
           onPress={() => file.current.click()}
           disabled={filename}
         >
           Add Book
         </Button>
-        <Button
-          color="primary"
-          light
-          auto
-          style={{ marginLeft: "1rem", fontWeight: "bold" }}
-          iconRight={<FiArrowRight />}
-        >
-          Vorwärts' Lybrary
-        </Button>
       </Container>
       {filename && (
-        <Card css={{ marginTop: "1rem", backgroundColor: "#161616" }}>
+        <Card
+          css={{
+            marginTop: "1rem",
+            backgroundColor: "#E8E8E8",
+            color: "#161616",
+          }}
+        >
           <Card.Header>
-            <Row justify="space-between" align="center">
-              <Row align="center">
-                <FiPlusCircle color="white" />
-                <Spacer x="0.5" />
-                <Text b transform="capitalize" color="white">
-                  {filename}
-                </Text>
-              </Row>
-              <Row justify="flex-end">
-                <Text b color="white">
-                  {filesize}
-                </Text>
-              </Row>
-            </Row>
+            <Text b>{filename}</Text>
           </Card.Header>
-          <Divider />
           <Card.Footer>
             <Row justify="flex-end">
               {!loading && (
@@ -139,7 +122,7 @@ export default function AddBook() {
               )}
               <Button
                 disabled={response.status.length > 0 ? true : loading}
-                color="primary"
+                color="warning"
                 auto
                 size="sm"
                 type="submit"
@@ -151,8 +134,8 @@ export default function AddBook() {
                   )
                 }
               >
-                {typeof response.status !== "undefined" && response.message}
-                {loading && "We are carrying your book"}
+                {loading && "We are caring your book"}
+                {response.status === "success" && "Uploaded"}
               </Button>
             </Row>
           </Card.Footer>

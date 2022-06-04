@@ -1,16 +1,9 @@
 import styled from "styled-components";
-import { Button } from "@nextui-org/react";
-import { FiSettings } from "react-icons/fi";
 
 export default function Header() {
   return (
     <Container>
-      <Button
-        auto
-        light
-        css={{ color: "#0072F5" }}
-        icon={<FiSettings  />}
-      />
+      {/* TODO: add setting button, TODO: settings compoment :D */}
     </Container>
   );
 }
