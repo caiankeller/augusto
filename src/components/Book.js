@@ -31,7 +31,7 @@ export default function Book({ book }) {
             <Language>
               <Text b>Detected language</Text>
               <Spacer x="0.5" />
-              <Text i color="#161616">{book.language}</Text>
+              <Text i>{book.language}</Text>
             </Language>
             <Spacer x="1" />
             <Button
@@ -54,4 +54,10 @@ const Language = styled.div`
   align-items: center;
 `;
 
-const Container = styled.li``;
+const Container = styled.li`
+  margin-bottom: 1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+`;

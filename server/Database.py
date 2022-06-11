@@ -17,12 +17,14 @@ class Database:
             json.dump(books, f, indent=4)
 
     def get_books(self, title=None):
+        print(title)
         if title is None:
             return self.books
         else:
             for book in self.books:
                 if book["title"] == title:
-                    return book
+                    text = self.__get_text(title)
+                    return text
 
     def delete_book(self, title):
         for book in self.books["data"]:
@@ -31,3 +33,9 @@ class Database:
                 with open(self.database_dir, "w") as f:
                     json.dump(self.books, f, indent=4)
                 return True
+
+    def __get_text(self, title):
+        text = ""
+        with open(f"{os.getcwd()}/txt/{title}.txt", "r") as f:
+            text = f.read()
+        return text

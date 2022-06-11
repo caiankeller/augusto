@@ -44,24 +44,21 @@ export function App() {
   return (
     <Container>
       {!reading.selected ? (
-        <Box>
+        <>
           <Header />
-          <Augusto>
-            <Text h2 color="#F6AD37">
-              Welcome to Augusto
+
+          <Text h2 color="#F6AD37">
+            Welcome to Augusto
+          </Text>
+          <LibraryContext.Provider value={{ library, dispatch }}>
+            <AddBook style={{ alignSelf: "left" }} />
+            <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
+            <Text h3 color="#F6AD37">
+              Books
             </Text>
-            <LibraryContext.Provider value={{ library, dispatch }}>
-              <AddBook style={{ alignSelf: "left" }} />
-              <Divider
-                css={{ marginTop: "0.5rem", backgroundColor: "#C9C9C9" }}
-              />
-              <Text h3 color="#F6AD37">
-                Books
-              </Text>
-              <Books />
-            </LibraryContext.Provider>
-          </Augusto>
-        </Box>
+            <Books />
+          </LibraryContext.Provider>
+        </>
       ) : (
         <Reader />
       )}
@@ -70,24 +67,12 @@ export function App() {
 }
 
 const Container = styled.div`
-  height: 100%;
   width: 100%;
+  height: auto;
+  min-height: 100%;
   background: linear-gradient(90deg, #141414 21px, transparent 1%) center,
     linear-gradient(#141414 21px, transparent 1%) center, white;
   background-size: 22px 22px;
   user-select: none;
-`;
-
-const Box = styled.div`
-  width: 100%;
-  max-width: 600px;
   padding: 1rem;
-`;
-
-const Augusto = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
 `;
