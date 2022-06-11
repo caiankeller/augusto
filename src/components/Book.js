@@ -30,15 +30,13 @@ export default function Book({ book }) {
         </Card.Header>
         <Card.Footer>
           <Row justify="flex-end" align="center">
-            <Language>
-              <Text b h6>
-                Detected language
-              </Text>
-              <Spacer x="0.5" />
-              <Text i b h6>
-                {book.language}
-              </Text>
-            </Language>
+            <Text b h6>
+              Detected language
+            </Text>
+            <Spacer x="0.5" />
+            <Text i b h6>
+              {book.language}
+            </Text>
             <Spacer x="0.8" />
             <Button
               size="sm"
@@ -61,9 +59,4 @@ const Container = styled.li`
   &:last-child {
     margin-bottom: 0;
   }
-`;
-
-const Language = styled.div`
-  display: flex;
-  align-items: center;
 `;

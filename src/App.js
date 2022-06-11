@@ -67,8 +67,8 @@ export function App() {
 
 const Container = styled.div`
   width: 100%;
+  min-heght: 100%;
   height: auto;
-  min-height: 100%;
   background: linear-gradient(90deg, #141414 21px, transparent 1%) center,
     linear-gradient(#141414 21px, transparent 1%) center, white;
   background-size: 22px 22px;

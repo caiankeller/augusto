@@ -18,7 +18,12 @@ export default function Books() {
             </Text>
           )}
           {library.map((book) => (
-            <Book key={book.id} book={book} />
+            <>
+              <Book key={book.id} book={book} />
+              <Book key={book.id} book={book} />
+              <Book key={book.id} book={book} />
+              <Book key={book.id} book={book} />
+            </>
           ))}
         </>
       )}
@@ -31,4 +36,5 @@ const Container = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  border-radius: 10px;
 `;

@@ -8,9 +8,4 @@ export default function Header() {
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
-  color: #fff;
-`;
+const Container = styled.div``;

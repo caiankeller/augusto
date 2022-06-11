@@ -17,7 +17,6 @@ class Database:
             json.dump(books, f, indent=4)
 
     def get_books(self, title=None):
-        print(title)
         if title is None:
             return self.books
         else:
@@ -38,4 +37,6 @@ class Database:
         text = ""
         with open(f"{os.getcwd()}/txt/{title}.txt", "r") as f:
             text = f.read()
+        words_per_quarter = int(len(text) / 4)
+        text = list(map(''.join, zip(*[iter(text)] * words_per_quarter)))
         return text

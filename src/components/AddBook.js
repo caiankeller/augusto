@@ -136,9 +136,7 @@ export default function AddBook() {
   );
 }
 
-const Container = styled.div`
-  display: flex;
-`;
+const Container = styled.div``;
 
 const FileUploader = styled.input`
   display: none;
