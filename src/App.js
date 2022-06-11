@@ -1,4 +1,4 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Text, Divider } from "@nextui-org/react";
 import axios from "axios";
@@ -6,19 +6,20 @@ import axios from "axios";
 import AddBook from "./components/AddBook";
 import Header from "./components/Header";
 import Books from "./components/Books";
+import Reader from "./components/Reader";
+
+import { ReadingContext } from "./Reading";
 
 export const LibraryContext = createContext();
 
 function LibraryReducer(state, action) {
+  var payload = action.payload;
   switch (action.type) {
     case "SET_LIBRARY":
-      var payload = action.payload;
       return [...payload];
     case "ADD_BOOK":
-      var payload = action.payload;
       return [...state, payload];
     case "DELETE_BOOK":
-      var payload = action.payload;
       return state.filter((book) => book.id !== payload);
     default:
       return state;
@@ -27,6 +28,7 @@ function LibraryReducer(state, action) {
 
 export function App() {
   const [library, dispatch] = useReducer(LibraryReducer);
+  const { reading } = useContext(ReadingContext);
 
   useEffect(() => {
     (async () => {
@@ -41,22 +43,28 @@ export function App() {
 
   return (
     <Container>
-      <Box>
-        <Header />
-        <Augusto>
-          <Text h2 color="#F6AD37">
-            Welcome to Augusto
-          </Text>
-          <LibraryContext.Provider value={{ library, dispatch }}>
-            <AddBook style={{ alignSelf: "left" }} />
-            <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
-            <Text h3 color="#F6AD37">
-              Books
+      {!reading.selected ? (
+        <Box>
+          <Header />
+          <Augusto>
+            <Text h2 color="#F6AD37">
+              Welcome to Augusto
             </Text>
-            <Books />
-          </LibraryContext.Provider>
-        </Augusto>
-      </Box>
+            <LibraryContext.Provider value={{ library, dispatch }}>
+              <AddBook style={{ alignSelf: "left" }} />
+              <Divider
+                css={{ marginTop: "0.5rem", backgroundColor: "#C9C9C9" }}
+              />
+              <Text h3 color="#F6AD37">
+                Books
+              </Text>
+              <Books />
+            </LibraryContext.Provider>
+          </Augusto>
+        </Box>
+      ) : (
+        <Reader />
+      )}
     </Container>
   );
 }

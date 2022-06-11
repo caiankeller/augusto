@@ -40,6 +40,21 @@ async def book_add():
     # use the title can be imprecise, but it's better than nothing
     detected_language = detect(text)
 
+    languages = {
+        "en": "English",
+        "de": "German",
+        "fr": "French",
+        "es": "Spanish",
+        "it": "Italian",
+        "pt": "Portuguese",
+        "ru": "Russian",
+        "ja": "Japanese",
+        "zh": "Chinese",
+        "ko": "Korean"
+    }
+
+    detected_language = languages.get(detected_language, "Unknown")
+
     # create object to save in the database
     id = str(uuid.uuid4())
     to_save_book = {
@@ -64,7 +79,6 @@ async def books_get():
 
     database = Database()
     books = database.get_books(title)
-    print(books)
     return jsonify(books), 200
 
 if __name__ == '__main__':

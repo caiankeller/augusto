@@ -9,12 +9,7 @@ import {
 } from "@nextui-org/react";
 import fileSize from "filesize";
 import { useRef, useState, useContext } from "react";
-import {
-  FiArrowRight,
-  FiTrash2,
-  FiUploadCloud,
-  FiPlusCircle,
-} from "react-icons/fi";
+import { FiTrash2, FiUploadCloud } from "react-icons/fi";
 import styled from "styled-components";
 import axios from "axios";
 

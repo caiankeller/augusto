@@ -1,6 +1,5 @@
 import os
 import pdfplumber
-import json
 from Database import Database
 
 
@@ -12,7 +11,6 @@ class Books:
         try:
             """ converting pdf to text
             TODO: introduce a away to slice the chapters
-            improve any time: i think it's took a light excessive amount of ram to run it
             """
 
             try:

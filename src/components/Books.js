@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import styled from "styled-components";
+import { Text } from "@nextui-org/react";
 import { LibraryContext } from "../App";
 
 import Book from "./Book";
@@ -9,8 +10,18 @@ export default function Books() {
   //TODO: create a loading feedback
   return (
     <Container>
-      {typeof library !== "undefined" &&
-        library.map((book) => <Book key={book.id} book={book} />)}
+      {typeof library !== "undefined" && (
+        <>
+          {library.length === 0 && (
+            <Text b color="#E8E8E8">
+              No books found.
+            </Text>
+          )}
+          {library.map((book) => (
+            <Book key={book.id} book={book} />
+          ))}
+        </>
+      )}
     </Container>
   );
 }

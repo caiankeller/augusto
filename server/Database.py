@@ -10,7 +10,6 @@ class Database:
         self.books = books["data"]
 
     def dump_book(self, book):
-        print(book)
         with open(self.database_dir, "r+") as f:
             books = json.load(f)
             books["data"].append(book)
