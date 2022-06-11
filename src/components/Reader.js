@@ -26,15 +26,15 @@ export default function Reader() {
   }, [reading]);
 
   return (
-    <Box>
-      {console.log(reading)}
+    <Box css={{ color: "#161616" }}>
       <Row justify="space-between" align="center">
-        <Text b color="#161616">
+        <Text b h6>
           {reading.book.title}
         </Text>
         <Button
           color="error"
           size="sm"
+          shadow
           auto
           onPress={() => dispatch({ type: "UNSELECT_BOOK" })}
         >
@@ -42,12 +42,10 @@ export default function Reader() {
         </Button>
       </Row>
       <Divider css={{ margin: "0.5rem 0", backgroundColor: "#161616" }} />
-      <Text i color="#161616">
+      <Text i b h6>
         {reading.book.language}
       </Text>
-      <Book>
-        <Text css={{ textAlign: "justify" }}>{book}</Text>
-      </Book>
+      <Text css={{ textAlign: "justify" }}>{book}</Text>
     </Box>
   );
 }
@@ -57,12 +55,4 @@ const Box = styled.div`
   padding: 1rem;
   background: #e8e8e8;
   border-radius: 0.5rem;
-`;
-
-const Book = styled.div`
-  overflow-y: scroll;
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;

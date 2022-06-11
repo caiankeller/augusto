@@ -1,12 +1,4 @@
-import {
-  Button,
-  Spacer,
-  Text,
-  Loading,
-  Card,
-  Row,
-  Divider,
-} from "@nextui-org/react";
+import { Button, Spacer, Text, Loading, Card, Row } from "@nextui-org/react";
 import fileSize from "filesize";
 import { useRef, useState, useContext } from "react";
 import { FiTrash2, FiUploadCloud } from "react-icons/fi";
@@ -78,9 +70,9 @@ export default function AddBook() {
           onChange={(e) => fileChecker(e)}
         />
         <Button
-          color=""
+          color="neutral"
           size="sm"
-          auto
+          shadow
           iconRight={<FiUploadCloud />}
           onPress={() => file.current.click()}
           disabled={filename}
@@ -97,7 +89,9 @@ export default function AddBook() {
           }}
         >
           <Card.Header>
-            <Text b>{filename}</Text>
+            <Text b h6>
+              {filename} - ({filesize})
+            </Text>
           </Card.Header>
           <Card.Footer>
             <Row justify="flex-end">
@@ -106,6 +100,7 @@ export default function AddBook() {
                   <Button
                     color="error"
                     auto
+                    shadow
                     size="sm"
                     onPress={() => {
                       deleteFile();
@@ -117,8 +112,9 @@ export default function AddBook() {
               )}
               <Button
                 disabled={response.status.length > 0 ? true : loading}
-                color="warning"
+                color="success"
                 auto
+                shadow
                 size="sm"
                 type="submit"
                 iconRight={
@@ -142,7 +138,6 @@ export default function AddBook() {
 
 const Container = styled.div`
   display: flex;
-  margin-top: 1rem;
 `;
 
 const FileUploader = styled.input`

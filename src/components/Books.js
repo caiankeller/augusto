@@ -28,7 +28,6 @@ export default function Books() {
 
 const Container = styled.ul`
   width: 100%;
-  border-radius: 7px;
   list-style: none;
   padding: 0;
   margin: 0;

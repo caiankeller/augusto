@@ -46,14 +46,13 @@ export function App() {
       {!reading.selected ? (
         <>
           <Header />
-
-          <Text h2 color="#F6AD37">
+          <Text h1 color="success">
             Welcome to Augusto
           </Text>
           <LibraryContext.Provider value={{ library, dispatch }}>
             <AddBook style={{ alignSelf: "left" }} />
             <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
-            <Text h3 color="#F6AD37">
+            <Text h3 color="success">
               Books
             </Text>
             <Books />

@@ -24,20 +24,26 @@ export default function Book({ book }) {
         }}
       >
         <Card.Header>
-          <Text b>{book.title}</Text>
+          <Text b h6>
+            {book.title}
+          </Text>
         </Card.Header>
         <Card.Footer>
           <Row justify="flex-end" align="center">
             <Language>
-              <Text b>Detected language</Text>
+              <Text b h6>
+                Detected language
+              </Text>
               <Spacer x="0.5" />
-              <Text i>{book.language}</Text>
+              <Text i b h6>
+                {book.language}
+              </Text>
             </Language>
-            <Spacer x="1" />
+            <Spacer x="0.8" />
             <Button
-              auto
               size="sm"
-              color="warning"
+              color="success"
+              shadow
               onPress={() => setIsSelected((isSelected) => !isSelected)}
             >
               Read
@@ -49,15 +55,15 @@ export default function Book({ book }) {
   );
 }
 
-const Language = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const Container = styled.li`
   margin-bottom: 1rem;
 
   &:last-child {
     margin-bottom: 0;
   }
+`;
+
+const Language = styled.div`
+  display: flex;
+  align-items: center;
 `;
