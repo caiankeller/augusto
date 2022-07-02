@@ -8,6 +8,7 @@ class Database:
         with open(self.database_dir, "r+") as f:
             books = json.load(f)
         self.books = books["data"]
+        self.language = books["language"]
 
     def dump_book(self, book):
         with open(self.database_dir, "r+") as f:
@@ -37,6 +38,6 @@ class Database:
         text = ""
         with open(f"{os.getcwd()}/txt/{title}.txt", "r") as f:
             text = f.read()
-        words_per_quarter = int(len(text) / 4)
-        text = list(map(''.join, zip(*[iter(text)] * words_per_quarter)))
+        # TODO: improve it latter, it slices the words sometimes
+        text = list(map(''.join, zip(*[iter(text)] * 5000)))
         return text

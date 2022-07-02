@@ -18,12 +18,7 @@ export default function Books() {
             </Text>
           )}
           {library.map((book) => (
-            <>
-              <Book key={book.id} book={book} />
-              <Book key={book.id} book={book} />
-              <Book key={book.id} book={book} />
-              <Book key={book.id} book={book} />
-            </>
+            <Book key={book.id} book={book} />
           ))}
         </>
       )}

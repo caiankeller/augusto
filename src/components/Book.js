@@ -29,15 +29,11 @@ export default function Book({ book }) {
           </Text>
         </Card.Header>
         <Card.Footer>
-          <Row justify="flex-end" align="center">
+          <Row justify="space-between" align="center">
             <Text b h6>
-              Detected language
+              Detected language {book.language}
             </Text>
-            <Spacer x="0.5" />
-            <Text i b h6>
-              {book.language}
-            </Text>
-            <Spacer x="0.8" />
+            <Spacer x="1" />
             <Button
               size="sm"
               color="success"

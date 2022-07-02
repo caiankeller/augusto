@@ -37,7 +37,7 @@ export default function Reader() {
   }, [reading]);
 
   return (
-    <Box css={{ color: "#161616" }}>
+    <Container css={{ color: "#161616" }}>
       <Header>
         <Row justify="space-between" align="center">
           <Text b h6>
@@ -58,6 +58,7 @@ export default function Reader() {
           {reading.book.language}
         </Text>
       </Header>
+      <DummyHeader />
       <Translate toTranslate={toTranslate} />
 
       <Card
@@ -65,35 +66,53 @@ export default function Reader() {
           backgroundColor: "#e8e8e8",
           color: "#161616",
           marginTop: "1rem",
+          height: "100%",
         }}
       >
         <Card.Body>
-          <Text css={{ textAlign: "justify" }}>
+          <Pre css={{ textAlign: "justify" }}>
             {words.map((word, key) => {
               return (
                 <Word
                   key={key}
                   word={word}
+                  toTranslate={toTranslate}
                   handleToTranslate={handleToTranslate}
                 />
               );
             })}
-          </Text>
+          </Pre>
         </Card.Body>
       </Card>
-    </Box>
+    </Container>
   );
 }
 
-const Box = styled.div`
+const Container = styled.div`
   width: 100%;
-  height: 100%;
   border-radius: 10px;
-  overflow-y: hidden;
+  position: relative;
 `;
 
 const Header = styled.div`
   background-color: #e8e8e8;
   border-radius: 10px;
   padding: 1rem;
+  position: fixed;
+  top: 0;
+  right: 1rem;
+  left: 1rem;
+  z-index: 1;
+  border-radius: 0 0 10px 10px;
+  border-bottom: 1px solid #161616;
+`;
+
+const Pre = styled.pre`
+  white-space: pre-wrap;
+  margin: 0;
+  padding: 0;
+`;
+
+const DummyHeader = styled.div`
+  height: 102px;
 `;

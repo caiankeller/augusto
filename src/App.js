@@ -44,20 +44,18 @@ export function App() {
   return (
     <Container>
       {!reading.selected ? (
-        <>
+        <LibraryContext.Provider value={{ library, dispatch }}>
           <Header />
           <Text h1 color="success">
             Welcome to Augusto
           </Text>
-          <LibraryContext.Provider value={{ library, dispatch }}>
-            <AddBook style={{ alignSelf: "left" }} />
-            <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
-            <Text h3 color="success">
-              Books
-            </Text>
-            <Books />
-          </LibraryContext.Provider>
-        </>
+          <AddBook style={{ alignSelf: "left" }} />
+          <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
+          <Text h3 color="success">
+            Books
+          </Text>
+          <Books />
+        </LibraryContext.Provider>
       ) : (
         <Reader />
       )}
@@ -67,7 +65,7 @@ export function App() {
 
 const Container = styled.div`
   width: 100%;
-  min-heght: 100%;
+  min-height: 100vh;
   height: auto;
   background: linear-gradient(90deg, #141414 21px, transparent 1%) center,
     linear-gradient(#141414 21px, transparent 1%) center, white;

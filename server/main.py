@@ -2,6 +2,8 @@ import os
 import uuid
 from Books import Books
 from Database import Database
+from Translation import Translation
+
 from langdetect import detect
 from flask import Flask, jsonify, request
 
@@ -11,9 +13,12 @@ app = Flask(__name__)
 
 @app.route("/")
 @app.route("/book", methods=["POST"])
-async def book_add():
+def book_add():
     current_dir = f"{os.getcwd()}"
     file = request.files["file"]
+
+    translation = Translation()
+    trans = translation.translate("")
 
     # get filename and extension of the file
     last_dot = file.filename.rfind(".")
@@ -72,7 +77,7 @@ async def book_add():
 
 
 @app.route("/books", methods=["GET"])
-async def books_get():
+def books_get():
     args = request.args
     args.to_dict()
     title = args.get("title")
@@ -80,6 +85,7 @@ async def books_get():
     database = Database()
     books = database.get_books(title)
     return jsonify(books), 200
+
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000)
