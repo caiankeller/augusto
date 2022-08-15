@@ -1,26 +1,18 @@
 import { createContext, useReducer } from "react";
 
-export const ReadingContext = createContext();
+export const AugustoContext = createContext();
 
-const initialState = { selected: false };
+const initialState = {};
 
-function ReadingReducer(state, action) {
-  switch (action.type) {
-    case "SELECT_BOOK":
-      return action.payload;
-    case "UNSELECT_BOOK":
-      return { selected: false };
-    default:
-      return state;
-  }
+function Augusto(state, action) {
 }
 
-export function ReadingProvider({ children }) {
-  const [reading, dispatch] = useReducer(ReadingReducer, initialState);
+export function AugustoProvider({ children }) {
+  const [augusto, dispatch] = useReducer(Augusto, initialState);
 
   return (
-    <ReadingContext.Provider value={{ reading, dispatch }}>
+    <AugustoContext.Provider value={{ augusto, dispatch }}>
       {children}
-    </ReadingContext.Provider>
+    </AugustoContext.Provider>
   );
 }

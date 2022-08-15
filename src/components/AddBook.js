@@ -1,14 +1,11 @@
 import { Button, Spacer, Text, Loading, Card, Row } from "@nextui-org/react";
 import fileSize from "filesize";
-import { useRef, useState, useContext } from "react";
+import { useRef, useState } from "react";
 import { FiTrash2, FiUploadCloud } from "react-icons/fi";
 import styled from "styled-components";
 import axios from "axios";
 
-import { LibraryContext } from "../App";
-
 export default function AddBook() {
-  const { library, dispatch } = useContext(LibraryContext);
 
   const [filename, setFilename] = useState(false);
   const [filesize, setFilesize] = useState(false);
@@ -49,7 +46,6 @@ export default function AddBook() {
         { headers: { "Content-Type": "multipart/form-data" } }
       )
       .then((re) => {
-        dispatch({ type: "ADD_BOOK", payload: re.data });
         setResponse({ status: "success", message: re.data.message });
       })
       .catch((er) => {
@@ -125,7 +121,7 @@ export default function AddBook() {
                   )
                 }
               >
-                {loading && "We are caring your book"}
+                {loading && "Give us just a sec"}
                 {response.status === "success" && "Uploaded"}
               </Button>
             </Row>
