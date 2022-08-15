@@ -4,15 +4,15 @@ import "./index.css";
 import { App } from "./App";
 
 import { NextUIProvider } from "@nextui-org/react";
-import { ReadingProvider } from "./Reading";
+import { AugustoProvider } from "./Augusto";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <NextUIProvider>
-    <ReadingProvider>
+    <AugustoProvider>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </ReadingProvider>
+    </AugustoProvider>
   </NextUIProvider>
 );
