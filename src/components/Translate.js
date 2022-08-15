@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-export default function Translate({ toTranslate }) {
-  return <Container>{toTranslate}</Container>;
+export default function Translate() {
+  return <Container>Select text to translate</Container>;
 }
 
 const Container = styled.div`

@@ -1,18 +1,7 @@
-import { useContext, useEffect, useState } from "react";
 import { Card, Text, Button, Row, Spacer } from "@nextui-org/react";
 import styled from "styled-components";
 
-import { ReadingContext } from "../Reading";
-
 export default function Book({ book }) {
-  const { dispatch } = useContext(ReadingContext);
-  const [isSelected, setIsSelected] = useState(false);
-
-  useEffect(() => {
-    isSelected &&
-      dispatch({ type: "SELECT_BOOK", payload: { book, selected: true } });
-    // eslint-disable-next-line
-  }, [isSelected]);
 
   return (
     <Container>
@@ -38,7 +27,6 @@ export default function Book({ book }) {
               size="sm"
               color="success"
               shadow
-              onPress={() => setIsSelected((isSelected) => !isSelected)}
             >
               Read
             </Button>

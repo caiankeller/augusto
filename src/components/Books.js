@@ -1,13 +1,10 @@
-import { useContext } from "react";
 import styled from "styled-components";
 import { Text } from "@nextui-org/react";
-import { LibraryContext } from "../App";
 
 import Book from "./Book";
 
 export default function Books() {
-  const { library } = useContext(LibraryContext);
-  //TODO: create a loading feedback
+  const library = []
   return (
     <Container>
       {typeof library !== "undefined" && (

@@ -1,40 +1,17 @@
-import { useContext, useEffect, useState } from "react";
-import styled from "styled-components";
-import { Text, Divider, Row, Button, Card } from "@nextui-org/react";
+import { Button, Card, Divider, Row, Text } from "@nextui-org/react";
 import { FiArrowLeft } from "react-icons/fi";
-import axios from "axios";
+import styled from "styled-components";
 
-import { ReadingContext } from "../Reading";
-import Word from "./Word";
 import Translate from "./Translate";
 
 export default function Reader() {
-  const { reading, dispatch } = useContext(ReadingContext);
-  const [book, setBook] = useState("");
-  const [words, setWords] = useState([]);
-  const [toTranslate, setToTranslate] = useState(
-    "Select a word to translate..."
-  );
 
-  const handleToTranslate = (word) => {
-    setToTranslate(word);
-  };
-
-  useEffect(() => {
-    (async () => {
-      await axios
-        .get("http://localhost:5000/books", {
-          params: {
-            title: reading.book.title,
-          },
-        })
-        .then((re) => {
-          setBook(re.data[0]);
-          setWords(re.data[0].split(" "));
-        })
-        .catch((er) => console.log(er));
-    })();
-  }, [reading]);
+  const reading = {
+    book: {
+      title: "alice",
+      language: "german"
+    }
+  }
 
   return (
     <Container css={{ color: "#161616" }}>
@@ -48,7 +25,6 @@ export default function Reader() {
             size="sm"
             shadow
             auto
-            onPress={() => dispatch({ type: "UNSELECT_BOOK" })}
           >
             <FiArrowLeft />
           </Button>
@@ -58,8 +34,7 @@ export default function Reader() {
           {reading.book.language}
         </Text>
       </Header>
-      <DummyHeader />
-      <Translate toTranslate={toTranslate} />
+      <Translate />
 
       <Card
         css={{
@@ -70,18 +45,6 @@ export default function Reader() {
         }}
       >
         <Card.Body>
-          <Pre css={{ textAlign: "justify" }}>
-            {words.map((word, key) => {
-              return (
-                <Word
-                  key={key}
-                  word={word}
-                  toTranslate={toTranslate}
-                  handleToTranslate={handleToTranslate}
-                />
-              );
-            })}
-          </Pre>
         </Card.Body>
       </Card>
     </Container>
@@ -105,14 +68,4 @@ const Header = styled.div`
   z-index: 1;
   border-radius: 0 0 10px 10px;
   border-bottom: 1px solid #161616;
-`;
-
-const Pre = styled.pre`
-  white-space: pre-wrap;
-  margin: 0;
-  padding: 0;
-`;
-
-const DummyHeader = styled.div`
-  height: 102px;
 `;
