@@ -1,24 +1,12 @@
-import styled from "styled-components";
 import { Text } from "@nextui-org/react";
-
+import styled from "styled-components";
 import Book from "./Book";
 
-export default function Books() {
-  const library = []
+export default function Books({ library }) {
   return (
     <Container>
-      {typeof library !== "undefined" && (
-        <>
-          {library.length === 0 && (
-            <Text b color="#E8E8E8">
-              No books found.
-            </Text>
-          )}
-          {library.map((book) => (
-            <Book key={book.id} book={book} />
-          ))}
-        </>
-      )}
+      {library.length === 0 && <Text b color="#E8E8E8">No books found.</Text>}
+      {library.map((book) => (< Book key={book.id} book={book} />))}
     </Container>
   );
 }

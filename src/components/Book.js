@@ -1,7 +1,11 @@
 import { Card, Text, Button, Row, Spacer } from "@nextui-org/react";
+import { useContext } from "react";
+import { AugustoContext } from "../Augusto";
 import styled from "styled-components";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
 export default function Book({ book }) {
+  const { dispatch } = useContext(AugustoContext);
 
   return (
     <Container>
@@ -19,21 +23,43 @@ export default function Book({ book }) {
         </Card.Header>
         <Card.Footer>
           <Row justify="space-between" align="center">
-            <Text b h6>
-              Detected language {book.language}
-            </Text>
+            <Row style={{ width: "60%" }}>
+              <Text b h6>
+                Detected language {book.language}
+              </Text>
+            </Row>
             <Spacer x="1" />
-            <Button
-              size="sm"
-              color="success"
-              shadow
-            >
-              Read
-            </Button>
+            <Row justify="end">
+              <Button
+                size="sm"
+                color="error"
+                style={{ marginRight: "0.5rem", color: "#161616" }}
+                auto
+                shadow
+                icon={<FiTrash2 />}
+              />
+              <Button
+                size="sm"
+                style={{ marginRight: "0.5rem", background: "#F5A524", color: "#161616" }}
+                auto
+                shadow
+                icon={<FiEdit />}
+              />
+              <Button
+                size="sm"
+                color="success"
+                css={{ color: "#161616" }}
+                auto
+                shadow
+                onPress={() => { dispatch({ type: "SET_READING", playload: book }) }}
+              >
+                Read
+              </Button>
+            </Row>
           </Row>
         </Card.Footer>
       </Card>
-    </Container>
+    </Container >
   );
 }
 
