@@ -22,6 +22,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/server/txt/*
-/server/pdf/*
-/server/books.json
+
+/server/data.json
+/server/public/*
