@@ -1,7 +1,8 @@
+import { Text } from "@nextui-org/react";
 import styled from "styled-components";
 
 export default function Translate() {
-  return <Container>Select text to translate</Container>;
+  return <Container><Text h6>Select text to translate</Text></Container>;
 }
 
 const Container = styled.div`

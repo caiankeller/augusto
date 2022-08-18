@@ -1,21 +1,20 @@
-const user = require("./user.json")
+const data = require("./data.json")
 const { v4: uuidv4 } = require('uuid');
 const fs = require("fs");
 
 const database = ({
-    ...user,
+    ...data,
+    updateFile() { fs.writeFileSync(`${__dirname}/data.json`, JSON.stringify(this, null, 2)) },
     save(title, language) {
         const id = uuidv4()
-        const book = { title, language, id }
+        const book = { title, language, id, read: 0 }
         this.library = [...this.library, book]
-        fs.writeFileSync(`${__dirname}/user.json`, JSON.stringify(this, null, 2))
-
+        this.updateFile()
         return book
     },
     delete(id) {
-        this.library.filter(book => book.id !== id)
-        fs.writeFileSync(`${__dirname}/user.json`, JSON.stringify(this, null, 2))
-
+        this.library = this.library.filter(book => book.id !== id)
+        this.updateFile()
         return
     },
     get() {
@@ -26,8 +25,7 @@ const database = ({
     },
     patchLanguage(id, language) {
         this.library.find(book => book.id === id).language = language
-        fs.writeFileSync(`${__dirname}/user.json`, JSON.stringify(this, null, 2))
-
+        this.updateFile()
         return
     }
 })

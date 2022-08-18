@@ -1,15 +1,13 @@
 import { Button, Card, Divider, Row, Text } from "@nextui-org/react";
 import { FiArrowLeft } from "react-icons/fi";
 import styled from "styled-components";
-import { useContext, useRef } from "react";
+import { useContext } from "react";
 import { AugustoContext } from "../Augusto";
-import { ReactEpubViewer } from "react-epub-viewer";
 
 import Translate from "./Translate";
 
 export default function Reader({ reading }) {
   const { dispatch } = useContext(AugustoContext);
-  const viewerRef = useRef(null);
 
   return (
     <Container css={{ color: "#161616" }}>
@@ -30,24 +28,20 @@ export default function Reader({ reading }) {
           </Button>
         </Row>
         <Divider css={{ margin: "0.5rem 0", backgroundColor: "#161616" }} />
-        <Text i b h6>
-          {reading.language}
+        <Text i h6>
+          {reading.language.long}
         </Text>
       </Header>
       <Card
+        className="myReader"
         css={{
           position: "relative",
-          width: "100%",
-          margin: "0.5rem 0",
+          height: "100%",
+          margin: "0.5rem 0"
         }}
       >
-        <ReactEpubViewer
-          url={""}
-          ref={viewerRef}
-        />
       </Card>
       <Translate />
-
     </Container >
   );
 }

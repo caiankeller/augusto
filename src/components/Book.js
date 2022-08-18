@@ -1,11 +1,24 @@
-import { Card, Text, Button, Row, Spacer } from "@nextui-org/react";
+import { Card, Text, Button, Row } from "@nextui-org/react";
 import { useContext } from "react";
 import { AugustoContext } from "../Augusto";
 import styled from "styled-components";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
+import axios from "axios";
 
 export default function Book({ book }) {
   const { dispatch } = useContext(AugustoContext);
+
+  const deleteBook = () => {
+    axios.delete(`http://localhost:2001/delete/${book.id}`).then(() => {
+      dispatch({ type: "DELETE_BOOK", playload: book.id });
+    })
+  }
+
+  const editBook = () => {
+    axios.patch(`http://localhost:2001/language/${book._id}/portuguese`).then(() => {
+      dispatch({ type: "EDIT_BOOK", playload: book });
+    })
+  }
 
   return (
     <Container>
@@ -23,12 +36,11 @@ export default function Book({ book }) {
         </Card.Header>
         <Card.Footer>
           <Row justify="space-between" align="center">
-            <Row style={{ width: "60%" }}>
-              <Text b h6>
-                Detected language {book.language}
+            <Row>
+              <Text i h6>
+                Detected language {book.language.long}
               </Text>
             </Row>
-            <Spacer x="1" />
             <Row justify="end">
               <Button
                 size="sm"
@@ -37,6 +49,7 @@ export default function Book({ book }) {
                 auto
                 shadow
                 icon={<FiTrash2 />}
+                onPress={deleteBook}
               />
               <Button
                 size="sm"
@@ -58,6 +71,9 @@ export default function Book({ book }) {
             </Row>
           </Row>
         </Card.Footer>
+        <Row justify="flex-end" style={{ background: "#17C964" }}>
+          <Text h6 style={{ marginRight: "1rem" }}> {book.read}% read</Text>
+        </Row>
       </Card>
     </Container >
   );

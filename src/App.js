@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Text, Divider } from "@nextui-org/react";
 import axios from "axios";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import AddBook from "./components/AddBook";
 import Header from "./components/Header";
@@ -12,11 +12,17 @@ import { AugustoContext } from "./Augusto";
 
 export function App() {
   const { augusto, dispatch } = useContext(AugustoContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get("http://localhost:2001/books").then(({ data }) => {
-      dispatch({ type: "SET_APP", playload: data });
-    })
+    const fetching = async () => {
+      await axios.get("http://localhost:2001/books").then(({ data }) => {
+        dispatch({ type: "SET_APP", playload: data });
+      }).then(() => {
+        setLoading(false)
+      })
+    }
+    fetching()
   }, [dispatch])
 
 
@@ -26,14 +32,14 @@ export function App() {
         <>
           <Header />
           <Text h1 color="success">
-            Welcome to Augusto
+            Welcome again!
           </Text>
           <AddBook style={{ alignSelf: "left" }} />
           <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
-          <Text h3 color="success">
+          <Text h2 color="success">
             Books
           </Text>
-          <Books library={augusto.library} />
+          <Books library={augusto.library} isLoading={loading} />
         </>
         :
         <Reader reading={augusto.reading} />

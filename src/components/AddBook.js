@@ -1,7 +1,6 @@
 import { Button, Spacer, Text, Loading, Card, Row } from "@nextui-org/react";
 import { useContext } from "react";
 import { AugustoContext } from "../Augusto";
-import fileSize from "filesize";
 import { useRef, useState } from "react";
 import { FiTrash2, FiUploadCloud } from "react-icons/fi";
 import styled from "styled-components";
@@ -11,7 +10,6 @@ export default function AddBook() {
 
   const { dispatch } = useContext(AugustoContext);
   const [filename, setFilename] = useState(false);
-  const [filesize, setFilesize] = useState(false);
   const [loading, setLoading] = useState(false);
   const [response, setResponse] = useState({ status: "" });
   const file = useRef(null);
@@ -21,15 +19,13 @@ export default function AddBook() {
     const extension = file.split(".").pop(); const filename = file.slice(0, file.lastIndexOf("."));
 
 
-    if (extension !== "epub") return alert("Only PDF files are allowed")
+    if (extension !== "epub") return alert("Only EPUB files are allowed")
 
-    setFilesize(fileSize(e.target.files[0].size));
     setFilename(filename);
   };
 
   const deleteFile = () => {
     setFilename(false);
-    setFilesize(false);
     setResponse({ status: "" });
     file.current.value = "";
   };
@@ -60,22 +56,25 @@ export default function AddBook() {
   return (
     <form method="post" encType="multipart/form-data" onSubmit={sendFile}>
       <Container>
+        <Row justify="space-between" align="center">
+          <Button
+            color="neutral"
+            size="sm"
+            auto
+            shadow
+            iconRight={<FiUploadCloud />}
+            onPress={() => file.current.click()}
+            disabled={filename}
+          >
+            Add Book
+          </Button>
+        </Row>
         <FileUploader
           ref={file}
           type="file"
           accept=".epub"
           onChange={(e) => fileChecker(e)}
         />
-        <Button
-          color="neutral"
-          size="sm"
-          shadow
-          iconRight={<FiUploadCloud />}
-          onPress={() => file.current.click()}
-          disabled={filename}
-        >
-          Add Book
-        </Button>
       </Container>
       {filename && (
         <Card
@@ -87,7 +86,7 @@ export default function AddBook() {
         >
           <Card.Header>
             <Text b h6>
-              {filename} - ({filesize})
+              {filename}
             </Text>
           </Card.Header>
           <Card.Footer>
@@ -104,7 +103,9 @@ export default function AddBook() {
                       deleteFile();
                     }}
                     iconRight={<FiTrash2 />}
-                  />
+                  >
+                    {response.status === "error" && response.message}
+                  </Button>
                   <Spacer x="0.5" />
                 </>
               )}
@@ -138,5 +139,5 @@ export default function AddBook() {
 const Container = styled.div``;
 
 const FileUploader = styled.input`
-  display: none;
-`;
+        display: none;
+        `;

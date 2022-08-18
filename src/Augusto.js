@@ -16,6 +16,8 @@ function Augusto(state, action) {
       return { ...state, user: action.playload.user, library: action.playload.library };
     case "ADD_BOOK":
       return { ...state, library: [...state.library, action.playload] };
+    case "DELETE_BOOK":
+      return { ...state, library: state.library.filter(book => book.id !== action.playload) };
     default:
       return state;
   }
