@@ -6,13 +6,6 @@ To run the project, in the root run
     npm run dev
 ```
 
-The python need to be executed separately with python3 (I still learning python ecosystem)
-```
-    pip3 install -r requirements.txt
-    python3 ./server/main.py
-```
-
-
-this is a great song btw https://open.spotify.com/track/64a5XZCVDWwvC7gwPPCsH6?si=459dd9dd0a1c49cb
+The Python backend has been replaced by Node for the reason that this is more suitable for the project.
 
 take care
