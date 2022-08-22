@@ -1,6 +1,7 @@
 const express = require("express")
 const multer = require("multer")
 const languageDetect = require("languagedetect")
+const cors = require("cors")
 const database = require("./database.js")
 
 const storage = multer.diskStorage({
@@ -15,6 +16,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage })
 
 const app = express();
+app.use(cors())
 const port = 2001
 app.use(express.static(`${__dirname}/public/`))
 
@@ -23,31 +25,34 @@ app.post('/book', upload.single("file"), async (req, res) => {
         const langDetect = new languageDetect()
         langDetect.setLanguageType('iso2')
         //selecting just the most probable language (index [0][0]), return exemple: [["en", 0.9], ["fr", 0.1]]
-        const shortLang = langDetect.detect(req.file.originalname)[0][0]
-        var longLang
-        switch (shortLang) {
+        var language = {}
+        language.short = langDetect.detect(req.file.originalname)[0][0]
+        switch (language.short) {
             case "en":
-                longLang = "english"
+                language.long = "english"
                 break;
             case "fr":
-                longLang = "french"
+                language.long = "french"
                 break;
             case "de":
-                longLang = "german"
+                language.long = "german"
                 break;
             case "it":
-                longLang = "italian"
+                language.long = "italian"
                 break;
             case "es":
-                longLang = "spanish"
+                language.long = "spanish"
                 break;
             case "pt":
-                longLang = "portuguese"
+                language.long = "portuguese"
                 break;
+            default:
+                language.short = "undefined"
+                language.long = "undefined"
         }
 
         const title = req.file.originalname.substring(0, req.file.originalname.lastIndexOf('.'))
-        const book = await database.save(title, { short: shortLang, long: longLang })
+        const book = await database.save(title, language)
         return res.status(200).json({ message: "Book uploaded.", book: book })
     } catch (error) {
         return res.status(500).json({ message: "Error while storing book." })
@@ -80,7 +85,7 @@ app.delete('/delete/:book', async (req, res) => {
 
 app.get("/read/:id", (req, res) => {
     const book = database.getOne(req.params.id)
-    return res.sendFile(`${__dirname}/public/${book.title}.epub`, {
+    return res.sendFile(`${__dirname}/public/a.epub`, {
         headers: {
             "Content-Type": "application/epub+zip"
         }

@@ -24,7 +24,7 @@ const database = ({
         return this.library.find(book => book.id === id)
     },
     patchLanguage(id, language) {
-        this.library.find(book => book.id === id).language = language
+        this.library.find(book => book.id === id).language.long = language
         this.updateFile()
         return
     }

@@ -25,7 +25,7 @@ function createWindow() {
     isDev
       ? "http://localhost:3000"
       : `file://${path.join(__dirname, "../build/index.html")}`
-  );  
+  );
 
   if (isDev) {
     win.webContents.openDevTools({ mode: "detach" });
@@ -35,9 +35,7 @@ function createWindow() {
 app.whenReady().then(createWindow);
 
 app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-  }
+  app.quit();
 });
 
 app.on("activate", () => {

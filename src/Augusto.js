@@ -18,6 +18,16 @@ function Augusto(state, action) {
       return { ...state, library: [...state.library, action.playload] };
     case "DELETE_BOOK":
       return { ...state, library: state.library.filter(book => book.id !== action.playload) };
+    case "EDIT_BOOK":
+      return {
+        ...state, library: state.library.map(book => {
+          if (book.id === action.playload.book.id) {
+            book.language.long = action.playload.language
+            return book
+          }
+          return book;
+        })
+      };
     default:
       return state;
   }

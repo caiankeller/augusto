@@ -2,7 +2,7 @@ import { Card, Text, Button, Row } from "@nextui-org/react";
 import { useContext } from "react";
 import { AugustoContext } from "../Augusto";
 import styled from "styled-components";
-import { FiEdit, FiTrash2 } from "react-icons/fi";
+import { FiEdit, FiTrash2, FiBookOpen } from "react-icons/fi";
 import axios from "axios";
 
 export default function Book({ book }) {
@@ -15,8 +15,8 @@ export default function Book({ book }) {
   }
 
   const editBook = () => {
-    axios.patch(`http://localhost:2001/language/${book._id}/portuguese`).then(() => {
-      dispatch({ type: "EDIT_BOOK", playload: book });
+    axios.patch(`http://localhost:2001/language/${book.id}/portuguese`).then(() => {
+      dispatch({ type: "EDIT_BOOK", playload: { book, language: "portuguese" } });
     })
   }
 
@@ -30,7 +30,7 @@ export default function Book({ book }) {
         }}
       >
         <Card.Header>
-          <Text b h6>
+          <Text b h5>
             {book.title}
           </Text>
         </Card.Header>
@@ -53,10 +53,12 @@ export default function Book({ book }) {
               />
               <Button
                 size="sm"
-                style={{ marginRight: "0.5rem", background: "#F5A524", color: "#161616" }}
+                color="warning"
+                style={{ marginRight: "0.5rem", color: "#161616" }}
                 auto
                 shadow
                 icon={<FiEdit />}
+                onPress={editBook}
               />
               <Button
                 size="sm"
@@ -65,14 +67,15 @@ export default function Book({ book }) {
                 auto
                 shadow
                 onPress={() => { dispatch({ type: "SET_READING", playload: book }) }}
-              >
-                Read
-              </Button>
+                icon={<FiBookOpen />}
+              />
             </Row>
           </Row>
         </Card.Footer>
-        <Row justify="flex-end" style={{ background: "#17C964" }}>
-          <Text h6 style={{ marginRight: "1rem" }}> {book.read}% read</Text>
+        <Row>
+          <ProgressBar percentage={book.read}>
+            <Text h6 style={{ marginRight: "1rem", zIndex: 1 }}> {book.read}% read</Text>
+          </ProgressBar>
         </Row>
       </Card>
     </Container >
@@ -84,5 +87,26 @@ const Container = styled.li`
 
   &:last-child {
     margin-bottom: 0;
+  }
+`;
+
+const ProgressBar = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  text-align: right;
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background-image: linear-gradient(to right, 
+      #F5A524 0%,
+      #F5A524 ${props => props.percentage}%,
+      #e8e8e8 ${props => props.percentage}%,
+      #e8e8e8 100%);
+    height: 100%;
   }
 `;

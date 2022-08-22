@@ -31,12 +31,12 @@ export function App() {
       {!augusto.reading ?
         <>
           <Header />
-          <Text h1 color="success">
-            Welcome again!
+          <Text h1 color="warning">
+            Welcome back!
           </Text>
           <AddBook style={{ alignSelf: "left" }} />
           <Divider css={{ marginTop: "1rem", backgroundColor: "#C9C9C9" }} />
-          <Text h2 color="success">
+          <Text h2 color="warning">
             Books
           </Text>
           <Books library={augusto.library} isLoading={loading} />

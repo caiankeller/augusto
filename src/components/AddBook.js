@@ -43,7 +43,7 @@ export default function AddBook() {
       )
       .then((re) => {
         dispatch({ type: "ADD_BOOK", playload: re.data.book });
-        setResponse({ status: "success", message: re.data.message });
+        setResponse({ status: "warning", message: re.data.message });
       })
       .catch((er) => {
         setResponse({ status: "error", message: er.response.data.message });
@@ -104,7 +104,7 @@ export default function AddBook() {
                     }}
                     iconRight={<FiTrash2 />}
                   >
-                    {response.status === "error" && response.message}
+                    {(response.status === "error" || response.status === "success") && response.message}
                   </Button>
                   <Spacer x="0.5" />
                 </>
