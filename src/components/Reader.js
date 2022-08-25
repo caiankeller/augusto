@@ -1,13 +1,16 @@
 import { Button, Card, Divider, Row, Text } from "@nextui-org/react";
 import { FiArrowLeft } from "react-icons/fi";
 import styled from "styled-components";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AugustoContext } from "../Augusto";
 
 import Translate from "./Translate";
 
 export default function Reader({ reading }) {
   const { dispatch } = useContext(AugustoContext);
+  const [toTranslate, setToTranslate] = useState("Select text to translate");
+
+  const bookPath = `http://localhost:2001/Reader.html?book=${reading.title}`;
 
   return (
     <Container css={{ color: "#161616" }}>
@@ -22,7 +25,9 @@ export default function Reader({ reading }) {
             size="sm"
             shadow
             auto
-            onPress={() => { dispatch({ type: "SET_READING", playload: null }) }}
+            onPress={() => {
+              dispatch({ type: "SET_READING", playload: null });
+            }}
           >
             <FiArrowLeft />
           </Button>
@@ -33,16 +38,16 @@ export default function Reader({ reading }) {
         </Text>
       </Header>
       <Card
-        className="myReader"
         css={{
-          position: "relative",
+          backgroundColor: "#c6c6c6",
           height: "100%",
-          margin: "0.5rem 0"
+          margin: "0.5rem 0",
         }}
       >
+        <Book src={bookPath} />
       </Card>
-      <Translate />
-    </Container >
+      <Translate toTranslate={toTranslate} language={reading.language.long} />
+    </Container>
   );
 }
 
@@ -51,6 +56,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
+  height: 96.3vh;
 `;
 
 const Header = styled.div`
@@ -58,4 +64,8 @@ const Header = styled.div`
   border-radius: 10px;
   padding: 1rem;
   border-bottom: 1px solid #161616;
+`;
+
+const Book = styled.iframe`
+  height: 100%;
 `;

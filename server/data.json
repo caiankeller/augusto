@@ -3,15 +3,5 @@
     "theme": "default",
     "spokenLanguage": "english"
   },
-  "library": [
-    {
-      "title": "Alice's Adventures in Wonderland",
-      "language": {
-        "short": "de",
-        "long": "portuguese"
-      },
-      "id": "2b456747-978f-493f-b0c7-fc47e95c0349",
-      "read": 79
-    }
-  ]
+  "library": []
 }
