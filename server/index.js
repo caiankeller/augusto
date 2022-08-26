@@ -89,7 +89,6 @@ app.delete("/delete/:book", async (req, res) => {
 
 app.get("/read/:id", (req, res) => {
   const book = database.getOne(req.params.id);
-  console.log(book);
   return res.sendFile(`${__dirname}/public/${book.title}.epub`, {
     headers: {
       "Content-Type": "application/epub+zip",

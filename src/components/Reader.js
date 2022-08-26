@@ -1,7 +1,7 @@
 import { Button, Card, Divider, Row, Text } from "@nextui-org/react";
 import { FiArrowLeft } from "react-icons/fi";
 import styled from "styled-components";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AugustoContext } from "../Augusto";
 
 import Translate from "./Translate";
@@ -9,6 +9,20 @@ import Translate from "./Translate";
 export default function Reader({ reading }) {
   const { dispatch } = useContext(AugustoContext);
   const [toTranslate, setToTranslate] = useState("Select text to translate");
+
+  useEffect(() => {
+    const handler = (e) => {
+      const data = JSON.parse(e.data);
+      setToTranslate(data.message);
+    };
+
+    window.addEventListener("message", handler);
+    return () => window.removeEventListener("message", handler);
+  }, []);
+
+  const resetToTranslate = () => {
+    setToTranslate("Select text to translate");
+  };
 
   const bookPath = `http://localhost:2001/Reader.html?book=${reading.title}`;
 
@@ -25,12 +39,11 @@ export default function Reader({ reading }) {
             size="sm"
             shadow
             auto
+            icon={<FiArrowLeft />}
             onPress={() => {
               dispatch({ type: "SET_READING", playload: null });
             }}
-          >
-            <FiArrowLeft />
-          </Button>
+          />
         </Row>
         <Divider css={{ margin: "0.5rem 0", backgroundColor: "#161616" }} />
         <Text i h6>
@@ -46,7 +59,11 @@ export default function Reader({ reading }) {
       >
         <Book src={bookPath} />
       </Card>
-      <Translate toTranslate={toTranslate} language={reading.language.long} />
+      <Translate
+        toTranslate={toTranslate}
+        language={reading.language.long}
+        reset={resetToTranslate}
+      />
     </Container>
   );
 }
@@ -57,6 +74,7 @@ const Container = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 96.3vh;
+  position: relative;
 `;
 
 const Header = styled.div`
@@ -68,4 +86,5 @@ const Header = styled.div`
 
 const Book = styled.iframe`
   height: 100%;
+  margin-bottom: 3rem;
 `;
