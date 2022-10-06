@@ -1,70 +1,78 @@
-import { Button, Spacer, Text, Loading, Card, Row } from "@nextui-org/react";
-import { useContext } from "react";
-import { AugustoContext } from "../Augusto";
-import { useRef, useState } from "react";
-import { FiTrash2, FiUploadCloud } from "react-icons/fi";
-import styled from "styled-components";
-import axios from "axios";
+import React, { useContext, useRef, useState } from 'react'
+import { Button, Spacer, Loading, Card, Row, Input } from '@nextui-org/react'
+import { AugustoContext } from '../Augusto'
+import { FiTrash2, FiUploadCloud } from 'react-icons/fi'
+import styled from 'styled-components'
+import axios from 'axios'
 
 export default function AddBook() {
-
-  const { dispatch } = useContext(AugustoContext);
-  const [filename, setFilename] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState({ status: "" });
-  const file = useRef(null);
+  const { dispatch } = useContext(AugustoContext)
+  const [filename, setFilename] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState({ status: '' })
+  const file = useRef(null)
 
   const fileChecker = (e) => {
-    const file = e.target.files[0].name;
-    const extension = file.split(".").pop(); const filename = file.slice(0, file.lastIndexOf("."));
+    const file = e.target.files[0].name
+    const extension = file.split('.').pop()
+    const filename = file.slice(0, file.lastIndexOf('.'))
 
+    if (extension !== 'epub') return alert('Only EPUB files are allowed')
 
-    if (extension !== "epub") return alert("Only EPUB files are allowed")
-
-    setFilename(filename);
-  };
+    setFilename(filename)
+  }
 
   const deleteFile = () => {
-    setFilename(false);
-    setResponse({ status: "" });
-    file.current.value = "";
-  };
+    setFilename('')
+    setResponse({ status: '' })
+    file.current.value = ''
+  }
+
+  // this just update the file name
+  const convertFile = () => {
+    let newTitle = ""
+    if (!filename) newTitle = file.current.files[0].name.slice(0, file.current.files[0].name.lastIndexOf('.'))
+    else newTitle = filename
+    
+    const blob = file.current.files[0].slice(0, file.current.files[0].size, 'application/epub+zip')
+    const newFile = new File([blob], `${newTitle}.epub`, { type: 'application/epub+zip' })
+    return newFile
+  }
 
   const sendFile = (e) => {
-    e.preventDefault();
-    setLoading(true);
+    e.preventDefault()
+    const newFile = convertFile()
+    setLoading(true)
     axios
       .post(
-        "http://localhost:2001/book",
+        'http://localhost:2001/book',
         {
-          file: file.current.files[0],
+          file: newFile
         },
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { 'Content-Type': 'multipart/form-data' } }
       )
       .then((re) => {
-        dispatch({ type: "ADD_BOOK", playload: re.data.book });
-        setResponse({ status: "warning", message: re.data.message });
+        dispatch({ type: 'ADD_BOOK', playload: re.data.book })
+        setResponse({ status: 'warning', message: re.data.message })
       })
       .catch((er) => {
-        setResponse({ status: "error", message: er.response.data.message });
+        setResponse({ status: 'error', message: er.response.data.message })
       })
       .then((e) => {
-        setLoading(false);
-      });
-  };
+        setLoading(false)
+      })
+  }
 
   return (
     <form method="post" encType="multipart/form-data" onSubmit={sendFile}>
       <Container>
         <Row justify="space-between" align="center">
           <Button
-            color="neutral"
-            size="sm"
-            auto
-            shadow
-            iconRight={<FiUploadCloud />}
             onPress={() => file.current.click()}
             disabled={filename}
+            iconRight={<FiUploadCloud />}
+            color="neutral"
+            size="sm"
           >
             Add Book
           </Button>
@@ -76,68 +84,72 @@ export default function AddBook() {
           onChange={(e) => fileChecker(e)}
         />
       </Container>
-      {filename && (
+      {file.current?.files[0] && (
         <Card
           css={{
-            marginTop: "1rem",
-            backgroundColor: "#E8E8E8",
-            color: "#161616",
+            backgroundColor: '#efefef',
+            color: '#161616',
+            marginTop: '1rem'
           }}
         >
           <Card.Header>
-            <Text b h6>
-              {filename}
-            </Text>
+            <Input
+              width="100%"
+              fullWidth
+              underlined
+              label="Book"
+              placeholder={file.current.files[0].name}
+              labelLeft="Title"
+              onChange={(e) => { setFilename(e.target.value) }}
+              value={filename}
+            />
           </Card.Header>
           <Card.Footer>
             <Row justify="flex-end">
-              {!loading && (
-                <>
-                  <Button
-                    css={{ color: "#161616" }}
-                    color="error"
-                    auto
-                    shadow
-                    size="sm"
-                    onPress={() => {
-                      deleteFile();
-                    }}
-                    iconRight={<FiTrash2 />}
-                  >
-                    {(response.status === "error" || response.status === "success") && response.message}
-                  </Button>
-                  <Spacer x="0.5" />
-                </>
-              )}
               <Button
-                disabled={response.status.length > 0 ? true : loading}
-                color="success"
-                css={{ color: "#161616" }}
-                auto
-                shadow
+                css={{ color: '#161616' }}
+                icon={<FiTrash2 />}
+                color="error"
                 size="sm"
+                auto
+                disabled={loading}
+                onPress={() => {
+                  deleteFile()
+                }}
+              >
+                {response.status && response.message}
+              </Button>
+              <Spacer x="0.5" />
+              <Button
+                disabled={response.status ? true : loading}
+                css={{ color: '#161616' }}
+                color="success"
                 type="submit"
-                iconRight={
-                  loading ? (
-                    <Loading type="spinner" color="currentColor" />
-                  ) : (
-                    <FiUploadCloud />
-                  )
+                size="sm"
+                auto
+                icon={
+                  loading
+                    ? (
+                      <Loading type="spinner" color="currentColor" />
+                    )
+                    : (
+                      <FiUploadCloud />
+                    )
                 }
               >
-                {loading && "Give us just a sec"}
-                {response.status === "success" && "Uploaded"}
+                {loading && 'Give us just a sec'}
+                {response.status === 'success' && 'Uploaded'}
               </Button>
             </Row>
           </Card.Footer>
         </Card>
       )}
     </form>
-  );
+  )
 }
 
-const Container = styled.div``;
+const Container = styled.div``
 
 const FileUploader = styled.input`
-        display: none;
-        `;
+  display: none;
+`

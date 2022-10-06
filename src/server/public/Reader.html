@@ -1,0 +1,145 @@
+<html>
+
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.5/jszip.min.js"></script>
+  <script src="./js/epub/epub.min.js"></script>
+  <script src="./js/index.js"></script>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@600&family=Roboto&display=swap");
+  </style>
+</head>
+<!-- bgcolor, did you know it exist? -->
+
+<body bgcolor="#161616">
+  <div id="book"></div>
+</body>
+<script>
+  const bookurl = findGetParameter("book");
+  var cfi = findGetParameter("cfi");
+  var origin
+
+  if (document.referrer.trim().length == 0)
+    origin = `file://${findGetParameter("origin")}`
+  else
+    origin = document.referrer
+
+  var book = ePub(`http://localhost:2001/${bookurl}.epub`);
+  var rendition = book.renderTo("book", {
+    method: "default",
+    flow: "auto",
+    width: "100%",
+    height: "100%",
+    manager: "continuous",
+  });
+  var displayed = rendition.display();
+
+  book.ready.then(() => {
+    const stored = localStorage.getItem(`${bookurl}-locations`);
+    if (stored?.length) book.locations.load(stored);
+    else book.locations.generate(50);
+
+    localStorage.setItem(`${bookurl}-locations`, book.locations.save());
+
+    if (cfi.length) rendition.display(cfi);
+    else rendition.display();
+
+    rendition.on("relocated", (location) => {
+      const { cfi } = location.start;
+      const { index } = location.start;
+      const bookLength = book.spine.length;
+      //not the most precise, but it works
+      const progress = Math.round((index / bookLength) * 100);
+
+      window.top.postMessage(
+        JSON.stringify({
+          type: "pages_track",
+          message: { cfi: cfi, percentage: progress },
+        }),
+        origin
+      );
+    });
+
+    var keyListener = (e) => {
+      if ((e.keyCode || e.which) == 37) rendition.prev();
+      if ((e.keyCode || e.which) == 39) rendition.next();
+    };
+
+    rendition.on("keyup", keyListener);
+
+    rendition.on("selected", function (cfiRange) {
+      book.getRange(cfiRange).then(function (range) {
+        var text;
+        text = range.toString();
+        window.top.postMessage(
+          JSON.stringify({
+            type: "to_translate_word",
+            message: text.toString(),
+          }),
+          origin
+        );
+      });
+    });
+  });
+
+  rendition.themes.default({
+    "*": {
+      "background-color": "#161616",
+      "font-family": "Helvetica",
+      color: "#c6c6c6",
+    },
+    h1: {
+      color: "#efefef",
+      "font-transform": "uppercase",
+      "text-align": "left",
+      "font-size": "1.2rem",
+    },
+    h2: {
+      color: "#efefef",
+      "font-family": "Helvetica Neue",
+      "font-transform": "uppercase",
+      "text-align": "left",
+      "font-size": "1.2rem",
+    },
+    h3: {
+      color: "#efefef",
+      "font-family": "Helvetica Neue",
+      "font-transform": "uppercase",
+      "text-align": "left",
+      "font-size": "1.2rem",
+    },
+    h4: {
+      color: "#efefef",
+      "font-family": "Helvetica Neue",
+      "font-transform": "uppercase",
+      "text-align": "left",
+      "font-size": "1.2rem",
+    },
+    h5: {
+      color: "#efefef",
+      "font-family": "Helvetica Neue",
+      "font-transform": "uppercase",
+      "text-align": "left",
+      "font-size": "1.2rem",
+    },
+    span: {
+      color: "#efefef",
+      "font-family": "Helvetica Neue",
+      "font-transform": "uppercase",
+      "text-align": "left",
+      "font-size": "1.2rem",
+    },
+    p: {
+      margin: "0.5rem 0",
+      "font-family": "Helvetica",
+    },
+    color: "#c6c6c6",
+    "::selection": {
+      background: "#F5A524",
+      color: "#161616",
+    },
+  });
+  rendition.themes.select("dark");
+  rendition.themes.fontSize("100%");
+</script>
+
+</html>

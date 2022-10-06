@@ -1,71 +1,92 @@
-import { Button, Card, Divider, Row, Text } from "@nextui-org/react";
-import { FiArrowLeft } from "react-icons/fi";
-import styled from "styled-components";
-import { useContext, useState, useEffect } from "react";
-import { AugustoContext } from "../Augusto";
-
-import Translate from "./Translate";
+import { Button, Card } from '@nextui-org/react'
+import axios from 'axios'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { FiArrowLeft } from 'react-icons/fi'
+import styled from 'styled-components'
+import { AugustoContext } from '../Augusto'
+import Translations from './Translations'
 
 export default function Reader({ reading }) {
-  const { dispatch } = useContext(AugustoContext);
-  const [toTranslate, setToTranslate] = useState("Select text to translate");
+  const { dispatch } = useContext(AugustoContext)
+  const [toTranslate, setToTranslate] = useState('')
+  const iframe = useRef()
+  // quick explain, i am using this ref to store the last page visited
+  // long explain, i only update page state in reducer while unmouting
+  // because if i change it everytime it gonna rerender and rerender the iframe with the current
+  // page, which is kinda annoying, i cant change it in the unmounting using usestate
+  // so i used this because ref
+  const [pages, setPages] = useState(reading.read)
+  const page = useRef()
+  const currentUrl = window.location.pathname
+
+  const bookPath =
+    `http://localhost:2001/Reader.html?book=${reading.title}&origin=${currentUrl}&cfi=${reading.read.cfi}`;
+
+  const focus = () => iframe.current.focus()
+  useEffect(() => { focus() }, [])
+
+  //updating current page into the ref page
+  useEffect(() => { page.current = pages }, [pages])
+  useEffect(() => { //sending the ref to state when it's unmounted
+    return () =>
+      dispatch({
+        type: 'UPDATE_PROGRESS',
+        playload: { book: reading, page: page.current }
+      })
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const handler = (e) => {
-      const data = JSON.parse(e.data);
-      setToTranslate(data.message);
-    };
+      const data = JSON.parse(e.data)
+      if (data.type === 'to_translate_word') {
+        if (data.message.trim())
+          setToTranslate(data.message.trim().toLowerCase().charAt(0).toUpperCase() + data.message.slice(1))
+        // this mess let only the first character on uppercase
+      } else {
+        axios
+          .post('http://localhost:2001/progress', {
+            progress: {
+              cfi: data.message.cfi,
+              percentage: data.message.percentage
+            },
+            id: reading.id
+          })
+          .then(() => {
+            setPages({
+              cfi: data.message.cfi,
+              percentage: data.message.percentage
+            })
+          })
+      }
+    }
 
-    window.addEventListener("message", handler);
-    return () => window.removeEventListener("message", handler);
+    window.addEventListener('message', handler)
+    return () => window.removeEventListener('message', handler)
+    // eslint-disable-next-line
   }, []);
 
-  const resetToTranslate = () => {
-    setToTranslate("Select text to translate");
-  };
-
-  const bookPath = `http://localhost:2001/Reader.html?book=${reading.title}`;
+  const resetToTranslate = () => setToTranslate('')
 
   return (
-    <Container css={{ color: "#161616" }}>
-      <Header>
-        <Row justify="space-between" align="center">
-          <Text b h6>
-            {reading.title}
-          </Text>
-          <Button
-            color="error"
-            css={{ color: "#161616" }}
-            size="sm"
-            shadow
-            auto
-            icon={<FiArrowLeft />}
-            onPress={() => {
-              dispatch({ type: "SET_READING", playload: null });
-            }}
-          />
-        </Row>
-        <Divider css={{ margin: "0.5rem 0", backgroundColor: "#161616" }} />
-        <Text i h6>
-          {reading.language.long}
-        </Text>
-      </Header>
-      <Card
-        css={{
-          backgroundColor: "#c6c6c6",
-          height: "100%",
-          margin: "0.5rem 0",
-        }}
+    <Container>
+      <Button
+        color="error"
+        css={{ marginLeft: 'calc(100% - 4rem)', position: 'absolute', zIndex: 1, color: '#161616' }}
+        size="sm"
+        auto
+        onPress={() => { dispatch({ type: 'SET_READING', playload: null }) }}
       >
-        <Book src={bookPath} />
+        <FiArrowLeft />
+      </Button>
+      <Card css={{ backgroundColor: '#efefef', height: '100%', margin: '0.5rem 0 1rem 0' }}>
+        <Book src={bookPath} ref={iframe} onBlur={focus} />
       </Card>
-      <Translate
-        toTranslate={toTranslate}
-        language={reading.language.long}
-        reset={resetToTranslate}
-      />
+      {toTranslate && (
+        <Translations toTranslate={toTranslate} language={reading.language.long} resetToTranslate={resetToTranslate} />
+      )}
     </Container>
-  );
+  )
 }
 
 const Container = styled.div`
@@ -73,18 +94,10 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: 96.3vh;
+  height: calc(100vh - 52px + 1rem);
   position: relative;
-`;
-
-const Header = styled.div`
-  background-color: #e8e8e8;
-  border-radius: 10px;
-  padding: 1rem;
-  border-bottom: 1px solid #161616;
-`;
+`
 
 const Book = styled.iframe`
   height: 100%;
-  margin-bottom: 3rem;
-`;
+`

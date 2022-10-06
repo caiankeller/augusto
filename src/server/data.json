@@ -1,0 +1,15 @@
+{
+  "user": {
+    "theme": "default",
+    "defaultLanguage": "english"
+  },
+  "library": [],
+  "dicts": {
+    "english": [
+      "dutch",
+      "french",
+      "portuguese",
+      "spanish"
+    ]
+  }
+}

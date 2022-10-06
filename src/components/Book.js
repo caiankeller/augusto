@@ -1,112 +1,100 @@
-import { Card, Text, Button, Row } from "@nextui-org/react";
-import { useContext } from "react";
-import { AugustoContext } from "../Augusto";
-import styled from "styled-components";
-import { FiEdit, FiTrash2, FiBookOpen } from "react-icons/fi";
-import axios from "axios";
+import { Card, Dropdown, Row, Text } from '@nextui-org/react'
+import axios from 'axios'
+import React, { useContext } from 'react'
+import { FiBookOpen, FiEdit, FiTrash2 } from 'react-icons/fi'
+import styled from 'styled-components'
+import { AugustoContext } from '../Augusto'
 
 export default function Book({ book }) {
-  const { dispatch } = useContext(AugustoContext);
+  const { dispatch } = useContext(AugustoContext)
 
   const deleteBook = () => {
     axios.delete(`http://localhost:2001/delete/${book.id}`).then(() => {
-      dispatch({ type: "DELETE_BOOK", playload: book.id });
+      dispatch({ type: 'DELETE_BOOK', playload: book.id })
     })
   }
 
   const editBook = () => {
-    axios.patch(`http://localhost:2001/language/${book.id}/portuguese`).then(() => {
-      dispatch({ type: "EDIT_BOOK", playload: { book, language: "portuguese" } });
-    })
+    axios
+      .patch(`http://localhost:2001/language/${book.id}/portuguese`)
+      .then(() => {
+        dispatch({
+          type: 'EDIT_BOOK',
+          playload: { book, language: '{language}' }
+        })
+      })
   }
 
   return (
     <Container>
-      <Card
-        css={{
-          marginTop: "0.5rem",
-          backgroundColor: "#E8E8E8",
-          color: "#161616",
-        }}
-      >
+      <Card isPressable css={{ backgroundColor: '#efefef', color: '#161616', marginTop: '0.5rem' }}>
         <Card.Header>
-          <Text b h5>
-            {book.title}
-          </Text>
+          <Text b h5 css={{ margin: 0 }}> {book.title} </Text>
         </Card.Header>
-        <Card.Footer>
+        <Card.Body css={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
           <Row justify="space-between" align="center">
             <Row>
-              <Text i h6>
-                Detected language {book.language.long}
-              </Text>
+              <Text i h6> Detected language {book.language.long} </Text>
             </Row>
             <Row justify="end">
-              <Button
-                size="sm"
-                color="error"
-                style={{ marginRight: "0.5rem", color: "#161616" }}
-                auto
-                shadow
-                icon={<FiTrash2 />}
-                onPress={deleteBook}
-              />
-              <Button
-                size="sm"
-                color="warning"
-                style={{ marginRight: "0.5rem", color: "#161616" }}
-                auto
-                shadow
-                icon={<FiEdit />}
-                onPress={editBook}
-              />
-              <Button
-                size="sm"
-                color="success"
-                css={{ color: "#161616" }}
-                auto
-                shadow
-                onPress={() => { dispatch({ type: "SET_READING", playload: book }) }}
-                icon={<FiBookOpen />}
-              />
+              <Dropdown placement="right">
+                <Dropdown.Button color="warning" size="sm" css={{ color: '#161616' }}>
+                  Book
+                </Dropdown.Button>
+                <Dropdown.Menu disabledKeys={['edit']} css={{ background: '#efefef', border: '1px solid #161616' }}
+                  onAction={(type) => {
+                    type === 'open' && dispatch({ type: 'SET_READING', playload: book })
+                    type === 'edit' && editBook()
+                    type === 'delete' && deleteBook()
+                  }}
+                >
+                  <Dropdown.Item key="open" icon={<FiBookOpen />}>
+                    Open
+                  </Dropdown.Item>
+                  <Dropdown.Item key="edit" icon={<FiEdit />}>
+                    Edit
+                  </Dropdown.Item>
+                  <Dropdown.Item key="delete" color="error" icon={<FiTrash2 />}>
+                    Delete
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </Row>
           </Row>
-        </Card.Footer>
+        </Card.Body>
         <Row>
-          <ProgressBar percentage={book.read}>
-            <Text h6 style={{ marginRight: "1rem", zIndex: 1 }}> {book.read}% read</Text>
+          <ProgressBar percentage={book.read.percentage}>
+            <Text h6 css={{ margin: '0 1rem 0 0', zIndex: 1 }}> {book.read.percentage}% read </Text>
           </ProgressBar>
         </Row>
       </Card>
-    </Container >
-  );
+    </Container>
+  )
 }
 
 const Container = styled.li`
   margin-bottom: 1rem;
-
   &:last-child {
     margin-bottom: 0;
   }
-`;
+`
 
 const ProgressBar = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  height: 100%;
   position: relative;
   text-align: right;
-
   &:after {
     content: "";
+    border-radius: 7px 7px 0 0;
     position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background-image: linear-gradient(to right, 
-      #F5A524 0%,
-      #F5A524 ${props => props.percentage}%,
-      #e8e8e8 ${props => props.percentage}%,
-      #e8e8e8 100%);
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: ${(props) => props.percentage}%;
+    background-color: #f5a524;
     height: 100%;
   }
-`;
+`
