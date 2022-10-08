@@ -8,7 +8,7 @@ const shortenLanguage = (language) => {
     case 'italian': return 'it'
     case 'japanese': return 'ja'
     case 'dutch': return 'nl'
-    default: return false
+    default: return undefined
   }
 }
 

@@ -14,7 +14,6 @@ const createWindow = () => {
   if (!fs.existsSync(augustoFolder)) {
     fs.mkdir(augustoFolder, (error) => {
       if (error) return false
-
       fs.copyFile(path.join(__dirname, '..', 'server', 'data.json'))
     })
   }

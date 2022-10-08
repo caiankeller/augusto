@@ -11,13 +11,14 @@ const glosbe = async (language, word) => {
 
     const url = encodeURI(`https://glosbe.com/${toTranslateLanguage}/${defaultLanguageShortened}/${word.toLowerCase()}`)
     // this code can and must be improved
+
     axios(url).then(response => {
       const $ = cheerio.load(response.data)
       let content = $('.translation__item__phrase').text().trim()
       content = content.split(/\r?\n|\r|\n/g)
       content = content.filter((translation) => translation.length > 0)
       resolve(content)
-    })
+    }).catch(() => { resolve([]) })
   })
 }
 

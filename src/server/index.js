@@ -6,7 +6,7 @@ const dictionaryEntries = require('./dictionary.js')
 const database = require('./database.js')
 const path = require('path')
 const os = require('os')
-const shortenLanguage = require('./utils/shortenLanguage')
+const lengthenLanguage = require('./utils/lengthenLanguage')
 const glosbe = require('./glosbe')
 
 const augustoFolder = path.join(os.homedir(), 'Documents', 'AugustoTest')
@@ -37,7 +37,9 @@ app.post('/book', upload.single('file'), async (req, res) => {
     // return exemple: [{"lang": "en", "prob": "0.3232"}, "lang": "fr", "prob": "0.45345"}]
     const language = {}
     language.short = langDetect.detect(req.file.originalname)?.[0].lang
-    language.long = shortenLanguage(language.long)
+    console.log(language)
+    language.long = lengthenLanguage(language.short)
+    console.log(language)
 
     const title = req.title.substring(0, req.title.lastIndexOf('.'))
     const book = await database.save(title, language)
@@ -89,10 +91,11 @@ app.patch('/language/:id/:language', async (req, res) => {
 app.get('/translate/:text/:language', async (req, res) => {
   const { text, language } = req.params
   const { defaultLanguage } = database.user
-  const definitions = []
+  const definitions = {}
 
   definitions.dictionary = await dictionaryEntries(language, text)
-  if (!definitions.dictionary[1]) definitions.glosbe = await glosbe(language, text)
+  if (!definitions.dictionary.length) definitions.glosbe.words = await glosbe(language, text)
+  if (!definitions.glosbe.words.length) console.log('nothing for now') // TODO: glosbetranslation webscrapper
 
   if (defaultLanguage === language) {
     return res.status(404).json({ message: `You're trying to translate from your native language (${language} to ${defaultLanguage}).` })
@@ -101,6 +104,7 @@ app.get('/translate/:text/:language', async (req, res) => {
   if (!database.dicts[defaultLanguage].includes(language)) {
     return res.status(404).json({ message: `Augusto don't support this dictionary yet (${language} to ${defaultLanguage}).` })
   }
+
   return res.status(200).json({ ...definitions })
 })
 
