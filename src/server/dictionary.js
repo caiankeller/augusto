@@ -1,6 +1,7 @@
 const database = require('./database')
 const fs = require('fs')
 const path = require('path')
+const lengthenLanguage = require('./utils/lengthenLanguage')
 
 // this not gonna work in bigger dictionaries files, need be improved
 // anyway, this look awful
@@ -8,7 +9,8 @@ const path = require('path')
 const dictionaryEntries = (language, word) => {
   const string = word.toLowerCase()
   const { defaultLanguage } = database.user
-  const dictionaryFileName = `${language}-${defaultLanguage}.json`
+  const languageLengthened = lengthenLanguage(language)
+  const dictionaryFileName = `${languageLengthened}-${defaultLanguage}.json`
 
   let dictionary
   try {
@@ -24,7 +26,7 @@ const dictionaryEntries = (language, word) => {
     if (deepSearchResults) definitions.push(deepSearchResults)
   }
 
-  if (definitions) return definitions; else return false
+  if (definitions.length) return definitions; else return false
 }
 
 function deepSearch (dictionary, string) {

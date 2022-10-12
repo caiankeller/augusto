@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Button, Card } from '@nextui-org/react'
 import axios from 'axios'
 import React, { useContext, useEffect, useRef, useState } from 'react'
@@ -6,7 +7,7 @@ import styled from 'styled-components'
 import { AugustoContext } from '../Augusto'
 import Translations from './Translations'
 
-export default function Reader({ reading }) {
+export default function Reader ({ reading }) {
   const { dispatch } = useContext(AugustoContext)
   const [toTranslate, setToTranslate] = useState('')
   const iframe = useRef()
@@ -20,14 +21,14 @@ export default function Reader({ reading }) {
   const currentUrl = window.location.pathname
 
   const bookPath =
-    `http://localhost:2001/Reader.html?book=${reading.title}&origin=${currentUrl}&cfi=${reading.read.cfi}`;
+    `http://localhost:2001/Reader.html?book=${reading.title}&origin=${currentUrl}&cfi=${reading.read.cfi}`
 
   const focus = () => iframe.current.focus()
   useEffect(() => { focus() }, [])
 
-  //updating current page into the ref page
+  // updating current page into the ref page
   useEffect(() => { page.current = pages }, [pages])
-  useEffect(() => { //sending the ref to state when it's unmounted
+  useEffect(() => { // sending the ref to state when it's unmounted
     return () =>
       dispatch({
         type: 'UPDATE_PROGRESS',
@@ -40,9 +41,10 @@ export default function Reader({ reading }) {
     const handler = (e) => {
       const data = JSON.parse(e.data)
       if (data.type === 'to_translate_word') {
-        if (data.message.trim())
+        if (data.message.trim()) {
+          // this mess let only the first character on uppercase
           setToTranslate(data.message.trim().toLowerCase().charAt(0).toUpperCase() + data.message.slice(1))
-        // this mess let only the first character on uppercase
+        }
       } else {
         axios
           .post('http://localhost:2001/progress', {
@@ -72,18 +74,18 @@ export default function Reader({ reading }) {
     <Container>
       <Button
         color="error"
-        css={{ marginLeft: 'calc(100% - 4rem)', position: 'absolute', zIndex: 1, color: '#161616' }}
-        size="sm"
+        css={{ marginLeft: 'calc(100% - 1.7rem)', position: 'absolute', zIndex: 1, color: '#161616' }}
+        size="xs"
         auto
         onPress={() => { dispatch({ type: 'SET_READING', playload: null }) }}
       >
         <FiArrowLeft />
       </Button>
-      <Card css={{ backgroundColor: '#efefef', height: '100%', margin: '0.5rem 0 1rem 0' }}>
+      <Card css={{ backgroundColor: '#efefef', height: '100%', margin: '0.5rem 0 0.5rem 0' }}>
         <Book src={bookPath} ref={iframe} onBlur={focus} />
       </Card>
       {toTranslate && (
-        <Translations toTranslate={toTranslate} language={reading.language.long} resetToTranslate={resetToTranslate} />
+        <Translations toTranslate={toTranslate} language={reading.language.short} resetToTranslate={resetToTranslate} />
       )}
     </Container>
   )

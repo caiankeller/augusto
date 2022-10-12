@@ -7,7 +7,7 @@ const database = require('./database.js')
 const path = require('path')
 const os = require('os')
 const lengthenLanguage = require('./utils/lengthenLanguage')
-const glosbe = require('./glosbe')
+const { glosbeWords, glosbeTranslate } = require('./glosbe')
 
 const augustoFolder = path.join(os.homedir(), 'Documents', 'AugustoTest')
 
@@ -90,22 +90,33 @@ app.patch('/language/:id/:language', async (req, res) => {
 
 app.get('/translate/:text/:language', async (req, res) => {
   const { text, language } = req.params
-  const { defaultLanguage } = database.user
-  const definitions = {}
-
-  definitions.dictionary = await dictionaryEntries(language, text)
-  if (!definitions.dictionary.length) definitions.glosbe.words = await glosbe(language, text)
-  if (!definitions.glosbe.words.length) console.log('nothing for now') // TODO: glosbetranslation webscrapper
-
-  if (defaultLanguage === language) {
-    return res.status(404).json({ message: `You're trying to translate from your native language (${language} to ${defaultLanguage}).` })
+  // const { defaultLanguage } = database.user
+  const definitions = {
+    freedict: false,
+    glosbeWords: false,
+    glosbeTranslate: false
   }
 
-  if (!database.dicts[defaultLanguage].includes(language)) {
-    return res.status(404).json({ message: `Augusto don't support this dictionary yet (${language} to ${defaultLanguage}).` })
+  definitions.freedict = await dictionaryEntries(language, text)
+  if (!definitions.freedict) {
+    definitions.glosbeWords = await glosbeWords(language, text)
+    if (!definitions.glosbeWords) {
+      definitions.glosbeTranslate = await glosbeTranslate(language, text)
+    }
   }
 
-  return res.status(200).json({ ...definitions })
+  // i dont think i gonna use it again, but...
+  // if (defaultLanguage === language) {
+  //   return res.status(404).json({ message: `You're trying to translate from your native language (${language} to ${defaultLanguage}).` })
+  // }
+
+  // if (!database.dicts[defaultLanguage].includes(language)) {
+  //   return res.status(404).json({ message: `Augusto don't support this dictionary yet (${language} to ${defaultLanguage}).` })
+  // }
+
+  if (!definitions.freedict && !definitions.glosbeWords && !definitions.glosbeTranslate) {
+    return res.status(404).json({ message: "We couldn't found some definitions or translations for this. 🥺" })
+  } else return res.status(200).json({ ...definitions })
 })
 
 app.post('/progress', async (req, res) => {

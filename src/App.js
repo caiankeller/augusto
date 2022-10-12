@@ -22,9 +22,9 @@ const Container = styled.div`
   width: 100%;
   min-height: 100vh;
   height: auto;
-  background: linear-gradient(90deg, #141414 21px, transparent 1%) center,
-    linear-gradient(#141414 21px, transparent 1%) center, #c6c6c6;
-  background-size: 22px 22px;
+  background: linear-gradient(90deg, #141414 28px, transparent 1%) center,
+    linear-gradient(#141414 28px, transparent 1%) center, #c6c6c6;
+  background-size: 29px 29px;
   user-select: none;
   padding: 1rem;
 `
