@@ -23,8 +23,18 @@ const database = {
     this.library = this.library.filter((book) => book.id !== id)
     this.updateFile()
   },
+  addDictionary (dictionary) {
+    if (this.dictionaries[dictionary.language]) {
+      this.dictionaries = { ...this.dictionaries, [dictionary.language]: [...this.dictionaries[dictionary.language], { ...dictionary }] }
+    } else this.dictionaries = { ...this.dictionaries, [dictionary.language]: [{ ...dictionary }] } // i wanted to make it different, cooler, but webpack >:C
+    this.updateFile()
+  },
   getAll () {
-    return { user: this.user, library: [...this.library] }
+    return { user: this.user, library: [...this.library], dictionaries: this.dictionaries }
+  },
+  changeUserDefaultLanguage (language) {
+    this.user = { ...this.user, defaultLanguage: language }
+    this.updateFile()
   },
   getOne (id) {
     return this.library.find((book) => book.id === id)

@@ -30,7 +30,7 @@ export default function Home () {
 
   return (
     <>
-      <Header />
+      <Header defaultLanguage={augusto.user.defaultLanguage} />
       <Text h1 color="warning">
         Welcome back!
       </Text>

@@ -20,7 +20,7 @@ const createWindow = () => {
 
   const display = screen.getPrimaryDisplay().workAreaSize.height
   const height = display < 900 ? display - 20 : 900
-  const width = display < 900 ? 400 : 500
+  const width = 700
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width,

@@ -5,10 +5,11 @@ export const AugustoContext = createContext()
 const initialState = {
   reading: undefined,
   user: {},
-  library: []
+  library: [],
+  dictionaries: {}
 }
 
-function Augusto (state, action) {
+const Augusto = (state, action) => {
   switch (action.type) {
     case 'SET_READING':
       return { ...state, reading: action.playload }
@@ -16,7 +17,8 @@ function Augusto (state, action) {
       return {
         ...state,
         user: action.playload.user,
-        library: action.playload.library
+        library: action.playload.library,
+        dictionaries: action.playload.dictionaries
       }
     case 'ADD_BOOK':
       return { ...state, library: [...state.library, action.playload] }
@@ -47,13 +49,18 @@ function Augusto (state, action) {
           return book
         })
       }
+    case 'UPDATE_USER_LANGUAGE':
+      return {
+        ...state,
+        user: { defaultLanguage: action.playload }
+      }
     default:
       return state
   }
 }
 
 // eslint-disable-next-line react/prop-types
-export function AugustoProvider ({ children }) {
+export function AugustoProvider({ children }) {
   const [augusto, dispatch] = useReducer(Augusto, initialState)
 
   return (

@@ -8,6 +8,10 @@ const path = require('path')
 const os = require('os')
 const lengthenLanguage = require('./utils/lengthenLanguage')
 const { glosbeWords, glosbeTranslate } = require('./glosbe')
+const axios = require('axios')
+const fs = require('fs')
+const https = require('https')
+const convertBytes = require('./utils/convertBytes')
 
 const augustoFolder = path.join(os.homedir(), 'Documents', 'AugustoTest')
 
@@ -37,9 +41,7 @@ app.post('/book', upload.single('file'), async (req, res) => {
     // return exemple: [{"lang": "en", "prob": "0.3232"}, "lang": "fr", "prob": "0.45345"}]
     const language = {}
     language.short = langDetect.detect(req.file.originalname)?.[0].lang
-    console.log(language)
     language.long = lengthenLanguage(language.short)
-    console.log(language)
 
     const title = req.title.substring(0, req.title.lastIndexOf('.'))
     const book = await database.save(title, language)
@@ -83,9 +85,24 @@ app.get('/read/:id', (req, res) => {
   })
 })
 
-app.patch('/language/:id/:language', async (req, res) => {
-  database.patchLanguage(req.params.id, req.params.language)
-  return res.status(200).json({ message: 'Language updated.' })
+app.patch('/language/:language', async (req, res) => {
+  try {
+    const { language } = req.params
+    database.changeUserDefaultLanguage(language)
+    res.status(200).json({ message: 'Langauge updated.' })
+  } catch (errpr) {
+    res.status(400).json({ message: 'Some error happened.' })
+  }
+})
+
+app.patch('/bookLanguage/:id/:language', async (req, res) => {
+  try {
+    const { id, language } = req.params
+    database.patchLanguage(id, language)
+    return res.status(200).json({ message: 'Language updated.' })
+  } catch (error) {
+    return res.status(400).json({ message: 'We couldn\'t update this book\'s language.' })
+  }
 })
 
 app.get('/translate/:text/:language', async (req, res) => {
@@ -97,6 +114,7 @@ app.get('/translate/:text/:language', async (req, res) => {
     glosbeTranslate: false
   }
 
+  // that's bad
   definitions.freedict = await dictionaryEntries(language, text)
   if (!definitions.freedict) {
     definitions.glosbeWords = await glosbeWords(language, text)
@@ -105,7 +123,7 @@ app.get('/translate/:text/:language', async (req, res) => {
     }
   }
 
-  // i dont think i gonna use it again, but...
+  // i dont think i'll use this again, but...
   // if (defaultLanguage === language) {
   //   return res.status(404).json({ message: `You're trying to translate from your native language (${language} to ${defaultLanguage}).` })
   // }
@@ -119,10 +137,46 @@ app.get('/translate/:text/:language', async (req, res) => {
   } else return res.status(200).json({ ...definitions })
 })
 
+// TOOD: create a separate file to lead with dictionaries
+app.get('/dictionaries/:language', async (req, res) => {
+  const { language } = req.params
+  const url = encodeURI('https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/dictionaries.json') // dicitionaries file
+
+  axios(url).then(response => {
+    if (response.data[language]) res.json(response.data[language])
+    else res.status(404).json({ message: 'Sorry, We couldn\'t found any dictionary for this language.' })
+  })
+})
+
+app.post('/download/', async (req, res) => {
+  try {
+    const dictionary = req.body.path
+    const dictsFolder = path.join(os.homedir(), 'Documents', 'AugustoTest', 'dictionaries')
+    const url = encodeURI(`https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/${dictionary}`)
+    const dictionaryToSave = {}
+    https.get(url, (response) => {
+      const where = `${dictsFolder}/${dictionary}`
+      const filePath = fs.createWriteStream(where)
+      response.pipe(filePath)
+      filePath.on('finish', () => {
+        dictionaryToSave.size = convertBytes(filePath.bytesWritten)
+        dictionaryToSave.path = dictionary.slice(0, dictionary.lastIndexOf('.'))
+        dictionaryToSave.language = dictionaryToSave.path.split('-')[1]
+        dictionaryToSave.from = dictionaryToSave.path.split('-')[0]
+        filePath.close()
+        database.addDictionary(dictionaryToSave)
+        return res.status(200)
+      })
+    })
+  } catch (error) {
+    return res.status(500)
+  }
+})
+
 app.post('/progress', async (req, res) => {
   const { id, progress } = req.body
   database.updateProgress(id, progress)
-  res.status(200).json({ message: 'Everything went right' })
+  res.status(200).json({ message: 'Everything went right.' })
 })
 
 app.listen(port, () => {

@@ -1,9 +1,24 @@
-import React, { useState } from 'react'
+/* eslint-disable react/prop-types */
+import React, { useState, useContext } from 'react'
 import { Button, Row, Text, Modal } from '@nextui-org/react'
+import Dictionaries from './Dictionaries'
 import { FiSettings } from 'react-icons/fi'
+import axios from 'axios'
+import { AugustoContext } from '../Augusto'
 
-export default function Header () {
+export default function Header ({ defaultLanguage }) {
+  const { dispatch } = useContext(AugustoContext)
   const [visible, setVisible] = useState(false)
+
+  const changeUserDefaultLanguage = async (language) => {
+    axios.patch(`http://localhost:2001/language/${language}`).then(() => {
+      dispatch({ type: 'UPDATE_USER_LANGUAGE', playload: language })
+    })
+  }
+
+  const languageOptions = [
+    'english', 'portuguese', 'spanish', 'french', 'italian', 'dutch', 'german'
+  ]
 
   return (
     <>
@@ -28,17 +43,26 @@ export default function Header () {
       >
         <Modal.Header>
           <Row justify="flex-start">
-            <Text h4 color="#E8E8E8">
+            <Text h3 color="#E8E8E8">
               Settings
             </Text>
           </Row>
         </Modal.Header>
         <Modal.Body autoMargin>
-          <Text h5 color="warning">
-            This area still on work
-          </Text>
+          <Row justify="space-between">
+            <div style={{ width: '100%' }}>
+              <Text h4 color="warning">Language ({defaultLanguage})</Text>
+              <Dictionaries />
+            </div>
+            <Button.Group color="warning" vertical size='sm'>
+              {languageOptions.map(language =>
+                <Button key={language} disabled={language === defaultLanguage}
+                  onPress={() => changeUserDefaultLanguage(language)} css={{ color: '#161616' }}>{language}</Button>
+              )}
+            </Button.Group>
+          </Row>
         </Modal.Body>
-      </Modal>
+      </Modal >
     </>
   )
 }

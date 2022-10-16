@@ -30,7 +30,6 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
         })
       })
       .catch(({ response }) => {
-        console.log(response.data)
         setResponse({
           status: false,
           message: response.data.message
@@ -58,6 +57,7 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
         right: 0,
         bottom: '0'
       }}
+      isPressable
     >
       <Card.Header css={{ paddingBottom: 0 }}>
         <Row justify="space-between" align="center">

@@ -29,7 +29,7 @@ const dictionaryEntries = (language, word) => {
   if (definitions.length) return definitions; else return false
 }
 
-function deepSearch (dictionary, string) {
+const deepSearch = (dictionary, string) => {
   let result; let word = string; let i = 0
 
   while (i < word.length / 2) {
@@ -40,7 +40,7 @@ function deepSearch (dictionary, string) {
   return result
 }
 
-function search (dictionary, string) {
+const search = (dictionary, string) => {
   let word = string; let i = 0; let result
 
   while (i < word.length / 2) {
@@ -52,6 +52,7 @@ function search (dictionary, string) {
   return result
 }
 
+// this code is not ready to go, thins have changed
 // function accentReadySearch (dictionary, string) {
 //   function cleanText (string) { // it removes the apostrophe and other accents
 //     return string.slice(string.indexOf("'") + 1).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
