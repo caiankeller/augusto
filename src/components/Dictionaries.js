@@ -15,8 +15,14 @@ export default function dictionaries () {
   const [addDictionatyVisible, setAddDictionaryVisible] = useState(false)
   const { augusto, dispatch } = useContext(AugustoContext)
 
-  const deleteBook = (toLanguage, fromLanguage) => {
-    dispatch({ type: 'DELETE_BOOK', payload: { toLanguage, fromLanguage } })
+  const deleteBook = (toLanguage, index) => {
+    dispatch({
+      type: 'DELETE_DICTIONARY',
+      payload: {
+        toLanguage,
+        index
+      }
+    })
   }
 
   const closeAddDictionaryModal = () => {
@@ -34,18 +40,19 @@ export default function dictionaries () {
         <Card.Body
           css={{
             pt: 0,
-            h: '250px',
+            h: '400px',
             ov: 'scroll',
             '&::-webkit-scrollbar': { display: 'none' }
           }}
         >
-          {augusto.dictionaries[augusto.user.defaultLanguage]
+          {augusto.dictionaries[augusto.user.defaultLanguage] &&
+          augusto.dictionaries[augusto.user.defaultLanguage].length !== 0
             ? (
                 augusto.dictionaries[augusto.user.defaultLanguage].map(
-                  (dictionary) => {
+                  (dictionary, index) => {
                     return (
-                  <div key={dictionary.from}>
-                    <Card.Divider css={{ marginTop: '1rem' }} />
+                  <div key={index}>
+                    <Card.Divider css={{ mt: '1rem' }} />
                     <Row
                       justify="space-between"
                       wrap="wrap"
@@ -64,42 +71,42 @@ export default function dictionaries () {
                         </Text>
                       </Row>
                       <Row align="center" css={{ m: '0.5rem' }}>
-                        <FiHardDrive style={{ mr: '0.5rem' }} />
+                        <FiHardDrive style={{ marginRight: '0.5rem' }} />
                         <Text h6 css={{ m: 0 }}>
                           {dictionary.size}
                         </Text>
                       </Row>
-                      <Popover>
-                        <Popover.Trigger>
-                          <Button
-                            color="warning"
-                            size="sm"
-                            auto
-                            css={{ color: '#161616' }}
-                            iconRight={<FiUsers />}
-                          >
-                            Mainteners
-                          </Button>
-                        </Popover.Trigger>
-                        <Popover.Content css={{ bc: '#161616' }}>
-                          <Text h6 css={{ p: '1rem', color: '#efefef' }}>
-                            This dictionary has been maintened and supported by
-                            all these people:
-                          </Text>
-                        </Popover.Content>
-                      </Popover>
-                      <Button
-                        color="error"
-                        size="sm"
-                        auto
-                        css={{ color: '#161616' }}
-                        onPress={() =>
-                          deleteBook(dictionary.language, dictionary.from)
-                        }
-                        iconRight={<FiTrash />}
-                      >
-                        Delete dictionary
-                      </Button>
+                      <Row justify="space-between" css={{ gap: '1rem' }} wrap="wrap">
+                        <Popover>
+                          <Popover.Trigger>
+                            <Button
+                              color="warning"
+                              size="sm"
+                              auto
+                              css={{ color: '#161616' }}
+                              iconRight={<FiUsers />}
+                            >
+                              Mainteners
+                            </Button>
+                          </Popover.Trigger>
+                          <Popover.Content css={{ bc: '#161616' }}>
+                            <Text h6 css={{ p: '1rem', color: '#efefef' }}>
+                              This dictionary has been maintened and supported
+                              by all these people:
+                            </Text>
+                          </Popover.Content>
+                        </Popover>
+                        <Button
+                          color="error"
+                          size="sm"
+                          auto
+                          css={{ color: '#161616' }}
+                          onPress={() => deleteBook(dictionary.language, index)}
+                          iconRight={<FiTrash />}
+                        >
+                          Delete dictionary
+                        </Button>
+                      </Row>
                     </Row>
                   </div>
                     )
@@ -118,17 +125,17 @@ export default function dictionaries () {
           closeCallback={closeAddDictionaryModal}
           dictionaries={augusto.dictionaries}
         />
+        <Button
+          color="warning"
+          size="sm"
+          auto
+          css={{ color: '#161616', mt: '1rem' }}
+          onPress={() => setAddDictionaryVisible(true)}
+          iconRight={<FiPlus />}
+        >
+          Add Dictionary
+        </Button>
       </Card>
-      <Button
-        color="warning"
-        size="sm"
-        auto
-        css={{ color: '#161616', mt: '1rem' }}
-        onPress={() => setAddDictionaryVisible(true)}
-        iconRight={<FiPlus />}
-      >
-        Add Dictionary
-      </Button>
     </>
   )
 }

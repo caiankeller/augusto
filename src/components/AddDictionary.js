@@ -33,25 +33,30 @@ export default function AddDictionary ({
         type: 'ADD_DICTIONARY',
         payload: { language, dictionary: response.data.dictionary }
       })
+      setLoading(false)
     })
   }
 
   return (
-    <Modal closeButton open={visible} onClose={closeCallback}>
-      <Modal.Header>
+    <Modal closeButton open={visible} onClose={closeCallback} blur noPadding>
+      <Modal.Header css={{ px: '1rem' }}>
         <Row justify="flex-start">
           <Text h5 css={{ m: 0 }}>
             Download dictionaries ({language})
           </Text>
         </Row>
       </Modal.Header>
-      <Modal.Body autoMargin>
+      <Modal.Body css={{ p: '1rem' }}>
         {response &&
           (response.status
             ? (
                 response.dictionaries.map((dictionary) => (
-              <Row key={dictionary.language} justify="space-between">
-                <div>
+              <Row
+                key={dictionary.language}
+                justify="space-between"
+                align="center"
+              >
+                <div style={{ flexGrow: 1 }}>
                   <Text h6 transform="capitalize" css={{ m: 0 }}>
                     {dictionary.language}
                   </Text>
@@ -62,19 +67,19 @@ export default function AddDictionary ({
                 <Button
                   color="warning"
                   size="xs"
-                  auto
                   css={{ color: '#161616' }}
-                  iconRight={<FiDownload />}
+                  disabled={loading}
+                  auto
                   onPress={() => addDictionary(dictionary.path)}
                 >
                   {loading
                     ? (
-                    <Loading type="spinner" size="xs" color="currentColor">
-                      Downloading
-                    </Loading>
+                    <Loading type="spinner" size="sm" color="currentColor" />
                       )
                     : (
-                        'Download'
+                    <>
+                      Download <FiDownload style={{ marginLeft: '0.5rem' }} />
+                    </>
                       )}
                 </Button>
               </Row>

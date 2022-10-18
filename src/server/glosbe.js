@@ -3,10 +3,9 @@ const shortenLanguage = require('./utils/shortenLanguage')
 const axios = require('axios')
 const cheerio = require('cheerio')
 
-const defaultLanguage = shortenLanguage(database.user.defaultLanguage)
-
 const glosbeWords = async (language, word) => {
   return new Promise((resolve) => {
+    const defaultLanguage = shortenLanguage(database.user.defaultLanguage)
     const url = encodeURI(
       `https://glosbe.com/${language}/${defaultLanguage}/${word.toLowerCase()}`
     )
@@ -30,6 +29,7 @@ const glosbeWords = async (language, word) => {
 
 const glosbeTranslate = async (language, text) => {
   return new Promise((resolve) => {
+    const defaultLanguage = shortenLanguage(database.user.defaultLanguage)
     const url = encodeURI(
       `https://translate.glosbe.com/${language}-${defaultLanguage}/${text.trim()}`
     )

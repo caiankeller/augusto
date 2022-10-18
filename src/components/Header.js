@@ -42,30 +42,34 @@ export default function Header ({ defaultLanguage }) {
       </Row>
       <Modal
         closeButton
+        blur
+        noPadding
         open={visible}
         onClose={() => setVisible(false)}
-        fullScreen
         css={{ bc: '#161616' }}
+        width="90%"
       >
-        <Modal.Header>
+        <Modal.Header css={{ px: '1rem' }}>
           <Row justify="flex-start">
-            <Text h3 color="#E8E8E8">
+            <Text h3 color="#E8E8E8" css={{ m: 0 }}>
               Settings
             </Text>
           </Row>
         </Modal.Header>
-        <Modal.Body autoMargin>
-          <Row
-            justify="space-between"
-            style={{ width: '100%', maxWidth: '700px' }}
-          >
-            <div style={{ width: '100%', maxWidth: '700px' }}>
-              <Text h4 color="warning">
-                Language ({defaultLanguage})
-              </Text>
-              <Dictionaries />
-            </div>
-            <Button.Group color="warning" vertical size="sm">
+        <Modal.Body css={{ p: '1rem' }}>
+          <Row justify="space-between">
+            <Text h4 color="warning" css={{ m: 0 }}>
+              Language ({defaultLanguage})
+            </Text>
+          </Row>
+          <Row>
+            <Dictionaries />
+            <Button.Group
+              color="warning"
+              vertical
+              size="sm"
+              css={{ m: '0 0 0 1rem' }}
+            >
               {languageOptions.map((language) => (
                 <Button
                   key={language}
