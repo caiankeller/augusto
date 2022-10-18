@@ -10,14 +10,14 @@ export default function Book ({ book }) {
   const { dispatch } = useContext(AugustoContext)
 
   const deleteBook = () => {
-    axios.delete(`http://localhost:2001/delete/${book.id}`)
-      .then(() => {
-        dispatch({ type: 'DELETE_BOOK', payload: book.id })
-      })
+    axios.delete(`http://localhost:2001/delete/${book.id}`).then(() => {
+      dispatch({ type: 'DELETE_BOOK', payload: book.id })
+    })
   }
 
   const editBook = () => {
-    axios.patch(`http://localhost:2001/language/${book.id}/portuguese`)
+    axios
+      .patch(`http://localhost:2001/language/${book.id}/portuguese`)
       .then(() => {
         dispatch({
           type: 'EDIT_BOOK',
@@ -30,21 +30,34 @@ export default function Book ({ book }) {
     <Container>
       <Card isPressable css={{ backgroundColor: '#efefef', color: '#161616' }}>
         <Card.Header>
-          <Text b h5 css={{ m: 0 }}> {book.title} </Text>
+          <Text b h5 css={{ m: 0 }}>
+            {' '}
+            {book.title}{' '}
+          </Text>
         </Card.Header>
         <Card.Body css={{ py: '0.5rem' }}>
           <Row justify="space-between" align="center">
             <Row wrap="nowrap">
-              <Text i h6> Detected language {book.language.long} </Text>
+              <Text i h6>
+                {' '}
+                Detected language {book.language.long}{' '}
+              </Text>
             </Row>
             <Row justify="end" css={{ flex: 1 }}>
               <Dropdown placement="right">
-                <Dropdown.Button color="warning" size="sm" css={{ color: '#161616' }}>
+                <Dropdown.Button
+                  color="warning"
+                  size="sm"
+                  css={{ color: '#161616' }}
+                >
                   Book
                 </Dropdown.Button>
-                <Dropdown.Menu disabledKeys={['edit']} css={{ bc: '#efefef', border: '1px solid #161616' }}
+                <Dropdown.Menu
+                  disabledKeys={['edit']}
+                  css={{ bc: '#efefef', border: '1px solid #161616' }}
                   onAction={(type) => {
-                    type === 'open' && dispatch({ type: 'SET_READING', payload: book })
+                    type === 'open' &&
+                      dispatch({ type: 'SET_READING', payload: book })
                     type === 'edit' && editBook()
                     type === 'delete' && deleteBook()
                   }}
@@ -65,7 +78,10 @@ export default function Book ({ book }) {
         </Card.Body>
         <Row>
           <ProgressBar percentage={book.read.percentage}>
-            <Text h6 css={{ m: '0 1rem 0 0', zIndex: 1 }}> {book.read.percentage}% read </Text>
+            <Text h6 css={{ m: '0 1rem 0 0', zIndex: 1 }}>
+              {' '}
+              {book.read.percentage}% read{' '}
+            </Text>
           </ProgressBar>
         </Row>
       </Card>
@@ -82,7 +98,7 @@ const ProgressBar = styled.div`
   position: relative;
   text-align: right;
   &:after {
-    content: "";
+    content: '';
     border-radius: 7px 7px 0 0;
     position: absolute;
     top: 0;

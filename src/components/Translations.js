@@ -22,7 +22,9 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
   const translate = async () => {
     setLoading(true)
     await axios
-      .get(`http://localhost:2001/translate/${toTranslate}/${language}`, { signal: controller.signal })
+      .get(`http://localhost:2001/translate/${toTranslate}/${language}`, {
+        signal: controller.signal
+      })
       .then((response) => {
         setResponse({
           ...response.data,
@@ -44,7 +46,7 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
     if (toTranslate.trim() === '') return
     translate()
     // eslint-disable-next-line
-  }, [toTranslate]);
+  }, [toTranslate])
 
   return (
     <Card
@@ -61,8 +63,19 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
     >
       <Card.Header css={{ pb: 0 }}>
         <Row justify="space-between" align="center">
-          <Row align="center"><FiArrowLeft style={{ mr: '0.5rem' }} /><Text h6 css={{ m: 0 }}>{toTranslate} </Text></Row>
-          <Button size="xs" color="error" auto css={{ color: '#161616' }} onPress={cancelRequest}>
+          <Row align="center">
+            <FiArrowLeft style={{ mr: '0.5rem' }} />
+            <Text h6 css={{ m: 0 }}>
+              {toTranslate}{' '}
+            </Text>
+          </Row>
+          <Button
+            size="xs"
+            color="error"
+            auto
+            css={{ color: '#161616' }}
+            onPress={cancelRequest}
+          >
             <FiArrowDownCircle />
           </Button>
         </Row>
@@ -75,16 +88,24 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
           }
         }}
       >
-        {loading && <Loading size="sm" type="points-opacity" color="currentColor">Fetching</Loading>}
+        {loading && (
+          <Loading size="sm" type="points-opacity" color="currentColor">
+            Fetching
+          </Loading>
+        )}
         {!loading && (
           <>
             {response.freedict && <Freedict translations={response.freedict} />}
-            {response.glosbeWords && <GlosbeWords translations={response.glosbeWords} />}
-            {response.glosbeTranslate && <GlosbeTranslate translation={response.glosbeTranslate} />}
+            {response.glosbeWords && (
+              <GlosbeWords translations={response.glosbeWords} />
+            )}
+            {response.glosbeTranslate && (
+              <GlosbeTranslate translation={response.glosbeTranslate} />
+            )}
             {!response.status && <Text h6>{response.message}</Text>}
           </>
         )}
       </Card.Body>
-    </Card >
+    </Card>
   )
 }

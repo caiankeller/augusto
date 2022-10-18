@@ -16,8 +16,15 @@ export default function Books ({ library, isLoading: loading }) {
         </Row>
           )
         : library.length === 0
-          ? (<Text b color="#efefef"> No books found. </Text>)
-          : (library.map((book) => <Book key={book.id} book={book} />))}
+          ? (
+        <Text b color="#efefef">
+          {' '}
+          No books found.{' '}
+        </Text>
+            )
+          : (
+              library.map((book) => <Book key={book.id} book={book} />)
+            )}
     </Container>
   )
 }

@@ -2,7 +2,12 @@ import React, { createContext, useReducer } from 'react'
 
 export const AugustoContext = createContext()
 
-const initialState = { reading: undefined, user: {}, library: [], dictionaries: {} }
+const initialState = {
+  reading: undefined,
+  user: {},
+  library: [],
+  dictionaries: {}
+}
 
 const Augusto = (state, action) => {
   const { payload, type } = action
@@ -53,7 +58,22 @@ const Augusto = (state, action) => {
     case 'ADD_DICTIONARY':
       return {
         ...state,
-        dictionaries: { ...state.dictionaries, [payload.language]: [...state.dictionaries?.[payload.language], { ...action.payload.dictionary }] }
+        dictionaries: {
+          ...state.dictionaries,
+          [payload.language]: [
+            ...state.dictionaries?.[payload.language],
+            { ...action.payload.dictionary }
+          ]
+        }
+      }
+    case 'DELETE_DICTIONARY':
+      return {
+        ...state,
+        dictionaries: {
+          [payload.toLanguage]: [payload.toLanguage].filter((dictionary) =>
+            console.log(dictionary)
+          )
+        }
       }
     default:
       return state

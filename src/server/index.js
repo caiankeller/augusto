@@ -101,13 +101,19 @@ app.patch('/bookLanguage/:id/:language', async (req, res) => {
     database.patchLanguage(id, language)
     return res.status(200).json({ message: 'Language updated.' })
   } catch (error) {
-    return res.status(400).json({ message: 'We couldn\'t update this book\'s language.' })
+    return res
+      .status(400)
+      .json({ message: "We couldn't update this book's language." })
   }
 })
 
 app.get('/translate/:text/:language', async (req, res) => {
   const { text, language } = req.params
-  const definitions = { freedict: false, glosbeWords: false, glosbeTranslate: false }
+  const definitions = {
+    freedict: false,
+    glosbeWords: false,
+    glosbeTranslate: false
+  }
   // const { defaultLanguage } = database.user
 
   // that's bad, just bad, need to be improved
@@ -128,27 +134,46 @@ app.get('/translate/:text/:language', async (req, res) => {
   //   return res.status(404).json({ message: `Augusto don't support this dictionary yet (${language} to ${defaultLanguage}).` })
   // }
 
-  if (!definitions.freedict && !definitions.glosbeWords && !definitions.glosbeTranslate) {
-    return res.status(404).json({ message: "We couldn't found some definitions or translations for this. 🥺" })
+  if (
+    !definitions.freedict &&
+    !definitions.glosbeWords &&
+    !definitions.glosbeTranslate
+  ) {
+    return res.status(404).json({
+      message: "We couldn't found some definitions or translations for this. 🥺"
+    })
   } else return res.status(200).json({ ...definitions })
 })
 
 // TOOD: create a separate file to lead with dictionaries
 app.get('/dictionaries/:language', async (req, res) => {
   const { language } = req.params
-  const url = encodeURI('https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/dictionaries.json') // dicitionaries file
+  const url = encodeURI(
+    'https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/dictionaries.json'
+  ) // dicitionaries file
 
-  axios(url).then(response => {
+  axios(url).then((response) => {
     if (response.data[language]) res.json(response.data[language])
-    else res.status(404).json({ message: 'Sorry, We couldn\'t found any dictionary for this language.' })
+    else {
+      res.status(404).json({
+        message: "Sorry, We couldn't found any dictionary for this language."
+      })
+    }
   })
 })
 
 app.post('/download/', async (req, res) => {
   try {
     const dictionary = req.body.path
-    const dictsFolder = path.join(os.homedir(), 'Documents', 'AugustoTest', 'dictionaries')
-    const url = encodeURI(`https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/${dictionary}`)
+    const dictsFolder = path.join(
+      os.homedir(),
+      'Documents',
+      'AugustoTest',
+      'dictionaries'
+    )
+    const url = encodeURI(
+      `https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/${dictionary}`
+    )
     const dictionaryToSave = {}
     https.get(url, (response) => {
       const where = `${dictsFolder}/${dictionary}`

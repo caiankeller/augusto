@@ -17,7 +17,13 @@ export default function Header ({ defaultLanguage }) {
   }
 
   const languageOptions = [
-    'english', 'portuguese', 'spanish', 'french', 'italian', 'dutch', 'german'
+    'english',
+    'portuguese',
+    'spanish',
+    'french',
+    'italian',
+    'dutch',
+    'german'
   ]
 
   return (
@@ -49,20 +55,31 @@ export default function Header ({ defaultLanguage }) {
           </Row>
         </Modal.Header>
         <Modal.Body autoMargin>
-          <Row justify="space-between" style={{ width: '100%', maxWidth: '700px' }}>
+          <Row
+            justify="space-between"
+            style={{ width: '100%', maxWidth: '700px' }}
+          >
             <div style={{ width: '100%', maxWidth: '700px' }}>
-              <Text h4 color="warning">Language ({defaultLanguage})</Text>
+              <Text h4 color="warning">
+                Language ({defaultLanguage})
+              </Text>
               <Dictionaries />
             </div>
-            <Button.Group color="warning" vertical size='sm'>
-              {languageOptions.map(language =>
-                <Button key={language} disabled={language === defaultLanguage}
-                  onPress={() => changeUserDefaultLanguage(language)} css={{ color: '#161616' }}>{language}</Button>
-              )}
+            <Button.Group color="warning" vertical size="sm">
+              {languageOptions.map((language) => (
+                <Button
+                  key={language}
+                  disabled={language === defaultLanguage}
+                  onPress={() => changeUserDefaultLanguage(language)}
+                  css={{ color: '#161616' }}
+                >
+                  {language}
+                </Button>
+              ))}
             </Button.Group>
           </Row>
         </Modal.Body>
-      </Modal >
+      </Modal>
     </>
   )
 }

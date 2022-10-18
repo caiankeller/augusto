@@ -20,22 +20,26 @@ export default function Reader ({ reading }) {
   const page = useRef()
   const currentUrl = window.location.pathname
 
-  const bookPath =
-    `http://localhost:2001/Reader.html?book=${reading.title}&origin=${currentUrl}&cfi=${reading.read.cfi}`
+  const bookPath = `http://localhost:2001/Reader.html?book=${reading.title}&origin=${currentUrl}&cfi=${reading.read.cfi}`
 
   const focus = () => iframe.current.focus()
-  useEffect(() => { focus() }, [])
+  useEffect(() => {
+    focus()
+  }, [])
 
   // updating current page into the ref page
-  useEffect(() => { page.current = pages }, [pages])
-  useEffect(() => { // sending the ref to state when it's unmounted
+  useEffect(() => {
+    page.current = pages
+  }, [pages])
+  useEffect(() => {
+    // sending the ref to state when it's unmounted
     return () =>
       dispatch({
         type: 'UPDATE_PROGRESS',
         payload: { book: reading, page: page.current }
       })
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   useEffect(() => {
     const handler = (e) => {
@@ -43,7 +47,10 @@ export default function Reader ({ reading }) {
       if (data.type === 'to_translate_word') {
         if (data.message.trim()) {
           // this mess let only the first character on uppercase
-          setToTranslate(data.message.trim().toLowerCase().charAt(0).toUpperCase() + data.message.slice(1))
+          setToTranslate(
+            data.message.trim().toLowerCase().charAt(0).toUpperCase() +
+              data.message.slice(1)
+          )
         }
       } else {
         axios
@@ -66,7 +73,7 @@ export default function Reader ({ reading }) {
     window.addEventListener('message', handler)
     return () => window.removeEventListener('message', handler)
     // eslint-disable-next-line
-  }, []);
+  }, [])
 
   const resetToTranslate = () => setToTranslate('')
 
@@ -74,10 +81,17 @@ export default function Reader ({ reading }) {
     <Container>
       <Button
         color="error"
-        css={{ ml: 'calc(100% - 1.7rem)', position: 'absolute', zIndex: 1, color: '#161616' }}
+        css={{
+          ml: 'calc(100% - 1.7rem)',
+          position: 'absolute',
+          zIndex: 1,
+          color: '#161616'
+        }}
         size="xs"
         auto
-        onPress={() => { dispatch({ type: 'SET_READING', payload: null }) }}
+        onPress={() => {
+          dispatch({ type: 'SET_READING', payload: null })
+        }}
       >
         <FiArrowLeft />
       </Button>
@@ -85,7 +99,11 @@ export default function Reader ({ reading }) {
         <Book src={bookPath} ref={iframe} onBlur={focus} />
       </Card>
       {toTranslate && (
-        <Translations toTranslate={toTranslate} language={reading.language.short} resetToTranslate={resetToTranslate} />
+        <Translations
+          toTranslate={toTranslate}
+          language={reading.language.short}
+          resetToTranslate={resetToTranslate}
+        />
       )}
     </Container>
   )

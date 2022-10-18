@@ -4,12 +4,5 @@
     "defaultLanguage": "english"
   },
   "library": [],
-  "dicts": {
-    "english": [
-      "dutch",
-      "french",
-      "portuguese",
-      "spanish"
-    ]
-  }
+  "dictionaries": {}
 }

@@ -10,7 +10,10 @@ const data = JSON.parse(fs.readFileSync(path.join(augustoFolder, 'data.json')))
 const database = {
   ...data,
   updateFile () {
-    fs.writeFileSync(path.join(augustoFolder, 'data.json'), JSON.stringify(this, null, 2))
+    fs.writeFileSync(
+      path.join(augustoFolder, 'data.json'),
+      JSON.stringify(this, null, 2)
+    )
   },
   save (title, language) {
     const id = uuidv4()
@@ -24,11 +27,21 @@ const database = {
     this.updateFile()
   },
   addDictionary (dictionary) {
-    this.dictionaries = { ...this.dictionaries, [dictionary.language]: [...this.dictionaries?.[dictionary.language], { ...dictionary }] } // cooler now
+    this.dictionaries = {
+      ...this.dictionaries,
+      [dictionary.language]: [
+        ...this.dictionaries?.[dictionary.language],
+        { ...dictionary }
+      ]
+    } // cooler now
     this.updateFile()
   },
   getAll () {
-    return { user: this.user, library: [...this.library], dictionaries: this.dictionaries }
+    return {
+      user: this.user,
+      library: [...this.library],
+      dictionaries: this.dictionaries
+    }
   },
   changeUserDefaultLanguage (language) {
     this.user = { ...this.user, defaultLanguage: language }

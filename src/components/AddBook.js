@@ -31,11 +31,21 @@ export default function AddBook () {
   // this just update the file name
   const convertFile = () => {
     let newTitle = ''
-    if (!filename) newTitle = file.current.files[0].name.slice(0, file.current.files[0].name.lastIndexOf('.'))
-    else newTitle = filename
+    if (!filename) {
+      newTitle = file.current.files[0].name.slice(
+        0,
+        file.current.files[0].name.lastIndexOf('.')
+      )
+    } else newTitle = filename
 
-    const blob = file.current.files[0].slice(0, file.current.files[0].size, 'application/epub+zip')
-    const newFile = new File([blob], `${newTitle}.epub`, { type: 'application/epub+zip' })
+    const blob = file.current.files[0].slice(
+      0,
+      file.current.files[0].size,
+      'application/epub+zip'
+    )
+    const newFile = new File([blob], `${newTitle}.epub`, {
+      type: 'application/epub+zip'
+    })
     return newFile
   }
 
@@ -100,7 +110,9 @@ export default function AddBook () {
               clearable
               css={{ mt: '1.5rem' }}
               labelPlaceholder={file.current.files[0].name}
-              onChange={(e) => { setFilename(e.target.value) }}
+              onChange={(e) => {
+                setFilename(e.target.value)
+              }}
               value={filename}
             />
           </Card.Header>
@@ -130,10 +142,10 @@ export default function AddBook () {
                 icon={
                   loading
                     ? (
-                      <Loading type="spinner" color="currentColor" />
+                    <Loading type="spinner" color="currentColor" />
                       )
                     : (
-                      <FiUploadCloud />
+                    <FiUploadCloud />
                       )
                 }
               >
