@@ -10,15 +10,22 @@ const lengthenLanguage = require('./utils/lengthenLanguage')
 const dictionaryEntries = (language, word) => {
   const string = word.toLowerCase()
   const { defaultLanguage } = database.user
-  console.log(defaultLanguage)
   const languageLengthened = lengthenLanguage(language)
   const dictionaryFileName = `${languageLengthened}-${defaultLanguage}.json`
-  const dictsFolder = path.join(os.homedir(), 'Documents', 'AugustoTest', 'dictionaries', dictionaryFileName)
+  const dictsFolder = path.join(
+    os.homedir(),
+    'Documents',
+    'AugustoTest',
+    'dictionaries',
+    dictionaryFileName
+  )
 
   let dictionary
   try {
     dictionary = fs.readFileSync(dictsFolder)
-  } catch (error) { return }
+  } catch (error) {
+    return
+  }
   dictionary = JSON.parse(dictionary.toString())
 
   const definitions = []
@@ -29,11 +36,14 @@ const dictionaryEntries = (language, word) => {
     if (deepSearchResults) definitions.push(deepSearchResults)
   }
 
-  if (definitions.length) return definitions; else return false
+  if (definitions.length) return definitions
+  else return false
 }
 
 const deepSearch = (dictionary, string) => {
-  let result; let word = string; let i = 0
+  let result
+  let word = string
+  let i = 0
 
   while (i < word.length / 2) {
     word = word.slice(0, word.length - i++) // removing a letter from the end of the string
@@ -44,12 +54,15 @@ const deepSearch = (dictionary, string) => {
 }
 
 const search = (dictionary, string) => {
-  let word = string; let i = 0; let result
+  let word = string
+  let i = 0
+  let result
 
   while (i < word.length / 2) {
     word = word.slice(0, word.length - i++) // removing a letter from the end of the string
     if (!dictionary[word]) continue
-    else result = dictionary[word]; break
+    else result = dictionary[word]
+    break
   }
 
   return result
