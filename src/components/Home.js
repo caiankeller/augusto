@@ -16,7 +16,7 @@ export default function Home () {
       await axios
         .get('http://localhost:2001/books')
         .then(({ data }) => {
-          dispatch({ type: 'SET_APP', playload: data })
+          dispatch({ type: 'SET_APP', payload: data })
         })
         .then(() => {
           setLoading(false)
@@ -36,23 +36,23 @@ export default function Home () {
       </Text>
       <AddBook />
       <Divider css={{ marginTop: '1rem', backgroundColor: '#efefef' }} />
-      <Text h3 color="warning" css={{ margin: 0 }}>
+      <Text h3 color="warning" css={{ m: 0 }}>
         Books
       </Text>
       <Books library={augusto.library} isLoading={loading} />
       <Card
         isPressable
         css={{
-          backgroundColor: '#efefef',
-          marginTop: 'auto'
+          bc: '#efefef',
+          mt: 'auto'
         }}
       >
         <Card.Footer>
           <Row wrap="wrap">
-            <Text h6 css={{ margin: 0, width: '100%' }}>
+            <Text h6 css={{ m: 0, w: '100%' }}>
               `Minha pátria é a língua portuguesa [...].`
             </Text>
-            <Text h6 i css={{ margin: 0, opacity: 0.8 }}>
+            <Text h6 i css={{ m: 0, opacity: 0.8 }}>
               Fernando Pessoa.
             </Text>
           </Row>

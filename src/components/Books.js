@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from 'react'
 import { Text, Loading, Row } from '@nextui-org/react'
 import styled from 'styled-components'
@@ -15,14 +16,8 @@ export default function Books ({ library, isLoading: loading }) {
         </Row>
           )
         : library.length === 0
-          ? (
-        <Text b color="#efefef">
-          No books found.
-        </Text>
-            )
-          : (
-              library.map((book) => <Book key={book.id} book={book} />)
-            )}
+          ? (<Text b color="#efefef"> No books found. </Text>)
+          : (library.map((book) => <Book key={book.id} book={book} />))}
     </Container>
   )
 }
@@ -33,4 +28,14 @@ const Container = styled.ul`
   padding: 0;
   margin: 1rem 0;
   border-radius: 10px;
+
+  @media screen and (min-width: 700px) {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    li {
+      flex-grow: 1;
+    }
+  }
 `

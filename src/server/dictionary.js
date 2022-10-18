@@ -1,6 +1,7 @@
 const database = require('./database')
 const fs = require('fs')
 const path = require('path')
+const os = require('os')
 const lengthenLanguage = require('./utils/lengthenLanguage')
 
 // this not gonna work in bigger dictionaries files, need be improved
@@ -9,12 +10,14 @@ const lengthenLanguage = require('./utils/lengthenLanguage')
 const dictionaryEntries = (language, word) => {
   const string = word.toLowerCase()
   const { defaultLanguage } = database.user
+  console.log(defaultLanguage)
   const languageLengthened = lengthenLanguage(language)
   const dictionaryFileName = `${languageLengthened}-${defaultLanguage}.json`
+  const dictsFolder = path.join(os.homedir(), 'Documents', 'AugustoTest', 'dictionaries', dictionaryFileName)
 
   let dictionary
   try {
-    dictionary = fs.readFileSync(path.join(__dirname, 'dicts', dictionaryFileName))
+    dictionary = fs.readFileSync(dictsFolder)
   } catch (error) { return }
   dictionary = JSON.parse(dictionary.toString())
 

@@ -24,9 +24,7 @@ const database = {
     this.updateFile()
   },
   addDictionary (dictionary) {
-    if (this.dictionaries[dictionary.language]) {
-      this.dictionaries = { ...this.dictionaries, [dictionary.language]: [...this.dictionaries[dictionary.language], { ...dictionary }] }
-    } else this.dictionaries = { ...this.dictionaries, [dictionary.language]: [{ ...dictionary }] } // i wanted to make it different, cooler, but webpack >:C
+    this.dictionaries = { ...this.dictionaries, [dictionary.language]: [...this.dictionaries?.[dictionary.language], { ...dictionary }] } // cooler now
     this.updateFile()
   },
   getAll () {

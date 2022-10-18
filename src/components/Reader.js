@@ -32,7 +32,7 @@ export default function Reader ({ reading }) {
     return () =>
       dispatch({
         type: 'UPDATE_PROGRESS',
-        playload: { book: reading, page: page.current }
+        payload: { book: reading, page: page.current }
       })
     // eslint-disable-next-line
   }, []);
@@ -74,14 +74,14 @@ export default function Reader ({ reading }) {
     <Container>
       <Button
         color="error"
-        css={{ marginLeft: 'calc(100% - 1.7rem)', position: 'absolute', zIndex: 1, color: '#161616' }}
+        css={{ ml: 'calc(100% - 1.7rem)', position: 'absolute', zIndex: 1, color: '#161616' }}
         size="xs"
         auto
-        onPress={() => { dispatch({ type: 'SET_READING', playload: null }) }}
+        onPress={() => { dispatch({ type: 'SET_READING', payload: null }) }}
       >
         <FiArrowLeft />
       </Button>
-      <Card css={{ backgroundColor: '#efefef', height: '100%', margin: '0.5rem 0 0.5rem 0' }}>
+      <Card css={{ bc: '#efefef', h: '100%', m: '0.5rem 0 0.5rem 0' }}>
         <Book src={bookPath} ref={iframe} onBlur={focus} />
       </Card>
       {toTranslate && (

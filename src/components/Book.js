@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Card, Dropdown, Row, Text } from '@nextui-org/react'
 import axios from 'axios'
 import React, { useContext } from 'react'
@@ -5,45 +6,45 @@ import { FiBookOpen, FiEdit, FiTrash2 } from 'react-icons/fi'
 import styled from 'styled-components'
 import { AugustoContext } from '../Augusto'
 
-export default function Book({ book }) {
+export default function Book ({ book }) {
   const { dispatch } = useContext(AugustoContext)
 
   const deleteBook = () => {
-    axios.delete(`http://localhost:2001/delete/${book.id}`).then(() => {
-      dispatch({ type: 'DELETE_BOOK', playload: book.id })
-    })
+    axios.delete(`http://localhost:2001/delete/${book.id}`)
+      .then(() => {
+        dispatch({ type: 'DELETE_BOOK', payload: book.id })
+      })
   }
 
   const editBook = () => {
-    axios
-      .patch(`http://localhost:2001/language/${book.id}/portuguese`)
+    axios.patch(`http://localhost:2001/language/${book.id}/portuguese`)
       .then(() => {
         dispatch({
           type: 'EDIT_BOOK',
-          playload: { book, language: '{language}' }
+          payload: { book, language: '{language}' }
         })
       })
   }
 
   return (
     <Container>
-      <Card isPressable css={{ backgroundColor: '#efefef', color: '#161616', marginTop: '0.5rem' }}>
+      <Card isPressable css={{ backgroundColor: '#efefef', color: '#161616' }}>
         <Card.Header>
-          <Text b h5 css={{ margin: 0 }}> {book.title} </Text>
+          <Text b h5 css={{ m: 0 }}> {book.title} </Text>
         </Card.Header>
-        <Card.Body css={{ paddingTop: '0.5rem', paddingBottom: '0.5rem' }}>
+        <Card.Body css={{ py: '0.5rem' }}>
           <Row justify="space-between" align="center">
-            <Row>
+            <Row wrap="nowrap">
               <Text i h6> Detected language {book.language.long} </Text>
             </Row>
-            <Row justify="end">
+            <Row justify="end" css={{ flex: 1 }}>
               <Dropdown placement="right">
                 <Dropdown.Button color="warning" size="sm" css={{ color: '#161616' }}>
                   Book
                 </Dropdown.Button>
-                <Dropdown.Menu disabledKeys={['edit']} css={{ background: '#efefef', border: '1px solid #161616' }}
+                <Dropdown.Menu disabledKeys={['edit']} css={{ bc: '#efefef', border: '1px solid #161616' }}
                   onAction={(type) => {
-                    type === 'open' && dispatch({ type: 'SET_READING', playload: book })
+                    type === 'open' && dispatch({ type: 'SET_READING', payload: book })
                     type === 'edit' && editBook()
                     type === 'delete' && deleteBook()
                   }}
@@ -64,7 +65,7 @@ export default function Book({ book }) {
         </Card.Body>
         <Row>
           <ProgressBar percentage={book.read.percentage}>
-            <Text h6 css={{ margin: '0 1rem 0 0', zIndex: 1 }}> {book.read.percentage}% read </Text>
+            <Text h6 css={{ m: '0 1rem 0 0', zIndex: 1 }}> {book.read.percentage}% read </Text>
           </ProgressBar>
         </Row>
       </Card>
@@ -72,12 +73,7 @@ export default function Book({ book }) {
   )
 }
 
-const Container = styled.li`
-  margin-bottom: 1rem;
-  &:last-child {
-    margin-bottom: 0;
-  }
-`
+const Container = styled.li``
 
 const ProgressBar = styled.div`
   display: flex;

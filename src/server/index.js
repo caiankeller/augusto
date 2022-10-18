@@ -107,14 +107,10 @@ app.patch('/bookLanguage/:id/:language', async (req, res) => {
 
 app.get('/translate/:text/:language', async (req, res) => {
   const { text, language } = req.params
+  const definitions = { freedict: false, glosbeWords: false, glosbeTranslate: false }
   // const { defaultLanguage } = database.user
-  const definitions = {
-    freedict: false,
-    glosbeWords: false,
-    glosbeTranslate: false
-  }
 
-  // that's bad
+  // that's bad, just bad, need to be improved
   definitions.freedict = await dictionaryEntries(language, text)
   if (!definitions.freedict) {
     definitions.glosbeWords = await glosbeWords(language, text)
@@ -165,11 +161,11 @@ app.post('/download/', async (req, res) => {
         dictionaryToSave.from = dictionaryToSave.path.split('-')[0]
         filePath.close()
         database.addDictionary(dictionaryToSave)
-        return res.status(200)
+        return res.status(200).json({ dictionary: dictionaryToSave })
       })
     })
   } catch (error) {
-    return res.status(500)
+    return res.status(500).send()
   }
 })
 

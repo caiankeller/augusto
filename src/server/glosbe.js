@@ -17,7 +17,7 @@ const glosbeWords = async (language, word) => {
       content = content.filter((translation) => translation.length > 0)
 
       if (content.length) resolve(content)
-      else throw Error('Just being a little silly 😎') // ok, i really thing that's funnier than writting an actually error message
+      else throw Error('Just being a little silly 😎') // ok, i did it because i don't think it matters
     }).catch(() => { resolve(false) })
   })
 }

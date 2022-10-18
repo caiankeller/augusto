@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { Modal, Text, Row, Button, Loading } from '@nextui-org/react'
 import { FiDownload } from 'react-icons/fi'
+import { AugustoContext } from '../Augusto'
 import axios from 'axios'
 
 export default function AddDictionary ({ visible, closeCallback, language, dictionaries }) {
   const [response, setResponse] = useState()
   const [loading, setLoading] = useState(false)
+  const { dispatch } = useContext(AugustoContext)
 
   useEffect(() => {
     axios.get(`http://localhost:2001/dictionaries/${language}`).then(response => {
@@ -18,7 +20,10 @@ export default function AddDictionary ({ visible, closeCallback, language, dicti
 
   const addDictionary = (path) => {
     setLoading(true)
-    axios.post('http://localhost:2001/download', { path }).then().catch().then(setLoading(false))
+    axios.post('http://localhost:2001/download', { path }).then((response) => {
+      console.log(response)
+      dispatch({ type: 'ADD_DICTIONARY', payload: { language, dictionary: response.data.dictionary } })
+    })
   }
 
   return (
@@ -38,10 +43,12 @@ export default function AddDictionary ({ visible, closeCallback, language, dicti
                   <Text h6 css={{ opacity: 0.8, m: 0 }}>{dictionary.length} entries</Text>
                 </div>
                 <Button color="warning" size="xs" auto css={{ color: '#161616' }} iconRight={<FiDownload />}
-                  onPress={() => addDictionary(dictionary.path)}
-                >{loading
-                  ? <Loading type="spinner" size="xs" color="currentColor">Downloading</Loading>
-                  : 'Download'}</Button></Row>
+                  onPress={() => addDictionary(dictionary.path)}>
+                  {loading
+                    ? <Loading type="spinner" size="xs" color="currentColor">Downloading</Loading>
+                    : 'Download'}
+                </Button>
+              </Row>
               )
             )
           : <Text h6 css={{ m: 0 }}>{response.message}</Text>)}

@@ -5,7 +5,7 @@ import { FiTrash2, FiUploadCloud } from 'react-icons/fi'
 import styled from 'styled-components'
 import axios from 'axios'
 
-export default function AddBook() {
+export default function AddBook () {
   const { dispatch } = useContext(AugustoContext)
   const [filename, setFilename] = useState('')
   const [loading, setLoading] = useState(false)
@@ -30,10 +30,10 @@ export default function AddBook() {
 
   // this just update the file name
   const convertFile = () => {
-    let newTitle = ""
+    let newTitle = ''
     if (!filename) newTitle = file.current.files[0].name.slice(0, file.current.files[0].name.lastIndexOf('.'))
     else newTitle = filename
-    
+
     const blob = file.current.files[0].slice(0, file.current.files[0].size, 'application/epub+zip')
     const newFile = new File([blob], `${newTitle}.epub`, { type: 'application/epub+zip' })
     return newFile
@@ -52,7 +52,7 @@ export default function AddBook() {
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
       .then((re) => {
-        dispatch({ type: 'ADD_BOOK', playload: re.data.book })
+        dispatch({ type: 'ADD_BOOK', payload: re.data.book })
         setResponse({ status: 'warning', message: re.data.message })
       })
       .catch((er) => {
@@ -87,24 +87,24 @@ export default function AddBook() {
       {file.current?.files[0] && (
         <Card
           css={{
-            backgroundColor: '#efefef',
+            bc: '#efefef',
             color: '#161616',
-            marginTop: '1rem'
+            mt: '1rem'
           }}
         >
-          <Card.Header>
+          <Card.Header css={{ p: '0.5rem' }}>
             <Input
               width="100%"
               fullWidth
-              underlined
-              label="Book"
-              placeholder={file.current.files[0].name}
-              labelLeft="Title"
+              size="sm"
+              clearable
+              css={{ mt: '1.5rem' }}
+              labelPlaceholder={file.current.files[0].name}
               onChange={(e) => { setFilename(e.target.value) }}
               value={filename}
             />
           </Card.Header>
-          <Card.Footer>
+          <Card.Footer css={{ p: '0.5rem' }}>
             <Row justify="flex-end">
               <Button
                 css={{ color: '#161616' }}
@@ -131,10 +131,10 @@ export default function AddBook() {
                   loading
                     ? (
                       <Loading type="spinner" color="currentColor" />
-                    )
+                      )
                     : (
                       <FiUploadCloud />
-                    )
+                      )
                 }
               >
                 {loading && 'Give us just a sec'}

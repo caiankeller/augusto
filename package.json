@@ -23,7 +23,7 @@
   "config": {
     "forge": {
       "packagerConfig": {
-        "icon": "./images/icon.jpg"
+        "icon": "./assets/icon.jpg"
       },
       "makers": [
         {
@@ -36,7 +36,7 @@
           "name": "@electron-forge/maker-zip",
           "config": {
             "name": "Augusto",
-            "icon": "./images/icon.jpg"
+            "icon": "./assets/icon.jpg"
           },
           "platforms": [
             "darwin"

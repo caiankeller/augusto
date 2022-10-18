@@ -49,19 +49,19 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
   return (
     <Card
       css={{
-        backgroundColor: '#efefef',
-        maxHeight: '250px',
+        bc: '#efefef',
+        mh: '250px',
         position: 'absolute',
-        width: 'calc(100% - 1rem)',
+        w: 'calc(100% - 1rem)',
         left: '0.5rem',
         right: 0,
         bottom: '0'
       }}
       isPressable
     >
-      <Card.Header css={{ paddingBottom: 0 }}>
+      <Card.Header css={{ pb: 0 }}>
         <Row justify="space-between" align="center">
-          <Row align="center"><FiArrowLeft style={{ marginRight: '0.5rem' }} /><Text h6 css={{ margin: 0 }}>{toTranslate} </Text></Row>
+          <Row align="center"><FiArrowLeft style={{ mr: '0.5rem' }} /><Text h6 css={{ m: 0 }}>{toTranslate} </Text></Row>
           <Button size="xs" color="error" auto css={{ color: '#161616' }} onPress={cancelRequest}>
             <FiArrowDownCircle />
           </Button>
@@ -69,7 +69,7 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
       </Card.Header>
       <Card.Body
         css={{
-          paddingTop: '0',
+          pt: '0',
           '&::-webkit-scrollbar': {
             display: 'none'
           }

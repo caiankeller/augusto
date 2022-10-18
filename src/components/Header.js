@@ -12,7 +12,7 @@ export default function Header ({ defaultLanguage }) {
 
   const changeUserDefaultLanguage = async (language) => {
     axios.patch(`http://localhost:2001/language/${language}`).then(() => {
-      dispatch({ type: 'UPDATE_USER_LANGUAGE', playload: language })
+      dispatch({ type: 'UPDATE_USER_LANGUAGE', payload: language })
     })
   }
 
@@ -23,7 +23,7 @@ export default function Header ({ defaultLanguage }) {
   return (
     <>
       <Row justify="space-between" align="center">
-        <Text h4 color="warning" css={{ margin: 0 }}>
+        <Text h4 color="warning" css={{ m: 0 }}>
           Augusto
         </Text>
         <Button
@@ -39,7 +39,7 @@ export default function Header ({ defaultLanguage }) {
         open={visible}
         onClose={() => setVisible(false)}
         fullScreen
-        css={{ background: '#161616' }}
+        css={{ bc: '#161616' }}
       >
         <Modal.Header>
           <Row justify="flex-start">
@@ -49,8 +49,8 @@ export default function Header ({ defaultLanguage }) {
           </Row>
         </Modal.Header>
         <Modal.Body autoMargin>
-          <Row justify="space-between">
-            <div style={{ width: '100%' }}>
+          <Row justify="space-between" style={{ width: '100%', maxWidth: '700px' }}>
+            <div style={{ width: '100%', maxWidth: '700px' }}>
               <Text h4 color="warning">Language ({defaultLanguage})</Text>
               <Dictionaries />
             </div>
