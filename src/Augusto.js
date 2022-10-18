@@ -67,12 +67,15 @@ const Augusto = (state, action) => {
         }
       }
     case 'DELETE_DICTIONARY':
+      console.log(payload)
       return {
         ...state,
         dictionaries: {
-          [payload.toLanguage]: [payload.toLanguage].filter((dictionary) =>
-            console.log(dictionary)
-          )
+          ...state.dictionaries,
+          [payload.toLanguage]: [
+            ...state.dictionaries[payload.toLanguage].slice(0, payload.index),
+            ...state.dictionaries[payload.toLanguage].slice(payload.index + 1)
+          ]
         }
       }
     default:
@@ -87,6 +90,7 @@ export function AugustoProvider ({ children }) {
   return (
     <AugustoContext.Provider value={{ augusto, dispatch }}>
       {children}
+      {console.log(augusto)}
     </AugustoContext.Provider>
   )
 }
