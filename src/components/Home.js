@@ -31,12 +31,12 @@ export default function Home () {
   return (
     <>
       <Header defaultLanguage={augusto.user.defaultLanguage} />
-      <Text h1 color="warning">
+      <Text h1 color="primary">
         Welcome back!
       </Text>
       <AddBook />
       <Divider css={{ marginTop: '1rem', backgroundColor: '#efefef' }} />
-      <Text h3 color="warning" css={{ m: 0 }}>
+      <Text h3 color="primary" css={{ m: 0 }}>
         Books
       </Text>
       <Books library={augusto.library} isLoading={loading} />

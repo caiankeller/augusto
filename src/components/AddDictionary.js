@@ -65,7 +65,7 @@ export default function AddDictionary ({
                   </Text>
                 </div>
                 <Button
-                  color="warning"
+                  color="primary"
                   size="xs"
                   css={{ color: '#161616' }}
                   disabled={loading}

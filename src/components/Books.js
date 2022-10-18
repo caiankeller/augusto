@@ -10,7 +10,7 @@ export default function Books ({ library, isLoading: loading }) {
       {loading
         ? (
         <Row justify="center">
-          <Loading type="points" color="warning" textColor="warning" size="md">
+          <Loading type="points" color="primary" textColor="primary" size="md">
             Fetching some wonderful books
           </Loading>
         </Row>

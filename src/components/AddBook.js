@@ -63,7 +63,7 @@ export default function AddBook () {
       )
       .then((re) => {
         dispatch({ type: 'ADD_BOOK', payload: re.data.book })
-        setResponse({ status: 'warning', message: re.data.message })
+        setResponse({ status: 'primary', message: re.data.message })
       })
       .catch((er) => {
         setResponse({ status: 'error', message: er.response.data.message })

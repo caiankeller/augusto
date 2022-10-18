@@ -29,7 +29,7 @@ export default function Header ({ defaultLanguage }) {
   return (
     <>
       <Row justify="space-between" align="center">
-        <Text h4 color="warning" css={{ m: 0 }}>
+        <Text h4 color="primary" css={{ m: 0 }}>
           Augusto
         </Text>
         <Button
@@ -58,14 +58,14 @@ export default function Header ({ defaultLanguage }) {
         </Modal.Header>
         <Modal.Body css={{ p: '1rem' }}>
           <Row justify="space-between">
-            <Text h4 color="warning" css={{ m: 0 }}>
+            <Text h4 color="primary" css={{ m: 0 }}>
               Language ({defaultLanguage})
             </Text>
           </Row>
           <Row>
             <Dictionaries />
             <Button.Group
-              color="warning"
+              color="primary"
               vertical
               size="sm"
               css={{ m: '0 0 0 1rem' }}

@@ -9,12 +9,12 @@ export default function GlosbeWords ({ translation }) {
     <>
       <Link href="">
         <Text h6 css={{ m: 0, opacity: 0.8 }}>
-          <BsTranslate style={{ mr: '0.5rem' }} />
+          <BsTranslate style={{ marginRight: '0.5rem' }} />
           Glosbe Translate
         </Text>
       </Link>
       <Row align="center">
-        <FiArrowRight style={{ mr: '0.5rem' }} />
+        <FiArrowRight style={{ marginRight: '0.5rem' }} />
         <Text h6 css={{ m: 0 }}>
           {translation}
         </Text>

@@ -15,7 +15,7 @@ export default function Freedict ({ translations }) {
       {translations.map((entries, key) => (
         <div key={key}>
           <Row align="center">
-            <FiArrowRight style={{ mr: '0.5rem' }} />
+            <FiArrowRight style={{ marginRight: '0.5rem' }} />
             <Text h6 transform="capitalize" css={{ m: 0 }}>
               {entries.word}
             </Text>

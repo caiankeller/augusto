@@ -76,11 +76,15 @@ export default function dictionaries () {
                           {dictionary.size}
                         </Text>
                       </Row>
-                      <Row justify="space-between" css={{ gap: '1rem' }} wrap="wrap">
+                      <Row
+                        justify="space-between"
+                        css={{ gap: '1rem' }}
+                        wrap="wrap"
+                      >
                         <Popover>
                           <Popover.Trigger>
                             <Button
-                              color="warning"
+                              color="primary"
                               size="sm"
                               auto
                               css={{ color: '#161616' }}
@@ -126,7 +130,7 @@ export default function dictionaries () {
           dictionaries={augusto.dictionaries}
         />
         <Button
-          color="warning"
+          color="primary"
           size="sm"
           auto
           css={{ color: '#161616', mt: '1rem' }}

@@ -29,24 +29,22 @@ export default function Book ({ book }) {
   return (
     <Container>
       <Card isPressable css={{ backgroundColor: '#efefef', color: '#161616' }}>
-        <Card.Header>
+        <Card.Header css={{ pb: 0 }}>
           <Text b h5 css={{ m: 0 }}>
-            {' '}
-            {book.title}{' '}
+            {book.title}
           </Text>
         </Card.Header>
         <Card.Body css={{ py: '0.5rem' }}>
           <Row justify="space-between" align="center">
             <Row wrap="nowrap">
               <Text i h6>
-                {' '}
-                Detected language {book.language.long}{' '}
+                Detected language {book.language.long}
               </Text>
             </Row>
             <Row justify="end" css={{ flex: 1 }}>
               <Dropdown placement="right">
                 <Dropdown.Button
-                  color="warning"
+                  color="primary"
                   size="sm"
                   css={{ color: '#161616' }}
                 >
@@ -79,8 +77,7 @@ export default function Book ({ book }) {
         <Row>
           <ProgressBar percentage={book.read.percentage}>
             <Text h6 css={{ m: '0 1rem 0 0', zIndex: 1 }}>
-              {' '}
-              {book.read.percentage}% read{' '}
+              {book.read.percentage}% read
             </Text>
           </ProgressBar>
         </Row>
@@ -106,7 +103,7 @@ const ProgressBar = styled.div`
     bottom: 0;
     right: 0;
     width: ${(props) => props.percentage}%;
-    background-color: #f5a524;
+    background-color: #0072f5;
     height: 100%;
   }
 `
