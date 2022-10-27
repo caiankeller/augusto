@@ -9,7 +9,7 @@
   </head>
   <!-- bgcolor, did you know it exist? -->
 
-  <body bgcolor="#161616">
+  <body bgcolor="#141414">
     <div id="book"></div>
   </body>
   <script>
@@ -81,7 +81,12 @@
 
     rendition.themes.default({
       '*': {
-        'background-color': '#161616',
+        'background-color': '#141414',
+        'font-family': 'Helvetica',
+        color: '#c6c6c6'
+      },
+      body: {
+        'background-color': '#141414',
         'font-family': 'Helvetica',
         color: '#c6c6c6'
       },
@@ -89,42 +94,54 @@
         color: '#efefef',
         'font-transform': 'uppercase',
         'text-align': 'left',
-        'font-size': '1.2rem'
+        'font-size': '1.2rem',
+        margin: '1rem 0',
+        padding: 0
       },
       h2: {
         color: '#efefef',
         'font-family': 'Helvetica Neue',
         'font-transform': 'uppercase',
         'text-align': 'left',
-        'font-size': '1.2rem'
+        'font-size': '1.2rem',
+        margin: '1rem 0',
+        padding: 0
       },
       h3: {
         color: '#efefef',
         'font-family': 'Helvetica Neue',
         'font-transform': 'uppercase',
         'text-align': 'left',
-        'font-size': '1.2rem'
+        'font-size': '1.2rem',
+        margin: '1rem 0',
+        padding: 0
       },
       h4: {
         color: '#efefef',
         'font-family': 'Helvetica Neue',
         'font-transform': 'uppercase',
         'text-align': 'left',
-        'font-size': '1.2rem'
+        'font-size': '1.2rem',
+        margin: '1rem 0',
+        padding: 0
       },
       h5: {
         color: '#efefef',
         'font-family': 'Helvetica Neue',
         'font-transform': 'uppercase',
         'text-align': 'left',
-        'font-size': '1.2rem'
+        'font-size': '1.2rem',
+        margin: '1rem 0',
+        padding: 0
       },
       span: {
         color: '#efefef',
         'font-family': 'Helvetica Neue',
         'font-transform': 'uppercase',
         'text-align': 'left',
-        'font-size': '1.2rem'
+        'font-size': '1.2rem',
+        margin: '1rem 0',
+        padding: 0
       },
       p: {
         margin: '0.5rem 0',
@@ -132,8 +149,8 @@
       },
       color: '#c6c6c6',
       '::selection': {
-        background: '#0072F5',
-        color: '#161616'
+        background: '#efefef',
+        color: '#141414'
       }
     })
     rendition.themes.select('dark')

@@ -97,8 +97,7 @@ export default function AddBook () {
       {file.current?.files[0] && (
         <Card
           css={{
-            bc: '#efefef',
-            color: '#161616',
+            bc: '#17C964',
             mt: '1rem'
           }}
         >
@@ -108,7 +107,11 @@ export default function AddBook () {
               fullWidth
               size="sm"
               clearable
-              css={{ mt: '1.5rem' }}
+              disabled={!loading ? response.status : loading}
+              css={{
+                '*': { fontWeight: 'bold', color: '#141414' },
+                mt: '1.5rem'
+              }}
               labelPlaceholder={file.current.files[0].name}
               onChange={(e) => {
                 setFilename(e.target.value)
@@ -119,7 +122,7 @@ export default function AddBook () {
           <Card.Footer css={{ p: '0.5rem' }}>
             <Row justify="flex-end">
               <Button
-                css={{ color: '#161616' }}
+                css={{ color: '#141414' }}
                 icon={<FiTrash2 />}
                 color="error"
                 size="sm"
@@ -134,8 +137,8 @@ export default function AddBook () {
               <Spacer x="0.5" />
               <Button
                 disabled={response.status ? true : loading}
-                css={{ color: '#161616' }}
-                color="success"
+                css={{ bc: '#141414', color: '#efefef' }}
+                color="primary"
                 type="submit"
                 size="sm"
                 auto

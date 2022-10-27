@@ -30,30 +30,31 @@ export default function Home () {
 
   return (
     <>
-      <Header defaultLanguage={augusto.user.defaultLanguage} />
-      <Text h1 color="primary">
+      <Header />
+      <Text h1 color="#efefef">
         Welcome back!
       </Text>
       <AddBook />
-      <Divider css={{ marginTop: '1rem', backgroundColor: '#efefef' }} />
-      <Text h3 color="primary" css={{ m: 0 }}>
+      <Divider css={{ mt: '1rem', bc: '#efefef' }} />
+      <Text h3 color="#efefef" css={{ m: 0 }}>
         Books
       </Text>
       <Books library={augusto.library} isLoading={loading} />
       <Card
-        isPressable
         css={{
           bc: '#efefef',
           mt: 'auto'
         }}
       >
-        <Card.Footer>
-          <Row wrap="wrap">
-            <Text h6 css={{ m: 0, w: '100%' }}>
-              `Minha pátria é a língua portuguesa [...].`
+        <Card.Footer css={{ d: 'block' }}>
+          <Row>
+            <Text h6 css={{ m: 0 }}>
+              „Die Grenzen meiner Sprache sind die Grenzen meiner Welt.“{' '}
             </Text>
-            <Text h6 i css={{ m: 0, opacity: 0.8 }}>
-              Fernando Pessoa.
+          </Row>
+          <Row>
+            <Text h6 css={{ m: 0, opacity: 0.8 }}>
+              Ludwig Wittgenstein.
             </Text>
           </Row>
         </Card.Footer>

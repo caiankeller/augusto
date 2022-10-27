@@ -53,28 +53,44 @@ const Augusto = (state, action) => {
     case 'UPDATE_USER_LANGUAGE':
       return {
         ...state,
-        user: { defaultLanguage: payload }
+        user: { language: payload }
       }
     case 'ADD_DICTIONARY':
+      // eslint-disable-next-line no-case-declarations
+      let toAppend
+      if (state.dictionaries[payload.language]?.length > 0) {
+        toAppend = {
+          [payload.language]: [
+            ...state.dictionaries[payload.language],
+            { ...payload.dictionary }
+          ]
+        }
+      } else {
+        toAppend = { [payload.language]: [payload.dictionary] }
+      }
       return {
         ...state,
         dictionaries: {
           ...state.dictionaries,
-          [payload.language]: [
-            ...state.dictionaries?.[payload.language],
-            { ...action.payload.dictionary }
-          ]
+          ...toAppend
         }
       }
     case 'DELETE_DICTIONARY':
-      console.log(payload)
       return {
         ...state,
         dictionaries: {
-          ...state.dictionaries,
-          [payload.toLanguage]: [
-            ...state.dictionaries[payload.toLanguage].slice(0, payload.index),
-            ...state.dictionaries[payload.toLanguage].slice(payload.index + 1)
+          [payload.language]: [
+            ...state.dictionaries[payload.language].slice(
+              0,
+              state.dictionaries[payload.language].findIndex(
+                (dictionary) => dictionary.name === payload.dictionaryName
+              )
+            ),
+            ...state.dictionaries[payload.language].slice(
+              state.dictionaries[payload.language].findIndex(
+                (dictionary) => dictionary.name === payload.dictionaryName
+              ) + 1
+            )
           ]
         }
       }
@@ -90,7 +106,6 @@ export function AugustoProvider ({ children }) {
   return (
     <AugustoContext.Provider value={{ augusto, dispatch }}>
       {children}
-      {console.log(augusto)}
     </AugustoContext.Provider>
   )
 }

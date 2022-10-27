@@ -5,17 +5,16 @@ const os = require('os')
 const lengthenLanguage = require('./utils/lengthenLanguage')
 
 // this not gonna work in bigger dictionaries files, need be improved
-// anyway, this look awful
+// anyway, this looks awful
 
 const dictionaryEntries = (language, word) => {
-  const string = word.toLowerCase()
-  const { defaultLanguage } = database.user
+  const string = word
+  const userLanguage = database.user.language
   const languageLengthened = lengthenLanguage(language)
-  const dictionaryFileName = `${languageLengthened}-${defaultLanguage}.json`
+  const dictionaryFileName = `${languageLengthened}-${userLanguage}.json`
+  const projectFolder = path.join(os.homedir(), 'Documents', 'augusto') // declaring the project folder
   const dictsFolder = path.join(
-    os.homedir(),
-    'Documents',
-    'AugustoTest',
+    projectFolder,
     'dictionaries',
     dictionaryFileName
   )
@@ -24,7 +23,7 @@ const dictionaryEntries = (language, word) => {
   try {
     dictionary = fs.readFileSync(dictsFolder)
   } catch (error) {
-    return
+    return false
   }
   dictionary = JSON.parse(dictionary.toString())
 
@@ -42,26 +41,26 @@ const dictionaryEntries = (language, word) => {
 
 const deepSearch = (dictionary, string) => {
   let result
-  let word = string
+  let query = string
   let i = 0
 
-  while (i < word.length / 2) {
-    word = word.slice(0, word.length - i++) // removing a letter from the end of the string
-    if (dictionary[word]) result.push(dictionary[word])
+  while (i < query.length / 2) {
+    query = query.slice(0, query.length - i++) // removing a letter from the end of the string
+    if (dictionary[query]) result.push(dictionary[query])
   }
 
   return result
 }
 
 const search = (dictionary, string) => {
-  let word = string
+  let query = string
   let i = 0
   let result
 
-  while (i < word.length / 2) {
-    word = word.slice(0, word.length - i++) // removing a letter from the end of the string
-    if (!dictionary[word]) continue
-    else result = dictionary[word]
+  while (i < query.length / 2) {
+    query = query.slice(0, query.length - i++) // removing a letter from the end of the string
+    if (!dictionary[query]) continue
+    else result = dictionary[query]
     break
   }
 

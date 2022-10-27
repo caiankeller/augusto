@@ -2,7 +2,7 @@
 import { Button, Card, Loading, Row, Text } from '@nextui-org/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { FiArrowDownCircle, FiArrowLeft } from 'react-icons/fi'
+import { FiArrowLeft } from 'react-icons/fi'
 import Freedict from './translations/Freedict'
 import GlosbeWords from './translations/glosbeWords'
 import GlosbeTranslate from './translations/GlosbeTranslate'
@@ -61,37 +61,28 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
       }}
       isPressable
     >
-      <Card.Header css={{ pb: 0 }}>
+      <Card.Header css={{ py: '0.5rem' }}>
         <Row justify="space-between" align="center">
           <Row align="center">
-            <FiArrowLeft style={{ mr: '0.5rem' }} />
+            <FiArrowLeft style={{ marginRight: '0.5rem' }} />
             <Text h6 css={{ m: 0 }}>
-              {toTranslate}{' '}
+              {toTranslate}
             </Text>
           </Row>
-          <Button
-            size="xs"
-            color="error"
-            auto
-            css={{ color: '#161616' }}
-            onPress={cancelRequest}
-          >
-            <FiArrowDownCircle />
+          <Button color="error" size="xs" auto light onPress={cancelRequest}>
+            Close
           </Button>
         </Row>
       </Card.Header>
+      <Card.Divider css={{ bc: '#14141480' }} />
       <Card.Body
         css={{
-          pt: '0',
-          '&::-webkit-scrollbar': {
-            display: 'none'
-          }
+          py: '0.5rem',
+          '&::-webkit-scrollbar': { display: 'none' }
         }}
       >
         {loading && (
-          <Loading size="sm" type="points-opacity" color="currentColor">
-            Fetching
-          </Loading>
+          <Loading size="sm" type="points-opacity" color="currentColor" />
         )}
         {!loading && (
           <>

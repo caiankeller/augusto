@@ -6,12 +6,12 @@ export default function GlosbeWords ({ translations }) {
   return (
     <>
       <Text h6 css={{ m: 0, opacity: 0.8 }}>
-        Glosbe words
+        Glosbe Definitions
       </Text>
       <div>
         {translations.map((translation, key) => (
           <Row align="center" key={key}>
-            <Text h6 css={{ m: 0, mr: '0.5rem', opacity: 0.8 }}>
+            <Text h6 css={{ m: '0 0.5rem 0 0', opacity: 0.8 }}>
               {++key}.
             </Text>
             <Text h6 transform="capitalize" css={{ m: 0 }}>

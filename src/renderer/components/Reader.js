@@ -47,19 +47,16 @@ export default function Reader ({ reading }) {
       if (data.type === 'to_translate_word') {
         if (data.message.trim()) {
           // this mess let only the first character on uppercase
-          setToTranslate(
-            data.message.trim().toLowerCase().charAt(0).toUpperCase() +
-              data.message.slice(1)
-          )
+          setToTranslate(data.message.trim().toLowerCase())
         }
       } else {
         axios
-          .post('http://localhost:2001/progress', {
+          .post('http://localhost:2001/progress/book', {
             progress: {
               cfi: data.message.cfi,
               percentage: data.message.percentage
             },
-            id: reading.id
+            bookIdentification: reading.id
           })
           .then(() => {
             setPages({
@@ -85,7 +82,7 @@ export default function Reader ({ reading }) {
           ml: 'calc(100% - 1.7rem)',
           position: 'absolute',
           zIndex: 1,
-          color: '#161616'
+          color: '#141414'
         }}
         size="xs"
         auto

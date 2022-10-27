@@ -3,11 +3,12 @@ const shortenLanguage = require('./utils/shortenLanguage')
 const axios = require('axios')
 const cheerio = require('cheerio')
 
+// TODO: improve that, now i know how to make a proper promise
 const glosbeWords = async (language, word) => {
   return new Promise((resolve) => {
-    const defaultLanguage = shortenLanguage(database.user.defaultLanguage)
+    const language = shortenLanguage(database.user.language)
     const url = encodeURI(
-      `https://glosbe.com/${language}/${defaultLanguage}/${word.toLowerCase()}`
+      `https://glosbe.com/${language}/${language}/${word.toLowerCase()}`
     )
 
     // this code can and must be improved
@@ -29,9 +30,9 @@ const glosbeWords = async (language, word) => {
 
 const glosbeTranslate = async (language, text) => {
   return new Promise((resolve) => {
-    const defaultLanguage = shortenLanguage(database.user.defaultLanguage)
+    const language = shortenLanguage(database.user.language)
     const url = encodeURI(
-      `https://translate.glosbe.com/${language}-${defaultLanguage}/${text.trim()}`
+      `https://translate.glosbe.com/${language}-${language}/${text.trim()}`
     )
     axios(url)
       .then((response) => {

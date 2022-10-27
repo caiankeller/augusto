@@ -17,7 +17,7 @@ export default function AddDictionary ({
 
   useEffect(() => {
     axios
-      .get(`http://localhost:2001/dictionaries/${language}`)
+      .get(`http://localhost:2001/dictionaries/available/${language}`)
       .then((response) => {
         setResponse({ status: true, dictionaries: response.data })
       })
@@ -26,15 +26,23 @@ export default function AddDictionary ({
       })
   }, [language])
 
-  const addDictionary = (path) => {
+  const addDictionary = (name) => {
     setLoading(true)
-    axios.post('http://localhost:2001/download', { path }).then((response) => {
-      dispatch({
-        type: 'ADD_DICTIONARY',
-        payload: { language, dictionary: response.data.dictionary }
+    axios
+      .post('http://localhost:2001/download/dictionary', {
+        dictionaryName: name,
+        language
       })
-      setLoading(false)
-    })
+      .then((response) => {
+        dispatch({
+          type: 'ADD_DICTIONARY',
+          payload: {
+            dictionary: response.data.dictionary,
+            language: response.data.language
+          }
+        })
+        setLoading(false)
+      })
   }
 
   return (
@@ -61,16 +69,22 @@ export default function AddDictionary ({
                     {dictionary.language}
                   </Text>
                   <Text h6 css={{ opacity: 0.8, m: 0 }}>
-                    {dictionary.length} entries
+                    {dictionary.headwords} entries
                   </Text>
                 </div>
                 <Button
-                  color="primary"
-                  size="xs"
-                  css={{ color: '#161616' }}
-                  disabled={loading}
+                  size="sm"
                   auto
-                  onPress={() => addDictionary(dictionary.path)}
+                  color="success"
+                  css={{ color: '#141414' }}
+                  disabled={
+                    !!(loading ||
+                    dictionaries?.[language]?.some(
+                      (savedDictionary) =>
+                        savedDictionary.language === dictionary.language
+                    ))
+                  }
+                  onPress={() => addDictionary(dictionary.name)}
                 >
                   {loading
                     ? (
