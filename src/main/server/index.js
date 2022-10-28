@@ -235,7 +235,7 @@ app.post('/progress/book', async (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`\nWe've taken off 🛫 on ${port} port`)
+  console.log(`We've taken off 🛫 on ${port} port`)
 })
 
 module.exports = projectFolder
