@@ -13,6 +13,11 @@ html,
   height: 100%;
 }
 
-body::-webkit-scrollbar {
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+*::-webkit-scrollbar {
   display: none;
 }

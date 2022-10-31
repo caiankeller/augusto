@@ -54,6 +54,10 @@ export default function Header () {
     {
       name: 'epubjs',
       url: 'http://epubjs.org/documentation/0.3/'
+    },
+    {
+      name: 'and a lot more.',
+      url: ''
     }
   ]
 
@@ -128,24 +132,26 @@ export default function Header () {
             Acknowledge
           </Text>
           <Card isPressable css={{ bc: '#efefef', color: '#141414' }}>
-            <Card.Header>
+            <Card.Header css={{ pb: 0 }}>
               <Text h5 css={{ m: 0 }}>
-                Augusto would not be possible without multiple open source tools
+                Augusto would not be possible without several open source tools
                 that I want and must mention:
               </Text>
             </Card.Header>
             <Card.Body css={{ py: 0 }}>
               {openSourceTools.map((tool) => {
                 return (
-                  <Text h6 css={{ m: 0 }} key={tool.name}>
+                  <Text h6 css={{ m: 0, opacity: 0.9 }} key={tool.name}>
                     {tool.name}
                   </Text>
                 )
               })}
             </Card.Body>
-            <Card.Footer>
+            <Card.Footer css={{ pt: 0 }}>
               <Row>
-                <Text h5>Translations are provide by FreeDict and Glosbe.</Text>
+                <Text h5 css={{ m: 0 }}>
+                  Translations and definitions are provide by FreeDict and Glosbe.
+                </Text>
               </Row>
             </Card.Footer>
           </Card>

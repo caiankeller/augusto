@@ -29,7 +29,10 @@
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "augusto"
+            "name": "Augusto",
+            "icon": "./assets/icon.jpg",
+            "certificateFile": "./cert.pfx",
+            "certificatePassword": "this-is-a-secret"
           }
         },
         {
@@ -39,16 +42,9 @@
             "icon": "./assets/icon.jpg"
           },
           "platforms": [
-            "darwin"
+            "darwin",
+            "linux"
           ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ],
       "plugins": [
