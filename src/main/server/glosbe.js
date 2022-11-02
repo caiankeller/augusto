@@ -2,6 +2,15 @@ const database = require('./database')
 const shortenLanguage = require('./utils/shortenLanguage')
 const axios = require('axios')
 const cheerio = require('cheerio')
+const { setupCache } = require('axios-cache-adapter')
+
+const cache = setupCache({
+  maxAge: 604800000 // 7 days in milliseconds
+})
+
+const api = axios.create({
+  adapter: cache.adapter
+})
 
 // TODO: improve that, now i know how to make a proper promise
 const glosbeWords = async (language, word) => {
@@ -12,7 +21,7 @@ const glosbeWords = async (language, word) => {
     )
 
     // this code can and must be improved
-    axios(url)
+    api(url)
       .then((response) => {
         const $ = cheerio.load(response.data)
         let content = $('.translation__item__phrase').text().trim()
@@ -34,7 +43,7 @@ const glosbeTranslate = async (language, text) => {
     const url = encodeURI(
       `https://translate.glosbe.com/${language}-${language}/${text.trim()}`
     )
-    axios(url)
+    api(url)
       .then((response) => {
         const $ = cheerio.load(response.data)
         const content = [$('app-page-translator-translation-output').text()]

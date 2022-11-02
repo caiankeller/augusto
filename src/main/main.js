@@ -8,7 +8,7 @@ const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declar
 
 // i am not sure this is the best way to do this
 // ...
-// let be honest, i am sure that is not the best way to do this
+// i will be honest, i am sure this is not the best way to do this
 const createFolders = () => {
   return new Promise((resolve, reject) => {
     try {
