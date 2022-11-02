@@ -13,7 +13,7 @@ const { glosbeWords, glosbeTranslate } = require('./glosbe')
 // utils
 const lengthenLanguage = require('./utils/lengthenLanguage')
 
-const projectFolder = path.join(os.homedir(), 'Documents', 'augusto') // declaring the project folder
+const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
 const database = require('./database.js') // hand made database
 
 const storage = multer.diskStorage({
@@ -185,7 +185,7 @@ app.get('/translate/:text/:language', async (req, res) => {
   //   return res.status(404).json({ message: `Augusto don't support this dictionary yet (${language} to ${language}).` })
   // }
 
-  // lol, thats so trash
+  // lol, thats so trash, it has to be improved
   if (
     !definitions.freedict &&
     !definitions.glosbeWords &&
@@ -235,7 +235,7 @@ app.post('/progress/book', async (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log(`We've taken off 🛫 on ${port} port`)
+  console.log(`\nWe've taken off 🛫 on ${port} port`)
 })
 
 module.exports = projectFolder

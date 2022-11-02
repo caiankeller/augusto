@@ -6,7 +6,7 @@ const https = require('https')
 const axios = require('axios')
 const convertBytes = require('./utils/convertBytes')
 
-const projectFolder = path.join(os.homedir(), 'Documents', 'augusto') // declaring the project folder
+const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
 
 const database = {
   ...JSON.parse(fs.readFileSync(path.join(projectFolder, 'data.json'))),

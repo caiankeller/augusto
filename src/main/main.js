@@ -3,10 +3,11 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs')
 
-const projectFolder = path.join(os.homedir(), 'Documents', 'augusto') // declaring the project folder
 // TODO: uses the $projectfolder declared on node main file
+const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
 
 // i am not sure this is the best way to do this
+// ...
 // let be honest, i am sure that is not the best way to do this
 const createFolders = () => {
   return new Promise((resolve, reject) => {

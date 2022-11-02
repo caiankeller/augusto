@@ -12,7 +12,7 @@ const dictionaryEntries = (language, word) => {
   const userLanguage = database.user.language
   const languageLengthened = lengthenLanguage(language)
   const dictionaryFileName = `${languageLengthened}-${userLanguage}.json`
-  const projectFolder = path.join(os.homedir(), 'Documents', 'augusto') // declaring the project folder
+  const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
   const dictsFolder = path.join(
     projectFolder,
     'dictionaries',
