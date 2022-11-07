@@ -2,7 +2,6 @@
 import { Button, Card, Loading, Row, Text } from '@nextui-org/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { FiArrowLeft } from 'react-icons/fi'
 import Freedict from './translations/Freedict'
 import GlosbeWords from './translations/glosbeWords'
 import GlosbeTranslate from './translations/GlosbeTranslate'
@@ -63,13 +62,10 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
     >
       <Card.Header css={{ py: '0.5rem' }}>
         <Row justify="space-between" align="center">
-          <Row align="center">
-            <FiArrowLeft style={{ marginRight: '0.5rem' }} />
-            <Text h6 css={{ m: 0 }}>
-              {toTranslate}
-            </Text>
-          </Row>
-          <Button color="error" size="xs" auto light onPress={cancelRequest}>
+          <Text h6 css={{ m: 0 }}>
+            {toTranslate}
+          </Text>
+          <Button color="error" size="xs" auto onPress={cancelRequest}>
             Close
           </Button>
         </Row>
@@ -77,15 +73,14 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
       <Card.Divider css={{ bc: '#14141480' }} />
       <Card.Body
         css={{
-          py: '0.5rem',
-          '&::-webkit-scrollbar': { display: 'none' }
+          py: '0.5rem'
         }}
       >
         {loading && (
           <Loading size="sm" type="points-opacity" color="currentColor" />
         )}
         {!loading && (
-          <>
+          <div>
             {response.freedict && <Freedict translations={response.freedict} />}
             {response.glosbeWords && (
               <GlosbeWords translations={response.glosbeWords} />
@@ -94,7 +89,7 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
               <GlosbeTranslate translation={response.glosbeTranslate} />
             )}
             {!response.status && <Text h6>{response.message}</Text>}
-          </>
+          </div>
         )}
       </Card.Body>
     </Card>
