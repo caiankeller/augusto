@@ -4,14 +4,13 @@ const os = require('os')
 // dependencies
 const express = require('express')
 const multer = require('multer')
-const langDetect = require('langdetect')
 const cors = require('cors')
 const axios = require('axios')
 // translators
 const dictionaryEntries = require('./dictionary.js')
 const { glosbeWords, glosbeTranslate } = require('./glosbe')
 // utils
-const lengthenLanguage = require('./utils/lengthenLanguage')
+const shortenLanguage = require('./utils/shortenLanguage')
 
 const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
 const database = require('./database.js') // hand made database
@@ -38,10 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(express.static(path.join(projectFolder, 'books')))
 
 app.post('/book', upload.single('file'), async (req, res) => {
+  const { bookLanguage } = req.body
   try {
     const language = {}
-    language.short = langDetect.detect(req.file.originalname)?.[0].lang // selecting just the most probable language (index [0].lang),
-    language.long = lengthenLanguage(language.short) // return exemple: [{"lang": "en", "prob": "0.3232"}, "lang": "fr", "prob": "0.45345"}]
+    language.long = bookLanguage
+    language.short = shortenLanguage(language.long)
 
     const title = req.title.substring(0, req.title.lastIndexOf('.'))
     database.saveBook(title, language).then((book) => {
@@ -87,7 +87,7 @@ app.delete('/delete/book/:bookIdentification', async (req, res) => {
         return res.status(200).json({ message: 'Book successfully deleted.' })
       })
       .catch(() => {
-        throw Error('Just being a little silly')
+        throw Error('Just being a little silly 😎')
       })
   } catch (error) {
     return res

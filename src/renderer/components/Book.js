@@ -30,7 +30,7 @@ export default function Book ({ book }) {
     <Container>
       <Card isPressable css={{ bc: '#efefef', color: '#141414' }}>
         <Card.Header css={{ pb: 0 }}>
-          <Text b h5 css={{ m: 0 }}>
+          <Text b h5 transform="capitalize" css={{ m: 0 }}>
             {book.title}
           </Text>
         </Card.Header>

@@ -1,16 +1,37 @@
 import React, { useContext, useRef, useState } from 'react'
-import { Button, Spacer, Loading, Card, Row, Input } from '@nextui-org/react'
+import {
+  Button,
+  Spacer,
+  Loading,
+  Card,
+  Row,
+  Input,
+  Text
+} from '@nextui-org/react'
 import { AugustoContext } from '../Augusto'
 import { FiTrash2, FiUploadCloud } from 'react-icons/fi'
 import styled from 'styled-components'
 import axios from 'axios'
 
 export default function AddBook () {
+  const defaultBookLanguage = 'english'
   const { dispatch } = useContext(AugustoContext)
   const [filename, setFilename] = useState('')
+  const [bookLanguage, setBookLanguage] = useState(defaultBookLanguage)
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState({ status: '' })
   const file = useRef(null)
+
+  const languageOptions = [
+    'english',
+    'portuguese',
+    'spanish',
+    'french',
+    'italian',
+    'dutch',
+    'german',
+    'japanese'
+  ]
 
   const fileChecker = (e) => {
     const file = e.target.files[0].name
@@ -26,6 +47,7 @@ export default function AddBook () {
     setFilename('')
     setResponse({ status: '' })
     file.current.value = ''
+    setBookLanguage(defaultBookLanguage)
   }
 
   // this just update the file name
@@ -57,7 +79,8 @@ export default function AddBook () {
       .post(
         'http://localhost:2001/book',
         {
-          file: newFile
+          file: newFile,
+          bookLanguage
         },
         { headers: { 'Content-Type': 'multipart/form-data' } }
       )
@@ -97,32 +120,60 @@ export default function AddBook () {
       {file.current?.files[0] && (
         <Card
           css={{
-            bc: '#17C964',
+            bc: '#efefef',
             mt: '1rem'
           }}
         >
-          <Card.Header css={{ p: '0.5rem' }}>
+          <Card.Body css={{ p: '0.5rem', d: 'block' }}>
             <Input
               width="100%"
               fullWidth
               size="sm"
-              clearable
               disabled={!loading ? response.status : loading}
               css={{
-                '*': { fontWeight: 'bold', color: '#141414' },
-                mt: '1.5rem'
+                '*:not(label)': { bc: '#141414', color: '#efefef' },
+                '*': { fontWeight: 'bold' }
               }}
-              labelPlaceholder={file.current.files[0].name}
+              label="Book's title"
+              placeholder={file.current.files[0].name}
               onChange={(e) => {
                 setFilename(e.target.value)
               }}
               value={filename}
             />
-          </Card.Header>
+            <Button.Group
+              color="success"
+              size="sm"
+              css={{ m: '1rem 0 0 0', flexWrap: 'wrap' }}
+            >
+              {languageOptions.map((language) => (
+                <Button
+                  key={language}
+                  disabled={language === bookLanguage}
+                  onPress={() => setBookLanguage(language)}
+                  css={{
+                    '&:disabled': { bc: '#141414' }
+                  }}
+                >
+                  <Text
+                    h6
+                    transform="capitalize"
+                    css={{
+                      m: 0,
+                      color: `${
+                        language === bookLanguage ? '#efefef' : '#141414'
+                      }`
+                    }}
+                  >
+                    {language}
+                  </Text>
+                </Button>
+              ))}
+            </Button.Group>
+          </Card.Body>
           <Card.Footer css={{ p: '0.5rem' }}>
             <Row justify="flex-end">
               <Button
-                css={{ color: '#141414' }}
                 icon={<FiTrash2 />}
                 color="error"
                 size="sm"

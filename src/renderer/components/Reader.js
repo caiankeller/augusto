@@ -15,11 +15,12 @@ export default function Reader ({ reading }) {
   // long explain, i only update page state in reducer while unmouting
   // because if i change it everytime it gonna rerender and rerender the iframe with the current
   // page, which is kinda annoying, i cant change it in the unmounting using usestate
-  // so i used this because ref
+  // so i used this because REF, refs can do anything
   const [pages, setPages] = useState(reading.read)
   const page = useRef()
   const currentUrl = window.location.pathname
 
+  // book path for iframe
   const bookPath = `http://localhost:2001/Reader.html?book=${reading.title}&origin=${currentUrl}&cfi=${reading.read.cfi}`
 
   const focus = () => iframe.current.focus()
@@ -32,7 +33,7 @@ export default function Reader ({ reading }) {
     page.current = pages
   }, [pages])
   useEffect(() => {
-    // sending the ref to state when it's unmounted
+    // sending the ref to global state when it's unmounted
     return () =>
       dispatch({
         type: 'UPDATE_PROGRESS',
@@ -72,6 +73,7 @@ export default function Reader ({ reading }) {
     // eslint-disable-next-line
   }, [])
 
+  // function that clearns toTranslate to when needed
   const resetToTranslate = () => setToTranslate('')
 
   return (
@@ -79,12 +81,11 @@ export default function Reader ({ reading }) {
       <Button
         color="error"
         css={{
-          ml: 'calc(100% - 1.7rem)',
+          ml: 'calc(100% - 2.5rem)',
           position: 'absolute',
-          zIndex: 1,
-          color: '#141414'
+          zIndex: 1
         }}
-        size="xs"
+        size="sm"
         auto
         onPress={() => {
           dispatch({ type: 'SET_READING', payload: null })

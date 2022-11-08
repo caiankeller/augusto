@@ -118,7 +118,6 @@ export default function dictionaries () {
                         color="error"
                         size="sm"
                         auto
-                        css={{ color: '#141414' }}
                         onPress={() =>
                           deleteBook(augusto.user.language, dictionary.name)
                         }
