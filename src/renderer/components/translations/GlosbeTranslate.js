@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { Row, Text } from '@nextui-org/react'
-import { BsTranslate } from 'react-icons/bs'
 import React from 'react'
 
 export default function GlosbeWords ({ translation }) {
@@ -8,7 +7,10 @@ export default function GlosbeWords ({ translation }) {
     <>
       {/* <Link href=""> */}
       <Text h6 css={{ m: 0, opacity: 0.8 }}>
-        <BsTranslate style={{ marginRight: '0.5rem' }} />
+        <img
+          src="https://glosbe.com/assets/favicon/favicon-16x16.png"
+          style={{ marginRight: '0.5rem' }}
+        />
         Glosbe Translate
       </Text>
       {/* </Link> */}

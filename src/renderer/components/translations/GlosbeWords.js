@@ -6,6 +6,10 @@ export default function GlosbeWords ({ translations }) {
   return (
     <>
       <Text h6 css={{ m: 0, opacity: 0.8 }}>
+        <img
+          src="https://glosbe.com/assets/favicon/favicon-16x16.png"
+          style={{ marginRight: '0.5rem' }}
+        />
         Glosbe Definitions
       </Text>
       <div>
