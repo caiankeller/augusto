@@ -51,13 +51,14 @@ const database = {
       const dictionariesFolder = path.join(
         os.homedir(),
         'Documents',
-        'augusto',
+        '.augusto',
         'dictionaries'
       )
 
       const url = encodeURI(
         `https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/${dictionaryName}.json`
       )
+      console.log(url)
 
       https.get(url, (response) => {
         const pathDictionary = path.join(
@@ -104,15 +105,11 @@ const database = {
       const dictionaryFolder = path.join(
         os.homedir(),
         'Documents',
-        'augusto',
+        '.augusto',
         'dictionaries',
         `${dictionaryName}.json`
       )
-      fs.unlink(dictionaryFolder, (err) => {
-        if (err) {
-          return reject(new Error('Error while trying delete dictionary.'))
-        }
-
+      fs.unlink(dictionaryFolder, () => {
         this.dictionaries = {
           ...this.dictionaries,
           [language]: [
