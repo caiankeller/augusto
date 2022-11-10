@@ -162,35 +162,26 @@ app.patch(
 app.get('/translate/:text/:language', async (req, res) => {
   const { text, language } = req.params
   // that's bad, just bad, need to be improved
-  const definitions = {
-    freedict: false,
-    glosbeWords: false,
-    glosbeTranslate: false
-  }
-
-  definitions.freedict = await dictionaryEntries(language, text)
-  if (!definitions.freedict) {
-    definitions.glosbeWords = await glosbeWords(language, text)
-    if (!definitions.glosbeWords) {
-      definitions.glosbeTranslate = await glosbeTranslate(language, text)
-    }
-  }
-
-  // i dont think i'll use this again, but...
-  // if (language === language) {
-  //   return res.status(404).json({ message: `You're trying to translate from your native language (${language} to ${language}).` })
-  // }
-
-  // if (!database.dicts[language].includes(language)) {
-  //   return res.status(404).json({ message: `Augusto don't support this dictionary yet (${language} to ${language}).` })
-  // }
+  // update: i got you, man 😎
+  const definitions = await dictionaryEntries(language, text)
+    .then((response) => {
+      return { freedict: response }
+    })
+    .catch(() => {
+      return glosbeWords(language, text)
+        .then((response) => {
+          return { glosbeWords: response }
+        })
+        .catch(() => {
+          return glosbeTranslate(language, text).then((response) => {
+            return { glosbeTranslate: response }
+            // doing dis just to remain the standard
+          })
+        })
+    })
 
   // lol, thats so trash, it has to be improved
-  if (
-    !definitions.freedict &&
-    !definitions.glosbeWords &&
-    !definitions.glosbeTranslate
-  ) {
+  if (!definitions) {
     return res.status(404).json({
       message: "We couldn't found some definitions or translations for this."
     })

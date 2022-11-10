@@ -8,35 +8,37 @@ const lengthenLanguage = require('./utils/lengthenLanguage')
 // anyway, this looks awful
 
 const dictionaryEntries = (language, word) => {
-  const string = word
-  const userLanguage = database.user.language
-  const languageLengthened = lengthenLanguage(language)
-  const dictionaryFileName = `${languageLengthened}-${userLanguage}.json`
-  const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
-  const dictsFolder = path.join(
-    projectFolder,
-    'dictionaries',
-    dictionaryFileName
-  )
+  return new Promise((resolve, reject) => {
+    const string = word
+    const userLanguage = database.user.language
+    const languageLengthened = lengthenLanguage(language)
+    const dictionaryFileName = `${languageLengthened}-${userLanguage}.json`
+    const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
+    const dictsFolder = path.join(
+      projectFolder,
+      'dictionaries',
+      dictionaryFileName
+    )
 
-  let dictionary
-  try {
-    dictionary = fs.readFileSync(dictsFolder)
-  } catch (error) {
-    return false
-  }
-  dictionary = JSON.parse(dictionary.toString())
+    let dictionary
+    try {
+      dictionary = fs.readFileSync(dictsFolder)
+    } catch (error) {
+      return reject(Error("Couldn't read dictionary"))
+    }
+    dictionary = JSON.parse(dictionary.toString())
 
-  const definitions = []
-  const lightSearchResults = search(dictionary, string)
-  if (lightSearchResults) definitions.push(lightSearchResults)
-  else {
-    const deepSearchResults = deepSearch(dictionary, string)
-    if (deepSearchResults) definitions.push(deepSearchResults)
-  }
+    const definitions = []
+    const lightSearchResults = search(dictionary, string)
+    if (lightSearchResults) definitions.push(lightSearchResults)
+    else {
+      const deepSearchResults = deepSearch(dictionary, string)
+      if (deepSearchResults) definitions.push(deepSearchResults)
+    }
 
-  if (definitions.length) return definitions
-  else return false
+    if (definitions.length) return resolve(definitions)
+    else return reject(Error)
+  })
 }
 
 const deepSearch = (dictionary, string) => {
@@ -67,7 +69,7 @@ const search = (dictionary, string) => {
   return result
 }
 
-// this code is not ready to go, thins have changed
+// this code is not ready to go, things have changed
 // function accentReadySearch (dictionary, string) {
 //   function cleanText (string) { // it removes the apostrophe and other accents
 //     return string.slice(string.indexOf("'") + 1).normalize('NFD').replace(/[\u0300-\u036f]/g, '')
