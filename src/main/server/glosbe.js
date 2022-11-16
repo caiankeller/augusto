@@ -53,17 +53,7 @@ const glosbeTranslate = async (language, word) => {
           },
           headers: {
             Accept: '*/*',
-            'Accept-Language': 'en-US,en;q=0.5',
-            'Accept-Encoding': 'gzip, deflate, br',
-            Referer: 'https://glosbe.com/',
-            'Content-Type': 'text/plain;charset=UTF-8',
-            Origin: 'https://glosbe.com',
-            Connection: 'keep-alive',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-site',
-            'Sec-GPC': '1',
-            TE: 'trailers'
+            'Content-Type': 'text/plain;charset=UTF-8'
           }
         }
       )
