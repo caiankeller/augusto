@@ -77,7 +77,12 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
         }}
       >
         {loading && (
-          <Loading size="sm" type="points-opacity" color="currentColor" />
+          <Loading
+            size="sm"
+            type="points-opacity"
+            color="currentColor"
+            css={{ my: '0.5rem' }}
+          />
         )}
         {!loading && (
           <div>
