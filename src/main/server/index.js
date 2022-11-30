@@ -8,6 +8,7 @@ const cors = require('cors')
 const axios = require('axios')
 // translators
 const dictionaryEntries = require('./dictionary.js')
+const shell = require('electron').shell
 const { glosbeWords, glosbeTranslate } = require('./glosbe')
 // utils
 const shortenLanguage = require('./utils/shortenLanguage')
@@ -216,6 +217,13 @@ app.post('/download/dictionary', async (req, res) => {
       .status(400)
       .json({ message: 'An error occurred while downloading dictionary.' })
   }
+})
+
+app.use('/external/:link', async (req, res) => {
+  const { link } = req.params
+  // that looks insecure
+  shell.openExternal(`https://${encodeURIComponent(link)}.com`)
+  res.status(204)
 })
 
 app.post('/progress/book', async (req, res) => {

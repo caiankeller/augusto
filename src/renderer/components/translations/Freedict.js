@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import axios from 'axios'
 import { Row, Text } from '@nextui-org/react'
 import { FiArrowRight, FiBook } from 'react-icons/fi'
 import React from 'react'
@@ -6,12 +7,16 @@ import React from 'react'
 export default function Freedict ({ translations }) {
   return (
     <>
-      {/* <Link href=""> */}
-      <Text h6 css={{ m: 0, opacity: 0.8 }}>
+      <Text
+        h6
+        css={{ m: 0, opacity: 0.8 }}
+        onClick={() =>
+          axios.get('http://localhost:2001/external/translate.glosbe')
+        }
+      >
         <FiBook style={{ marginRight: '0.5rem' }} />
         Freedict dictionary entries
       </Text>
-      {/* </Link> */}
       {translations.map((entries, key) => (
         <div key={key}>
           <Row align="center">
