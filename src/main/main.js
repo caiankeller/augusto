@@ -49,7 +49,7 @@ const createFolders = () => {
 const createWindow = () => {
   const displayHeight = screen.getPrimaryDisplay().workAreaSize.height
   const height = displayHeight - 40
-  const width = 700
+  const width = 820
 
   // Create the browser window.
   const mainWindow = new BrowserWindow({
