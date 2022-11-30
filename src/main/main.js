@@ -56,7 +56,7 @@ const createWindow = () => {
     width,
     height,
     maxWidth: 960,
-    minWidth: 400,
+    minWidth: 711,
     icon: '../images/icon.jpg',
     webPreferences: {
       // eslint-disable-next-line no-undef
