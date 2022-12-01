@@ -35,8 +35,7 @@ const database = {
             this.library.find((book) => book.id === bookIdentification).title
           }.epub`
         ),
-        (error) => {
-          if (error) return reject(new Error('Error while trying delete book.'))
+        () => {
           this.library = this.library.filter(
             (book) => book.id !== bookIdentification
           )
@@ -58,7 +57,6 @@ const database = {
       const url = encodeURI(
         `https://raw.githubusercontent.com/woistkeller/dictionariesforaugusto/main/${dictionaryName}.json`
       )
-      console.log(url)
 
       https.get(url, (response) => {
         const pathDictionary = path.join(
