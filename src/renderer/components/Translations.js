@@ -3,7 +3,7 @@ import { Button, Card, Loading, Row, Text } from '@nextui-org/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Freedict from './translations/Freedict'
-import GlosbeWords from './translations/glosbeWords'
+import GlosbeWords from './translations/GlosbeWords'
 import GlosbeTranslate from './translations/GlosbeTranslate'
 
 export default function Translate ({ toTranslate, language, resetToTranslate }) {
