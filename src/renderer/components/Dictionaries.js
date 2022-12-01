@@ -91,7 +91,7 @@ export default function dictionaries () {
                         <Popover.Trigger>
                           <Button
                             color="neutral"
-                            size="sm"
+                            size="xs"
                             auto
                             css={{ bc: '#141414', color: '#efefef' }}
                             iconRight={<FiUsers />}
@@ -99,24 +99,27 @@ export default function dictionaries () {
                             Mainteners
                           </Button>
                         </Popover.Trigger>
-                        <Popover.Content css={{ bc: '#141414' }}>
-                          <Text h6 css={{ p: '1rem', color: '#efefef' }}>
+                        <Popover.Content css={{ bc: '#ed958b' }}>
+                          <Text h6 css={{ p: '1rem', m: 0, color: '#141414' }}>
                             This dictionary has been maintened and supported by
                             all these people:{' '}
                             {dictionary.maintainers.map(
                               (maintainer, index) =>
                                 `${maintainer}${
-                                  index + 1 === dictionary.maintainers.length
-                                    ? '.'
-                                    : ', ' // is this confusing?
+                                  index + 2 === dictionary.maintainers.length // i
+                                    ? ' and ' // hate
+                                    : index + 1 === // this
+                                      dictionary.maintainers.length // big
+                                    ? '.' // and
+                                    : ', ' // confuse mess
                                 }`
                             )}
                           </Text>
                         </Popover.Content>
                       </Popover>
                       <Button
-                        color="error"
                         size="sm"
+                        css={{ bc: '#ed958b', color: '#141414' }}
                         auto
                         onPress={() =>
                           deleteBook(augusto.user.language, dictionary.name)

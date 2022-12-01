@@ -77,7 +77,7 @@ const createWindow = () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  createFolders() // this must be completed before load server
+  await createFolders() // this must be completed before load server
   removeMenu()
   createWindow()
   require('./server/index')

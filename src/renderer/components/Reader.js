@@ -79,13 +79,14 @@ export default function Reader ({ reading }) {
   return (
     <Container>
       <Button
-        color="error"
         css={{
-          ml: 'calc(100% - 2.5rem)',
+          ml: 'calc(100% - 1.5rem)',
           position: 'absolute',
-          zIndex: 1
+          zIndex: 1,
+          bc: '#ed958b',
+          color: '#141414'
         }}
-        size="sm"
+        size="xs"
         auto
         onPress={() => {
           dispatch({ type: 'SET_READING', payload: null })

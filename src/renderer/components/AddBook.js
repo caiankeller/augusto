@@ -1,13 +1,5 @@
 import React, { useContext, useRef, useState } from 'react'
-import {
-  Button,
-  Spacer,
-  Loading,
-  Card,
-  Row,
-  Input,
-  Text
-} from '@nextui-org/react'
+import { Button, Loading, Card, Row, Input, Text } from '@nextui-org/react'
 import { AugustoContext } from '../Augusto'
 import { FiTrash2, FiUploadCloud } from 'react-icons/fi'
 import styled from 'styled-components'
@@ -104,8 +96,9 @@ export default function AddBook () {
             onPress={() => file.current.click()}
             disabled={filename}
             iconRight={<FiUploadCloud />}
-            color="neutral"
+            css={{ bc: '#ed958b', color: '#141414' }}
             size="sm"
+            auto
           >
             Add Book
           </Button>
@@ -120,7 +113,7 @@ export default function AddBook () {
       {file.current?.files[0] && (
         <Card
           css={{
-            bc: '#efefef',
+            bc: '#ed958b',
             mt: '1rem'
           }}
         >
@@ -142,8 +135,8 @@ export default function AddBook () {
               value={filename}
             />
             <Button.Group
-              color="success"
               size="sm"
+              color="neutral"
               css={{ m: '1rem 0 0 0', flexWrap: 'wrap' }}
             >
               {languageOptions.map((language) => (
@@ -175,8 +168,8 @@ export default function AddBook () {
             <Row justify="flex-end">
               <Button
                 icon={<FiTrash2 />}
-                color="error"
-                size="sm"
+                css={{ ml: '0.5rem', bc: '#141414', color: '#efefef' }}
+                size="xs"
                 auto
                 disabled={loading}
                 onPress={() => {
@@ -185,13 +178,12 @@ export default function AddBook () {
               >
                 {response.status && response.message}
               </Button>
-              <Spacer x="0.5" />
               <Button
                 disabled={response.status ? true : loading}
-                css={{ bc: '#141414', color: '#efefef' }}
+                css={{ ml: '0.5rem', bc: '#141414', color: '#efefef' }}
                 color="primary"
                 type="submit"
-                size="sm"
+                size="xs"
                 auto
                 icon={
                   loading

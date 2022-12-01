@@ -73,10 +73,9 @@ export default function AddDictionary ({
                   </Text>
                 </div>
                 <Button
-                  size="sm"
+                  size="xs"
                   auto
-                  color="success"
-                  css={{ color: '#141414' }}
+                  css={{ bc: '#ed958b', color: '#141414' }}
                   disabled={
                     !!(loading ||
                     dictionaries?.[language]?.some(

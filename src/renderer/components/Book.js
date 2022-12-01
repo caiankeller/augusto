@@ -30,53 +30,48 @@ export default function Book ({ book }) {
     <Container>
       <Card isPressable css={{ bc: '#efefef', color: '#141414' }}>
         <Card.Header css={{ pb: 0 }}>
-          <Text b h5 transform="capitalize" css={{ m: 0 }}>
-            {book.title}
-          </Text>
+          <Row justify="space-between" align="center">
+            <Text h5 transform="capitalize" css={{ m: 0 }}>
+              {book.title}
+            </Text>
+            <Dropdown placement="right">
+              <Dropdown.Button
+                size="sm"
+                css={{ bc: '#ed958b', color: '#141414' }}
+              >
+                Book
+              </Dropdown.Button>
+              <Dropdown.Menu
+                disabledKeys={['edit']}
+                css={{ bc: '#efefef', border: '1px solid #141414' }}
+                onAction={(type) => {
+                  type === 'open' &&
+                    dispatch({ type: 'SET_READING', payload: book })
+                  type === 'edit' && editBook()
+                  type === 'delete' && deleteBook()
+                }}
+              >
+                <Dropdown.Item
+                  key="open"
+                  css={{ bc: '#ed958b', color: '#141414' }}
+                  icon={<FiBookOpen />}
+                >
+                  Open
+                </Dropdown.Item>
+                <Dropdown.Item key="edit" icon={<FiEdit />}>
+                  Edit
+                </Dropdown.Item>
+                <Dropdown.Item key="delete" icon={<FiTrash2 />}>
+                  Delete
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+          </Row>
         </Card.Header>
         <Card.Body css={{ py: 0 }}>
-          <Row justify="space-between" align="center">
-            <Row wrap="wrap">
-              <Text i h6 css={{ m: '0 0.5rem 0 0' }}>
-                Detected language {book.language.long}
-              </Text>
-            </Row>
-            <Row justify="end" css={{ flex: 1 }} align="center">
-              <Dropdown placement="right">
-                <Dropdown.Button
-                  color="neutral"
-                  size="sm"
-                  css={{ bc: '#141414', color: '#efefef' }}
-                >
-                  Book
-                </Dropdown.Button>
-                <Dropdown.Menu
-                  disabledKeys={['edit']}
-                  css={{ bc: '#efefef', border: '1px solid #141414' }}
-                  onAction={(type) => {
-                    type === 'open' &&
-                      dispatch({ type: 'SET_READING', payload: book })
-                    type === 'edit' && editBook()
-                    type === 'delete' && deleteBook()
-                  }}
-                >
-                  <Dropdown.Item
-                    key="open"
-                    color="success"
-                    icon={<FiBookOpen />}
-                  >
-                    Open
-                  </Dropdown.Item>
-                  <Dropdown.Item key="edit" icon={<FiEdit />}>
-                    Edit
-                  </Dropdown.Item>
-                  <Dropdown.Item key="delete" color="error" icon={<FiTrash2 />}>
-                    Delete
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </Row>
-          </Row>
+          <Text i h6 css={{ m: '0 0.5rem 0 0' }}>
+            Detected language {book.language.long}
+          </Text>
         </Card.Body>
         <Row css={{ mt: '1rem' }}>
           <ProgressBar percentage={book.read.percentage}>
@@ -109,7 +104,7 @@ const ProgressBar = styled.div`
     bottom: 0;
     right: 0;
     width: ${(props) => props.percentage}%;
-    background-color: #17c964;
+    background-color: #ed958b;
     height: 100%;
   }
 `

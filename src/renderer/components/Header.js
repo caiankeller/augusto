@@ -65,15 +65,20 @@ export default function Header () {
     <>
       <Row justify="space-between" align="center">
         <Text h4 color="#efefef" css={{ m: 0 }}>
-          Augusto{' '}
+          Augusto
           <Badge
-            color="error"
             isSquared
             disableOutline
-            size="xs"
-            css={{ ml: '0.5rem' }}
+            size="sm"
+            css={{
+              mx: '0.5rem',
+              bc: '#ed958b',
+              color: '#141414',
+              position: 'absolute',
+              top: '-1.5rem'
+            }}
           >
-            Beta
+            Preview
           </Badge>
         </Text>
         <Button
@@ -95,7 +100,7 @@ export default function Header () {
       >
         <Modal.Header css={{ px: '1rem' }}>
           <Row justify="flex-start">
-            <Text h3 color="#E8E8E8" css={{ m: 0 }}>
+            <Text h3 color="#efefef" css={{ m: 0 }}>
               Settings
             </Text>
           </Row>
@@ -108,7 +113,6 @@ export default function Header () {
           </Row>
           <Row>
             <Button.Group
-              color="success"
               vertical
               size="sm"
               css={{ m: '0 1rem 0 0' }}
@@ -118,7 +122,7 @@ export default function Header () {
                   key={language}
                   disabled={language === augusto.user.language}
                   onPress={() => changeUserlanguage(language)}
-                  css={{ color: '#efefef' }}
+                  css={{ bc: '#ed958b', bcolor: '#141414' }}
                 >
                   <Text h6 transform="capitalize" css={{ m: 0 }}>
                     {language}
@@ -150,7 +154,8 @@ export default function Header () {
             <Card.Footer css={{ pt: 0 }}>
               <Row>
                 <Text h5 css={{ m: 0 }}>
-                  Translations and definitions are provide by FreeDict and Glosbe.
+                  Translations and definitions are provide by FreeDict and
+                  Glosbe.
                 </Text>
               </Row>
             </Card.Footer>

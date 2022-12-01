@@ -65,7 +65,12 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
           <Text h6 css={{ m: 0 }}>
             {toTranslate}
           </Text>
-          <Button color="error" size="xs" auto onPress={cancelRequest}>
+          <Button
+            css={{ bc: '#ed958b', color: '#141414' }}
+            size="xs"
+            auto
+            onPress={cancelRequest}
+          >
             Close
           </Button>
         </Row>
