@@ -105,6 +105,6 @@ app.on('activate', () => {
 
 const removeMenu = () => {
   const menu = Menu.getApplicationMenu()
-  const items = menu.items.filter((item) => item === false) // it remove all menubar options, i dont think it's de best, but i dont have any use for it yet
-  Menu.setApplicationMenu(Menu.buildFromTemplate(items))
+  const items = menu.items.filter((item) => item === false) // it remove all menubar options,
+  Menu.setApplicationMenu(Menu.buildFromTemplate(items)) // i dont think it's de best, but i dont have any use for it yet
 }

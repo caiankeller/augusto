@@ -6,7 +6,7 @@ const shortenLanguage = (language) => {
     case 'portuguese': return 'pt'
     case 'spanish': return 'es'
     case 'italian': return 'it'
-    case 'japanese': return 'ja'
+    case 'korean': return 'korean'
     case 'dutch': return 'nl'
     default: return undefined
   }

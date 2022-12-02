@@ -6,7 +6,7 @@ const lengthenLanguage = (language) => {
     case 'pt': return 'portuguese'
     case 'es': return 'spanish'
     case 'it': return 'italian'
-    case 'ja': return 'japanese'
+    case 'ko': return 'korean'
     case 'nl': return 'dutch'
     default: return undefined
   }

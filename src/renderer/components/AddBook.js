@@ -22,7 +22,7 @@ export default function AddBook () {
     'italian',
     'dutch',
     'german',
-    'japanese'
+    'korean'
   ]
 
   const fileChecker = (e) => {
