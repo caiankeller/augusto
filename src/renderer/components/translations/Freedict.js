@@ -7,13 +7,7 @@ import React from 'react'
 export default function Freedict ({ translations }) {
   return (
     <>
-      <Text
-        h6
-        css={{ m: 0, opacity: 0.8 }}
-        onClick={() =>
-          axios.get('http://localhost:2001/external/translate.glosbe')
-        }
-      >
+      <Text h6 css={{ m: 0, opacity: 0.8 }}>
         <FiBook style={{ marginRight: '0.5rem' }} />
         Freedict dictionary entries
       </Text>

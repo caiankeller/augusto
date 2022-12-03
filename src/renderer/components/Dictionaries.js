@@ -110,8 +110,8 @@ export default function dictionaries () {
                                     ? ' and ' // hate
                                     : index + 1 === // this
                                       dictionary.maintainers.length // big
-                                    ? '.' // and
-                                    : ', ' // confuse mess
+                                    ? '.' // confusing
+                                    : ', ' // mess
                                 }`
                             )}
                           </Text>
