@@ -112,11 +112,7 @@ export default function Header () {
             </Text>
           </Row>
           <Row>
-            <Button.Group
-              vertical
-              size="sm"
-              css={{ m: '0 1rem 0 0' }}
-            >
+            <Button.Group vertical size="sm" css={{ m: '0 1rem 0 0' }}>
               {languageOptions.map((language) => (
                 <Button
                   key={language}

@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-import axios from 'axios'
 import { Row, Text } from '@nextui-org/react'
 import { FiArrowRight, FiBook } from 'react-icons/fi'
 import React from 'react'

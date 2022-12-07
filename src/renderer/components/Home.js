@@ -49,7 +49,7 @@ export default function Home () {
         <Card.Footer css={{ d: 'block' }}>
           <Row>
             <Text h6 css={{ m: 0 }}>
-              „Die Grenzen meiner Sprache sind die Grenzen meiner Welt.“{' '}
+              «Die Grenzen meiner Sprache sind die Grenzen meiner Welt.»
             </Text>
           </Row>
           <Row>
