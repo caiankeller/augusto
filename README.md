@@ -15,7 +15,7 @@ cd augusto
 ```
 npm i --force && npm run start
 ```
-#### *For Packagers and Makers, visit [ElectronForge Docs](https://www.electronforge.io/) (This current version is not ready to be compiled for Windows, Linux is not yet tested, sorry).*
+> *For P ackagers and Makers, visit [ElectronForge Docs](https://www.electronforge.io/) (This current version is not ready to be compiled for Windows, Linux is not yet tested, sorry).*
 
 However, if you want to try this
 ```
