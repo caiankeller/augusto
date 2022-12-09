@@ -26,3 +26,5 @@ will try packages the app and
 npm run make
 ```
 will try create a distributable into the configurated makers.
+
+> Thanks Jude, for helping me choose the accent color
