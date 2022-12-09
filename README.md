@@ -15,16 +15,22 @@ cd augusto
 ```
 npm i --force && npm run start
 ```
-> *For Packagers and Makers, visit [ElectronForge Docs](https://www.electronforge.io/) (This current version is not ready to be compiled for Windows, Linux is not yet tested, sorry).*
 
-However, if you want to try this
+### **Useful commands**
+
 ```
 npm run package 
 ```
-will try packages the app and
 ```
 npm run make
 ```
-will try create a distributable into the configurated makers.
+```
+npm run lint
+```
 
-> Thanks Jude, for helping me choose the accent color
+*Visit [Electron Forge documentation](https://www.electronforge.io/) to learn more about Makers and Packagers*
+*(This current version is not ready to be compiled for Windows, Linux is not yet tested, I got you guys ASAP)*
+
+**I will try to explain the project better soon for people who wanna dive deep into it.**
+
+> Special thanks to Jude for helping me choose the accent color.
