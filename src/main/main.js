@@ -3,6 +3,10 @@ const path = require('path')
 const os = require('os')
 const fs = require('fs')
 
+// if (require('electron-squirrel-startup')) app.quit()
+// for some reason, this line causes error when running `npm run make`
+// i will try create a windows distributable eventually, so then i uncomment it
+
 // TODO: uses the $projectfolder declared on node main file
 const projectFolder = path.join(os.homedir(), 'Documents', '.augusto') // declaring the project folder
 
