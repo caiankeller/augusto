@@ -21,9 +21,14 @@ export default function Translate ({ toTranslate, language, resetToTranslate }) 
   const translate = async () => {
     setLoading(true)
     await axios
-      .get(`http://localhost:2001/translate/${toTranslate}/${language}`, {
-        signal: controller.signal
-      })
+      .get(
+        `http://localhost:2001/translate/${encodeURIComponent(
+          toTranslate
+        )}/${language}`,
+        {
+          signal: controller.signal
+        }
+      )
       .then((response) => {
         setResponse({
           ...response.data,
